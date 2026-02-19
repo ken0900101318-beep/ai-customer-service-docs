@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>總部戰情室 - ONE桌遊 AI 客服系統</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
@@ -50,15 +46,8 @@
             gap: 10px;
         }
         
-        .nav-item:hover {
-            background: #1e293b;
-            color: #fff;
-        }
-        
-        .nav-item.active {
-            background: #3b82f6;
-            color: #fff;
-        }
+        .nav-item:hover { background: #1e293b; color: #fff; }
+        .nav-item.active { background: #3b82f6; color: #fff; }
         
         .main-content {
             margin-left: 260px;
@@ -72,15 +61,7 @@
             margin-bottom: 30px;
         }
         
-        .header h1 {
-            font-size: 28px;
-            color: #fff;
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
+        .header h1 { font-size: 28px; color: #fff; }
         
         .btn {
             background: #3b82f6;
@@ -94,18 +75,9 @@
             transition: all 0.3s;
         }
         
-        .btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-        
-        .btn.secondary {
-            background: #64748b;
-        }
-        
-        .btn.secondary:hover {
-            background: #475569;
-        }
+        .btn:hover { background: #2563eb; transform: translateY(-1px); }
+        .btn.secondary { background: #64748b; }
+        .btn.success { background: #10b981; }
         
         .stats-grid {
             display: grid;
@@ -121,27 +93,10 @@
             border: 1px solid #334155;
         }
         
-        .stat-label {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        
-        .stat-change {
-            font-size: 14px;
-            color: #10b981;
-        }
-        
-        .stat-change.negative {
-            color: #ef4444;
-        }
+        .stat-label { font-size: 14px; color: #94a3b8; margin-bottom: 10px; }
+        .stat-value { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .stat-change { font-size: 14px; color: #10b981; }
+        .stat-change.negative { color: #ef4444; }
         
         .panel {
             background: #1e293b;
@@ -160,166 +115,57 @@
             gap: 10px;
         }
         
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 15px;
-        }
-        
-        .store-card {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.3s;
-        }
-        
-        .store-card:hover {
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-        }
-        
-        .store-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .store-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-        }
-        
-        .store-status {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
-        }
-        
-        .store-status.warning {
-            background: #f59e0b;
-        }
-        
-        .store-status.error {
-            background: #ef4444;
-        }
-        
-        .store-info {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 15px;
-        }
-        
-        .store-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .store-stat {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-        
-        .store-stat span {
+        .form-group { margin-bottom: 20px; }
+        .form-label {
             display: block;
-            font-size: 18px;
             font-weight: 600;
-            color: #fff;
-            margin-top: 5px;
-        }
-        
-        .config-banner {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 2px solid #f59e0b;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            color: #78350f;
-        }
-        
-        .config-banner h3 {
-            color: #92400e;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .config-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #fbbf24;
-            border-radius: 6px;
-            margin-top: 10px;
-            font-family: monospace;
-            font-size: 13px;
-        }
-        
-        .config-label {
-            font-weight: 600;
-            margin-top: 12px;
-            display: block;
-        }
-        
-        .filter-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .filter-tab {
-            background: #334155;
+            margin-bottom: 8px;
             color: #cbd5e1;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-size: 14px;
         }
         
-        .filter-tab.active {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .activity-list {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .activity-item {
-            background: #0f172a;
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 10px 15px;
             border: 1px solid #334155;
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            gap: 15px;
+            font-size: 14px;
+            background: #0f172a;
+            color: #e2e8f0;
         }
         
-        .activity-time {
-            font-size: 12px;
-            color: #64748b;
-            min-width: 120px;
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
         }
         
-        .activity-content {
-            flex: 1;
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
         }
         
-        .activity-store {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        
+        th {
+            background: #0f172a;
             font-weight: 600;
-            color: #3b82f6;
+            color: #94a3b8;
+            font-size: 13px;
         }
         
-        .activity-message {
+        td {
             font-size: 14px;
             color: #cbd5e1;
-            margin-top: 5px;
         }
         
         .badge {
@@ -330,58 +176,71 @@
             font-weight: 600;
         }
         
-        .badge.success {
-            background: #10b98133;
-            color: #10b981;
+        .badge.success { background: #10b98133; color: #10b981; }
+        .badge.warning { background: #f59e0b33; color: #f59e0b; }
+        .badge.error { background: #ef444433; color: #ef4444; }
+        
+        .merchant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
         }
         
-        .badge.warning {
-            background: #f59e0b33;
-            color: #f59e0b;
-        }
-        
-        .badge.error {
-            background: #ef444433;
-            color: #ef4444;
-        }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
+        .merchant-card {
             background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
         }
         
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
+        .merchant-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
         }
+        
+        .merchant-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        
+        .merchant-info {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+        
+        .merchant-stores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .store-tag {
+            background: #334155;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <!-- 側邊選單 -->
     <div class="sidebar">
         <div class="logo">🎮 ONE桌遊總部</div>
         
-        <div class="nav-item active" onclick="showSection('dashboard')">
-            📊 總覽儀表板
-        </div>
-        <div class="nav-item" onclick="showSection('stores')">
-            🏪 店家監控 (90)
-        </div>
-        <div class="nav-item" onclick="showSection('merchants')">
-            👥 商家管理
-        </div>
-        <div class="nav-item" onclick="showSection('analytics')">
-            📈 數據分析
-        </div>
-        <div class="nav-item" onclick="showSection('logs')">
-            📋 活動記錄
-        </div>
-        <div class="nav-item" onclick="showSection('settings')">
-            ⚙️ 系統設定
-        </div>
+        <div class="nav-item active" onclick="showSection('dashboard')">📊 總覽儀表板</div>
+        <div class="nav-item" onclick="showSection('merchants')">👥 商家管理</div>
+        <div class="nav-item" onclick="showSection('stores')">🏪 店家監控 (90)</div>
+        <div class="nav-item" onclick="showSection('rules')">📋 通用規則</div>
+        <div class="nav-item" onclick="showSection('config')">⚙️ 系統配置</div>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #334155;">
             <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">系統狀態</div>
@@ -390,38 +249,24 @@
         </div>
     </div>
     
-    <!-- 主要內容 -->
     <div class="main-content">
-        <!-- 配置說明 -->
-        <div class="config-banner">
-            <h3>⚙️ 系統配置</h3>
-            <p style="margin-bottom: 15px;">
-                連接到 Google Sheets 後可顯示所有 90 家店的實際數據。<br>
-                請填入以下資訊（與 Apps Script 的 CONFIG 相同）：
-            </p>
-            
-            <label class="config-label">📊 Google Sheets ID：</label>
-            <input type="text" id="sheetId" class="config-input" placeholder="從 Sheets 網址複製 ID">
-            
-            <label class="config-label">🔑 Apps Script Web App URL：</label>
-            <input type="text" id="webAppUrl" class="config-input" placeholder="https://script.google.com/macros/s/.../exec">
-            
-            <button class="btn" onclick="connectToSheets()" style="margin-top: 15px; background: #f59e0b; color: #78350f;">
-                🔗 連接 Google Sheets
-            </button>
-        </div>
-        
         <!-- Section: 總覽儀表板 -->
         <div id="section-dashboard">
             <div class="header">
                 <h1>📊 總覽儀表板</h1>
-                <div class="header-actions">
+                <div style="display: flex; gap: 10px;">
                     <button class="btn secondary">📥 匯出報表</button>
                     <button class="btn" onclick="refreshData()">🔄 刷新數據</button>
                 </div>
             </div>
             
             <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">總商家數</div>
+                    <div class="stat-value" id="totalMerchants">12</div>
+                    <div class="stat-change">管理 90 家店</div>
+                </div>
+                
                 <div class="stat-card">
                     <div class="stat-label">總店家數</div>
                     <div class="stat-value">90</div>
@@ -430,7 +275,7 @@
                 
                 <div class="stat-card">
                     <div class="stat-label">今日對話量</div>
-                    <div class="stat-value" id="todayConversations">8,247</div>
+                    <div class="stat-value">8,247</div>
                     <div class="stat-change">+12.3% vs 昨日</div>
                 </div>
                 
@@ -439,48 +284,6 @@
                     <div class="stat-value">94.2<span style="font-size: 20px;">%</span></div>
                     <div class="stat-change">+2.1% 本週</div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">轉真人率</div>
-                    <div class="stat-value">5.8<span style="font-size: 20px;">%</span></div>
-                    <div class="stat-change negative">-0.4% 本週</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">運行中</div>
-                    <div class="stat-value" style="color: #10b981;">87</div>
-                    <div class="stat-change">96.7% 正常率</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">警告/錯誤</div>
-                    <div class="stat-value" style="color: #f59e0b;">2<span style="font-size: 20px; color: #ef4444;">/1</span></div>
-                    <div class="stat-change negative">需要處理</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Section: 店家監控 -->
-        <div id="section-stores" style="display: none;">
-            <div class="header">
-                <h1>🏪 店家即時監控</h1>
-                <div class="header-actions">
-                    <button class="btn secondary">批量操作</button>
-                    <button class="btn" onclick="refreshStores()">🔄 刷新</button>
-                </div>
-            </div>
-            
-            <div class="panel">
-                <div class="filter-tabs">
-                    <button class="filter-tab active" onclick="filterStores('all')">全部 (90)</button>
-                    <button class="filter-tab" onclick="filterStores('active')">運行中 (87)</button>
-                    <button class="filter-tab" onclick="filterStores('warning')">警告 (2)</button>
-                    <button class="filter-tab" onclick="filterStores('error')">錯誤 (1)</button>
-                </div>
-                
-                <div class="store-grid" id="storeGrid">
-                    <!-- 店家卡片動態載入 -->
-                </div>
             </div>
         </div>
         
@@ -488,229 +291,305 @@
         <div id="section-merchants" style="display: none;">
             <div class="header">
                 <h1>👥 商家管理</h1>
-                <div class="header-actions">
-                    <button class="btn">+ 新增商家</button>
-                </div>
+                <button class="btn success" onclick="addMerchant()">+ 新增商家</button>
             </div>
             
             <div class="panel">
                 <h2>商家列表（三層架構）</h2>
                 <p style="color: #94a3b8; margin-bottom: 20px;">總部 → 商家 → 店家</p>
-                <div style="color: #cbd5e1;">
-                    <p>📋 功能開發中...</p>
-                    <p style="font-size: 13px; color: #64748b; margin-top: 10px;">
-                        實際使用時會顯示所有商家、每個商家的店家數量、設定狀態等。
-                    </p>
+                
+                <div class="merchant-grid" id="merchantGrid">
+                    <!-- 商家卡片 -->
                 </div>
-            </div>
-        </div>
-        
-        <!-- Section: 數據分析 -->
-        <div id="section-analytics" style="display: none;">
-            <div class="header">
-                <h1>📈 數據分析</h1>
             </div>
             
             <div class="panel">
-                <h2>7 天對話趨勢</h2>
-                <div style="padding: 60px; text-align: center; color: #64748b;">
-                    <div style="font-size: 64px; margin-bottom: 20px;">📊</div>
-                    <p>圖表區域</p>
-                    <p style="font-size: 13px; margin-top: 10px;">實際使用時會顯示對話量、處理率等趨勢圖表</p>
-                </div>
+                <h2>📊 商家詳細資料（試算表）</h2>
+                <table>
+                    <tr>
+                        <th>商家 ID</th>
+                        <th>商家名稱</th>
+                        <th>負責人</th>
+                        <th>電話</th>
+                        <th>店家數量</th>
+                        <th>狀態</th>
+                        <th>操作</th>
+                    </tr>
+                    <tbody id="merchantTable">
+                        <!-- 商家資料 -->
+                    </tbody>
+                </table>
             </div>
         </div>
         
-        <!-- Section: 活動記錄 -->
-        <div id="section-logs" style="display: none;">
+        <!-- Section: 店家監控 -->
+        <div id="section-stores" style="display: none;">
             <div class="header">
-                <h1>📋 活動記錄</h1>
+                <h1>🏪 店家即時監控（90 家）</h1>
+                <button class="btn" onclick="refreshStores()">🔄 刷新</button>
             </div>
             
             <div class="panel">
-                <h2>即時活動</h2>
-                <div class="activity-list" id="activityList">
-                    <!-- 活動記錄動態載入 -->
-                </div>
+                <p style="color: #cbd5e1;">90 家店的詳細監控資料...</p>
             </div>
         </div>
         
-        <!-- Section: 系統設定 -->
-        <div id="section-settings" style="display: none;">
+        <!-- Section: 通用規則 -->
+        <div id="section-rules" style="display: none;">
             <div class="header">
-                <h1>⚙️ 系統設定</h1>
+                <h1>📋 全部商家通用規則</h1>
+                <button class="btn" onclick="saveGlobalRules()">💾 儲存規則</button>
             </div>
             
             <div class="panel">
-                <h2>核心規則設定</h2>
-                <div style="color: #cbd5e1;">
-                    <p>📋 總部統一規則管理...</p>
-                    <ul style="margin: 15px 0 0 20px; color: #94a3b8;">
-                        <li>無人店身分規則</li>
-                        <li>嚴禁提及現場人員</li>
-                        <li>白名單驗證機制</li>
-                        <li>金錢爭議 SOP</li>
-                        <li>安全警報處理</li>
-                        <li>客訴升級機制</li>
-                    </ul>
+                <h2>核心規則（所有商家必須遵守）</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">1. 無人店身分規則</label>
+                    <textarea class="form-textarea" id="rule1">這是無人自助店，絕對不可提及「現場人員」「店員」「櫃台」。
+所有問題都以「遠端協助」「LINE 客服」「視訊支援」解決。</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">2. 白名單驗證機制</label>
+                    <textarea class="form-textarea" id="rule2">遇到以下情況必須驗證白名單：
+- 要求退款超過 $1000
+- 要求修改他人訂單
+- 詢問其他客人資訊
+- 要求開啟特殊權限</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">3. 金錢爭議 SOP</label>
+                    <textarea class="form-textarea" id="rule3">發生金錢爭議時：
+1. 先安撫客人情緒
+2. 記錄爭議細節（金額、時間、原因）
+3. 立即通知商家（推播）
+4. 引導客人「呼叫支援」
+5. 不可擅自承諾退款或補償</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">4. 安全警報處理</label>
+                    <textarea class="form-textarea" id="rule4">遇到以下情況立即警報：
+- 有人受傷
+- 設備嚴重故障（火災、漏水等）
+- 安全威脅（打架、破壞設備）
+- 緊急醫療需求
+
+處理：
+1. 立即推播給商家
+2. 提供緊急聯絡電話
+3. 如有需要，引導客人撥打 119/110</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">5. 客訴升級機制</label>
+                    <textarea class="form-textarea" id="rule5">客訴升級標準：
+- 客人連續 3 次表達不滿
+- 要求「找老闆」「主管處理」
+- 涉及法律問題
+- 威脅負評或投訴
+
+處理：
+1. 自動禁言 AI
+2. 推播給商家（標註：緊急客訴）
+3. 記錄完整對話歷史
+4. 提供客訴處理 SOP 給商家</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">6. 禁言自動解除時間（分鐘）</label>
+                    <input type="number" class="form-input" id="defaultMuteMinutes" value="10">
+                </div>
+                
+                <button class="btn" onclick="saveGlobalRules()">💾 儲存通用規則</button>
+            </div>
+        </div>
+        
+        <!-- Section: 系統配置 -->
+        <div id="section-config" style="display: none;">
+            <div class="header">
+                <h1>⚙️ 系統配置</h1>
+                <button class="btn success" onclick="testConnection()">🔌 測試連線</button>
+            </div>
+            
+            <div class="panel">
+                <h2>Google Sheets 連接設定</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">設定一次即自動儲存，下次不用再填</p>
+                
+                <div class="form-group">
+                    <label class="form-label">📊 Google Sheets ID</label>
+                    <input type="text" class="form-input" id="sheetId" placeholder="從 Sheets 網址複製 ID">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🔑 Apps Script Web App URL</label>
+                    <input type="text" class="form-input" id="webAppUrl" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                
+                <button class="btn" onclick="saveConfig()">💾 儲存配置</button>
+                <button class="btn secondary" onclick="clearConfig()">🗑️ 清除配置</button>
+            </div>
+            
+            <div class="panel">
+                <h2>目前配置狀態</h2>
+                <div id="configStatus" style="color: #94a3b8;">
+                    尚未配置
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        // 模擬店家資料
-        let stores = [];
-        let currentFilter = 'all';
+        // 模擬商家資料
+        const merchants = [
+            { id: 'M001', name: 'Ken 的商家', owner: 'Ken', phone: '0900-000-000', stores: ['土城店', '新莊店', '板橋店', '中和店', '永和店', '三重店', '蘆洲店', '淡水店'], status: 'active' },
+            { id: 'M002', name: '商家 B', owner: '張老闆', phone: '0911-111-111', stores: ['桃園店', '中壢店', '平鎮店'], status: 'active' },
+            { id: 'M003', name: '商家 C', owner: '李經理', phone: '0922-222-222', stores: ['台中店', '豐原店', '大里店', '太平店'], status: 'active' }
+        ];
         
-        // 初始化數據
-        function initMockData() {
-            const storeNames = ['土城店', '新莊店', '板橋店', '中和店', '永和店', '三重店', '蘆洲店', '淡水店', '汐止店', '基隆店'];
-            const cities = ['台北', '新北', '桃園', '台中', '台南', '高雄'];
-            
-            for (let i = 1; i <= 90; i++) {
-                const status = i === 90 ? 'error' : (i === 88 || i === 89 ? 'warning' : 'active');
-                const city = cities[Math.floor(Math.random() * cities.length)];
-                const storeName = i <= 10 ? storeNames[i-1] : `${city}分店${i}`;
-                
-                stores.push({
-                    id: i,
-                    name: `ONE桌遊 ${storeName}`,
-                    status: status,
-                    merchant: i <= 30 ? 'Ken 的商家' : (i <= 60 ? '商家 B' : '商家 C'),
-                    todayConv: Math.floor(Math.random() * 150) + 50,
-                    aiRate: (Math.random() * 10 + 90).toFixed(1),
-                    muted: Math.floor(Math.random() * 5),
-                    lastActive: getRandomTime()
-                });
-            }
-        }
-        
-        function getRandomTime() {
-            const mins = Math.floor(Math.random() * 60);
-            return mins === 0 ? '剛剛' : `${mins} 分鐘前`;
-        }
-        
-        // 渲染店家
-        function renderStores(filter = 'all') {
-            currentFilter = filter;
-            const grid = document.getElementById('storeGrid');
-            let filtered = stores;
-            
-            if (filter !== 'all') {
-                filtered = stores.filter(s => s.status === filter);
-            }
-            
-            grid.innerHTML = filtered.map(store => `
-                <div class="store-card">
-                    <div class="store-header">
-                        <div class="store-name">${store.name}</div>
-                        <div class="store-status ${store.status}"></div>
+        // 渲染商家卡片
+        function renderMerchants() {
+            const grid = document.getElementById('merchantGrid');
+            grid.innerHTML = merchants.map(m => `
+                <div class="merchant-card">
+                    <div class="merchant-header">${m.name}</div>
+                    <div class="merchant-info">
+                        負責人：${m.owner}<br>
+                        電話：${m.phone}<br>
+                        管理店家：${m.stores.length} 家
                     </div>
-                    <div class="store-info">
-                        商家：${store.merchant} | 最後活動：${store.lastActive}
+                    <div class="merchant-stores">
+                        ${m.stores.map(s => `<div class="store-tag">${s}</div>`).join('')}
                     </div>
-                    <div class="store-stats">
-                        <div class="store-stat">
-                            今日對話
-                            <span>${store.todayConv}</span>
-                        </div>
-                        <div class="store-stat">
-                            AI 處理率
-                            <span>${store.aiRate}%</span>
-                        </div>
-                        <div class="store-stat">
-                            禁言中
-                            <span>${store.muted}</span>
-                        </div>
-                        <div class="store-stat">
-                            狀態
-                            <span class="badge ${store.status === 'active' ? 'success' : (store.status === 'warning' ? 'warning' : 'error')}">
-                                ${store.status === 'active' ? '正常' : (store.status === 'warning' ? '警告' : '錯誤')}
-                            </span>
-                        </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button class="btn" style="flex: 1; padding: 8px;" onclick="editMerchant('${m.id}')">編輯</button>
+                        <button class="btn secondary" style="flex: 1; padding: 8px;" onclick="viewStores('${m.id}')">查看店家</button>
                     </div>
                 </div>
             `).join('');
-        }
-        
-        // 渲染活動
-        function renderActivities() {
-            const activities = [
-                { time: '13:39', store: 'ONE桌遊 土城店', message: '客人要求轉真人', type: 'warning' },
-                { time: '13:37', store: 'ONE桌遊 新莊店', message: 'AI 自動回覆 15 則對話', type: 'success' },
-                { time: '13:35', store: 'ONE桌遊 板橋店', message: '商家關閉客人 AI', type: 'warning' },
-                { time: '13:33', store: 'ONE桌遊 中和店', message: 'AI 自動回覆 8 則對話', type: 'success' },
-                { time: '13:30', store: 'ONE桌遊 永和店', message: '客人要求轉真人', type: 'warning' },
-                { time: '13:28', store: 'ONE桌遊 三重店', message: 'API 錯誤：餘額不足', type: 'error' },
-                { time: '13:25', store: 'ONE桌遊 蘆洲店', message: 'AI 自動回覆 12 則對話', type: 'success' },
-                { time: '13:22', store: 'ONE桌遊 淡水店', message: '商家主動發送訊息', type: 'success' }
-            ];
             
-            const list = document.getElementById('activityList');
-            list.innerHTML = activities.map(activity => `
-                <div class="activity-item">
-                    <div class="activity-time">${activity.time}</div>
-                    <div class="activity-content">
-                        <div class="activity-store">${activity.store}</div>
-                        <div class="activity-message">${activity.message}</div>
-                    </div>
-                    <span class="badge ${activity.type}">${activity.type === 'success' ? '✓' : (activity.type === 'warning' ? '!' : '✗')}</span>
-                </div>
+            const table = document.getElementById('merchantTable');
+            table.innerHTML = merchants.map(m => `
+                <tr>
+                    <td>${m.id}</td>
+                    <td>${m.name}</td>
+                    <td>${m.owner}</td>
+                    <td>${m.phone}</td>
+                    <td>${m.stores.length}</td>
+                    <td><span class="badge success">運行中</span></td>
+                    <td>
+                        <button class="btn" style="padding: 6px 12px; font-size: 12px;" onclick="editMerchant('${m.id}')">編輯</button>
+                    </td>
+                </tr>
             `).join('');
+            
+            document.getElementById('totalMerchants').textContent = merchants.length;
         }
         
         // 切換區塊
         function showSection(section) {
-            // 隱藏所有
-            ['dashboard', 'stores', 'merchants', 'analytics', 'logs', 'settings'].forEach(s => {
+            ['dashboard', 'merchants', 'stores', 'rules', 'config'].forEach(s => {
                 document.getElementById('section-' + s).style.display = 'none';
             });
-            
-            // 顯示選中
             document.getElementById('section-' + section).style.display = 'block';
             
-            // 更新選單
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             event.target.classList.add('active');
-        }
-        
-        // 篩選店家
-        function filterStores(filter) {
-            renderStores(filter);
             
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
+            if (section === 'merchants') renderMerchants();
+            if (section === 'config') loadConfig();
         }
         
-        // 刷新數據
-        function refreshData() {
-            alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
-            renderStores(currentFilter);
-            renderActivities();
-        }
-        
-        function refreshStores() {
-            refreshData();
-        }
-        
-        // 連接 Sheets
-        function connectToSheets() {
+        // 儲存配置
+        function saveConfig() {
             const sheetId = document.getElementById('sheetId').value;
             const webAppUrl = document.getElementById('webAppUrl').value;
             
             if (!sheetId || !webAppUrl) {
-                alert('❌ 請填入 Google Sheets ID 和 Web App URL');
+                alert('❌ 請填入完整資訊');
                 return;
             }
             
-            alert('✅ 連接成功！\n\n實際使用時會從您的 Google Sheets 載入 90 家店的真實數據。');
-            localStorage.setItem('sheetId', sheetId);
-            localStorage.setItem('webAppUrl', webAppUrl);
+            localStorage.setItem('hq_sheetId', sheetId);
+            localStorage.setItem('hq_webAppUrl', webAppUrl);
+            alert('✅ 配置已儲存！下次打開將自動載入');
+            loadConfig();
+        }
+        
+        // 載入配置
+        function loadConfig() {
+            const sheetId = localStorage.getItem('hq_sheetId');
+            const webAppUrl = localStorage.getItem('hq_webAppUrl');
+            
+            if (sheetId) document.getElementById('sheetId').value = sheetId;
+            if (webAppUrl) document.getElementById('webAppUrl').value = webAppUrl;
+            
+            const status = document.getElementById('configStatus');
+            if (sheetId && webAppUrl) {
+                status.innerHTML = `
+                    <div style="color: #10b981; font-weight: 600; margin-bottom: 10px;">✅ 已配置</div>
+                    <div style="font-size: 13px; color: #94a3b8;">
+                        Sheets ID: ${sheetId.substring(0, 20)}...<br>
+                        Web App: ${webAppUrl.substring(0, 50)}...
+                    </div>
+                `;
+            } else {
+                status.innerHTML = '<div style="color: #f59e0b;">⚠️ 尚未配置</div>';
+            }
+        }
+        
+        // 清除配置
+        function clearConfig() {
+            if (confirm('確定要清除配置嗎？')) {
+                localStorage.removeItem('hq_sheetId');
+                localStorage.removeItem('hq_webAppUrl');
+                document.getElementById('sheetId').value = '';
+                document.getElementById('webAppUrl').value = '';
+                loadConfig();
+                alert('✅ 配置已清除');
+            }
+        }
+        
+        // 儲存通用規則
+        function saveGlobalRules() {
+            alert('✅ 通用規則已儲存！\n\n實際使用時會寫入 Google Sheets「核心規則」分頁。');
+        }
+        
+        // 其他操作
+        function addMerchant() {
+            alert('開啟新增商家表單...\n\n實際使用時會彈出表單填寫商家資訊。');
+        }
+        
+        function editMerchant(id) {
+            alert(`編輯商家 ${id}...\n\n實際使用時會開啟編輯表單。`);
+        }
+        
+        function viewStores(id) {
+            alert(`查看商家 ${id} 的所有店家...\n\n實際使用時會顯示該商家的所有店家列表。`);
+        }
+        
+        function testConnection() {
+            const sheetId = localStorage.getItem('hq_sheetId');
+            const webAppUrl = localStorage.getItem('hq_webAppUrl');
+            
+            if (!sheetId || !webAppUrl) {
+                alert('❌ 請先配置系統設定');
+                return;
+            }
+            
+            alert('🔌 測試連線...\n\n實際使用時會測試與 Google Sheets 的連線。');
+        }
+        
+        function refreshData() {
+            alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
+        }
+        
+        function refreshStores() {
+            refreshData();
         }
         
         // 更新時間
@@ -720,19 +599,10 @@
         }
         
         // 初始化
-        initMockData();
-        renderStores();
-        renderActivities();
+        renderMerchants();
+        loadConfig();
         updateTime();
         setInterval(updateTime, 1000);
-        
-        // 載入設定
-        window.addEventListener('load', function() {
-            const sheetId = localStorage.getItem('sheetId');
-            const webAppUrl = localStorage.getItem('webAppUrl');
-            if (sheetId) document.getElementById('sheetId').value = sheetId;
-            if (webAppUrl) document.getElementById('webAppUrl').value = webAppUrl;
-        });
     </script>
 </body>
 </html>
