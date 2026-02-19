@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets 結構說明 - AI 客服系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 36px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統</h2>
+            </div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>Google Sheets 結構說明</h1>
+<h2>總覽</h2>
+<p>AI 客服系統需要以下 Google Sheets 分頁：</p>
+<table>
+<thead>
+<tr>
+<th>分頁名稱</th>
+<th>用途</th>
+<th>必要性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基礎設置</td>
+<td>商家基本資訊、AI 設定</td>
+<td>✅ 必要</td>
+</tr>
+<tr>
+<td>會員狀態</td>
+<td>追蹤每個客人的 AI 開/關狀態</td>
+<td>✅ 必要</td>
+</tr>
+<tr>
+<td>對話紀錄</td>
+<td>記錄所有對話（客人、AI、商家）</td>
+<td>✅ 必要</td>
+</tr>
+<tr>
+<td>商家設定</td>
+<td>商家管理員名單</td>
+<td>✅ 必要</td>
+</tr>
+<tr>
+<td>AI規則庫</td>
+<td>自訂 AI 回應規則</td>
+<td>⭕ 選用</td>
+</tr>
+<tr>
+<td>常見問答</td>
+<td>關鍵字自動回覆</td>
+<td>⭕ 選用</td>
+</tr>
+<tr>
+<td>商家操作記錄</td>
+<td>記錄商家的所有指令</td>
+<td>⭕ 選用</td>
+</tr>
+<tr>
+<td>錯誤日誌</td>
+<td>系統錯誤記錄</td>
+<td>⭕ 選用</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. 基礎設置（必要）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄 - 設定項目</th>
+<th>B 欄 - 設定值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商家名稱</td>
+<td>ONE桌遊 土城店</td>
+</tr>
+<tr>
+<td>客服電話</td>
+<td>0900-123-456</td>
+</tr>
+<tr>
+<td>客服時間</td>
+<td>週一至週日 10:00-22:00</td>
+</tr>
+<tr>
+<td>預約網址</td>
+<td>https://booking.example.com</td>
+</tr>
+<tr>
+<td>AI 名稱</td>
+<td>小遊</td>
+</tr>
+<tr>
+<td>AI 個性</td>
+<td>活潑、熱情、專業</td>
+</tr>
+<tr>
+<td>回話字數限制</td>
+<td>100</td>
+</tr>
+<tr>
+<td>自訂規則</td>
+<td>特殊節日優惠、會員專屬活動等</td>
+</tr>
+</tbody>
+</table>
+<p><strong>建立步驟：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">新增分頁</span><span class="err">「</span><span class="n">基礎設置</span><span class="err">」</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="n">輸入</span><span class="err">「</span><span class="n">設定項目</span><span class="err">」，</span><span class="n">B1</span><span class="w"> </span><span class="n">輸入</span><span class="err">「</span><span class="n">設定值</span><span class="err">」</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">從</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="n">開始依序填入上述項目</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">設定粗體標題</span><span class="err">（</span><span class="n">A1</span><span class="p">:</span><span class="n">B1</span><span class="err">）</span>
+</code></pre></div>
+
+<hr />
+<h2>2. 會員狀態（必要）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User ID</td>
+<td>AI 開啟</td>
+<td>禁言到期時間</td>
+<td>建立時間</td>
+</tr>
+<tr>
+<td>U1234...</td>
+<td>TRUE</td>
+<td>2026-02-18 10:30</td>
+<td>2026-02-18 09:00</td>
+</tr>
+<tr>
+<td>U5678...</td>
+<td>FALSE</td>
+<td></td>
+<td>2026-02-18 09:15</td>
+</tr>
+</tbody>
+</table>
+<p><strong>說明：</strong>
+- <strong>User ID</strong>: LINE 用戶唯一 ID（由系統自動填入）
+- <strong>AI 開啟</strong>: TRUE = AI 自動回應，FALSE = AI 禁言
+- <strong>禁言到期時間</strong>: 空白 = 永久開啟，有時間 = 到期後自動開啟
+- <strong>建立時間</strong>: 第一次記錄時間</p>
+<p><strong>自動化處理：</strong>
+- 系統會自動檢查到期時間，過期自動改回 TRUE
+- 客人打「轉真人」→ B 欄改 FALSE，C 欄填入 10 分鐘後時間
+- 商家執行 <code>/ai關閉</code> → B 欄改 FALSE，C 欄填入指定時間</p>
+<hr />
+<h2>3. 對話紀錄（必要）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+<th>E 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>時間</td>
+<td>User ID</td>
+<td>客人訊息</td>
+<td>AI 回覆</td>
+<td>類型</td>
+</tr>
+<tr>
+<td>2026-02-18 09:00</td>
+<td>U1234...</td>
+<td>請問營業時間？</td>
+<td>我們營業時間是...</td>
+<td>ai_response</td>
+</tr>
+<tr>
+<td>2026-02-18 09:05</td>
+<td>U1234...</td>
+<td>轉真人</td>
+<td>✅ 已為您轉接...</td>
+<td>transfer_to_human</td>
+</tr>
+<tr>
+<td>2026-02-18 09:10</td>
+<td>U1234...</td>
+<td>[AI 已禁言]</td>
+<td>[AI 已禁言]</td>
+<td>muted</td>
+</tr>
+<tr>
+<td>2026-02-18 09:15</td>
+<td>U1234...</td>
+<td>[商家主動] 請問需要協助嗎？</td>
+<td>您好！我想...</td>
+<td>merchant_initiated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>類型說明：</strong>
+- <code>ai_response</code>: AI 自動回應
+- <code>transfer_to_human</code>: 客人要求轉真人
+- <code>muted</code>: AI 被禁言期間收到訊息
+- <code>merchant_initiated</code>: 商家主動讓 AI 發送訊息</p>
+<p><strong>資料用途：</strong>
+- 分析客服品質
+- 訓練 AI 回應
+- 客訴處理證據
+- 數據統計（每日對話量、轉換率等）</p>
+<hr />
+<h2>4. 商家設定（必要）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+<th>E 欄</th>
+<th>F 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商家 ID</td>
+<td>商家名稱</td>
+<td>負責人</td>
+<td>電話</td>
+<td>Email</td>
+<td>LINE User ID</td>
+</tr>
+<tr>
+<td>M001</td>
+<td>Ken 的商家</td>
+<td>Ken</td>
+<td>0900-000-000</td>
+<td>ken@example.com</td>
+<td>Ufc463cd...</td>
+</tr>
+<tr>
+<td>M002</td>
+<td>土城店</td>
+<td>阿建</td>
+<td>0911-111-111</td>
+<td>a@example.com</td>
+<td>U1234567...</td>
+</tr>
+</tbody>
+</table>
+<p><strong>說明：</strong>
+- <strong>LINE User ID</strong>: 商家管理員的 LINE User ID（用於權限判斷）
+- 只有此欄位的 User ID 可以使用商家指令（<code>/ai關閉</code>、<code>/ai開啟</code> 等）</p>
+<hr />
+<h2>5. AI規則庫（選用）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>規則 ID</td>
+<td>規則名稱</td>
+<td>觸發條件</td>
+<td>AI 行為</td>
+</tr>
+<tr>
+<td>R001</td>
+<td>退訂政策</td>
+<td>關鍵字:退訂、取消</td>
+<td>說明 24 小時前可免費取消</td>
+</tr>
+<tr>
+<td>R002</td>
+<td>麻將桌故障</td>
+<td>關鍵字:卡牌、故障</td>
+<td>提供排除步驟 + 呼叫支援按鈕</td>
+</tr>
+<tr>
+<td>R003</td>
+<td>會員優惠</td>
+<td>關鍵字:優惠、折扣</td>
+<td>說明會員制度 + 引導加入</td>
+</tr>
+</tbody>
+</table>
+<p><strong>用途：</strong>
+- 特殊情境自動回應
+- 優先級高於一般 AI 回答
+- 確保關鍵資訊正確傳達</p>
+<hr />
+<h2>6. 常見問答（選用）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>問題類別</td>
+<td>關鍵字</td>
+<td>標準回答</td>
+</tr>
+<tr>
+<td>營業資訊</td>
+<td>營業時間、幾點開門</td>
+<td>我們營業時間是週一至週日 10:00-22:00</td>
+</tr>
+<tr>
+<td>價格資訊</td>
+<td>多少錢、費用</td>
+<td>一般包廂 $200/小時，豪華包廂 $300/小時</td>
+</tr>
+<tr>
+<td>設備問題</td>
+<td>WiFi、密碼</td>
+<td>WiFi 名稱：ONE_Guest，密碼：12345678</td>
+</tr>
+</tbody>
+</table>
+<p><strong>用途：</strong>
+- 快速回應常見問題
+- 減少 AI API 呼叫次數（節省成本）
+- 確保標準化回答</p>
+<hr />
+<h2>7. 商家操作記錄（選用）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>時間</td>
+<td>User ID</td>
+<td>指令</td>
+<td>結果</td>
+</tr>
+<tr>
+<td>2026-02-18 09:00</td>
+<td>Ufc463cd...</td>
+<td>/ai關閉 U1234... 30</td>
+<td>✅ AI 已關閉 30 分鐘</td>
+</tr>
+<tr>
+<td>2026-02-18 09:15</td>
+<td>Ufc463cd...</td>
+<td>/ai主動 U1234... 請問需要協助嗎？</td>
+<td>✅ 已發送 AI 訊息</td>
+</tr>
+</tbody>
+</table>
+<p><strong>用途：</strong>
+- 追蹤商家操作
+- 責任歸屬（誰關閉了 AI）
+- 操作審計</p>
+<hr />
+<h2>8. 錯誤日誌（選用）</h2>
+<p><strong>欄位結構：</strong></p>
+<table>
+<thead>
+<tr>
+<th>A 欄</th>
+<th>B 欄</th>
+<th>C 欄</th>
+<th>D 欄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>時間</td>
+<td>函數</td>
+<td>錯誤訊息</td>
+<td>詳細資訊</td>
+</tr>
+<tr>
+<td>2026-02-18 09:00</td>
+<td>callOpenAI</td>
+<td>API key invalid</td>
+<td>Error: 401...</td>
+</tr>
+<tr>
+<td>2026-02-18 09:15</td>
+<td>replyMessage</td>
+<td>Reply token expired</td>
+<td>Error: 400...</td>
+</tr>
+</tbody>
+</table>
+<p><strong>用途：</strong>
+- 系統除錯
+- 監控 API 狀態
+- 快速定位問題</p>
+<hr />
+<h2>快速建立所有分頁</h2>
+<p><strong>執行以下 GAS 函數自動建立：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">createAllSheets</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">openById</span><span class="p">(</span><span class="s1">&#39;YOUR_SPREADSHEET_ID&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 1. 基礎設置</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">basicSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;基礎設置&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;設定項目&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;設定值&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;商家名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ONE桌遊 土城店&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;客服電話&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0900-123-456&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;客服時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;週一至週日 10:00-22:00&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;預約網址&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;https://booking.example.com&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;AI 名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;小遊&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;AI 個性&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;活潑、熱情、專業&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;回話字數限制&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;100&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;自訂規則&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:B1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#4285f4&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 2. 會員狀態</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">statusSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;會員狀態&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;AI 開啟&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;禁言到期時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;建立時間&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#4285f4&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 3. 對話紀錄</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">logSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;對話紀錄&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;客人訊息&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;AI 回覆&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;類型&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:E1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#34a853&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 4. 商家設定</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">merchantSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;商家設定&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;商家 ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;商家名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;負責人&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;電話&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Email&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;LINE User ID&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:F1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#fbbc04&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 5. 商家操作記錄</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">actionSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;商家操作記錄&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">actionSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;指令&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;結果&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">actionSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#ea4335&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 6. 錯誤日誌</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">errorSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;錯誤日誌&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">errorSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;函數&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;錯誤訊息&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;詳細資訊&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">errorSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#ea4335&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;✅ 所有分頁建立完成！&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2>權限設定建議</h2>
+<ol>
+<li><strong>基礎設置</strong>: 僅商家管理員可編輯</li>
+<li><strong>會員狀態</strong>: 系統自動寫入，商家只讀</li>
+<li><strong>對話紀錄</strong>: 系統自動寫入，商家只讀</li>
+<li><strong>商家設定</strong>: 總部管理員編輯，商家只讀</li>
+<li><strong>其他</strong>: 依需求設定</li>
+</ol>
+<p><strong>如何設定權限：</strong>
+- 使用 Google Sheets 的「保護工作表和範圍」功能
+- 或建立多個 Spreadsheet，用 IMPORTRANGE 整合</p>
+<hr />
+<h2>常見問題</h2>
+<h3>Q1: 對話紀錄太多會變慢嗎？</h3>
+<p><strong>A:</strong> 會。建議每月自動歸檔：
+- 每月 1 號執行 Trigger
+- 將上月資料複製到「對話紀錄_2026-02」新分頁
+- 清空「對話紀錄」主分頁</p>
+<h3>Q2: 如何備份資料？</h3>
+<p><strong>A:</strong> 使用 Google Drive 自動備份：</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">backupSheet</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">openById</span><span class="p">(</span><span class="s1">&#39;YOUR_SPREADSHEET_ID&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">DriveApp</span><span class="p">.</span><span class="nx">getFolderById</span><span class="p">(</span><span class="s1">&#39;YOUR_BACKUP_FOLDER_ID&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">ss</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="s1">&#39;AI客服備份_&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">().</span><span class="nx">toISOString</span><span class="p">().</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)[</span><span class="mf">0</span><span class="p">]).</span><span class="nx">moveTo</span><span class="p">(</span><span class="nx">folder</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Q3: 可以多個商家共用一個 Sheet 嗎？</h3>
+<p><strong>A:</strong> 可以，但建議：
+- 小於 10 家店：共用一個 Sheet
+- 大於 10 家店：每個商家獨立 Sheet，總部用 Dashboard 整合</p>
+<hr />
+<p><strong>下一步：</strong> 閱讀「部署步驟說明.md」開始安裝系統</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ONE桌遊 AI 客服系統 | 版本 v3.0</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README - AI 客服系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 36px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統</h2>
+            </div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>ONE桌遊 AI 客服系統</h1>
+<blockquote>
+<p>🤖 <strong>基於 OpenAI/Claude + LINE Bot 的智慧客服系統</strong><br />
+支援商家主動控制、客人轉真人、完整對話記錄</p>
+</blockquote>
+<hr />
+<h2>📌 系統特色</h2>
+<h3>✅ 核心功能</h3>
+<ul>
+<li><strong>AI 自動回應</strong>：24/7 即時回答客人問題（OpenAI GPT-4 或 Claude）</li>
+<li><strong>商家指令系統</strong>：完整控制 AI 開/關/主動發送</li>
+<li><strong>客人轉真人</strong>：客人可主動要求真人服務（自動禁言 AI 10 分鐘）</li>
+<li><strong>對話記錄</strong>：所有對話自動存入 Google Sheets</li>
+<li><strong>多層架構</strong>：支援總部/商家/店家三層管理</li>
+<li><strong>權限控制</strong>：客人、商家、總部三種角色權限</li>
+</ul>
+<h3>🎯 商家價值</h3>
+<ul>
+<li><strong>節省人力成本</strong>：90 家店 × 每日 93 則對話 = AI 自動處理 52%</li>
+<li><strong>提升回應速度</strong>：平均 3-5 秒回覆（人工平均 5-10 分鐘）</li>
+<li><strong>24 小時服務</strong>：深夜、假日也能即時回應</li>
+<li><strong>數據分析</strong>：完整對話記錄，分析客戶需求</li>
+</ul>
+<hr />
+<h2>📂 檔案說明</h2>
+<table>
+<thead>
+<tr>
+<th>檔案名稱</th>
+<th>用途</th>
+<th>優先級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI客服系統_完整版.txt</strong></td>
+<td>完整 GAS 代碼（直接複製到 Apps Script）</td>
+<td>⭐⭐⭐ 必讀</td>
+</tr>
+<tr>
+<td><strong>部署步驟說明.md</strong></td>
+<td>從零開始部署教學（含截圖）</td>
+<td>⭐⭐⭐ 必讀</td>
+</tr>
+<tr>
+<td><strong>Google_Sheets_結構說明.md</strong></td>
+<td>Sheets 分頁結構設計</td>
+<td>⭐⭐⭐ 必讀</td>
+</tr>
+<tr>
+<td><strong>測試清單.md</strong></td>
+<td>上線前完整測試項目（90+ 項）</td>
+<td>⭐⭐ 建議閱讀</td>
+</tr>
+<tr>
+<td><strong>常見問題與故障排除.md</strong></td>
+<td>22 個常見問題解答</td>
+<td>⭐⭐ 遇到問題時查</td>
+</tr>
+<tr>
+<td><strong>快速部署檢查表.md</strong></td>
+<td>15 分鐘快速部署清單</td>
+<td>⭐ 進階用戶</td>
+</tr>
+<tr>
+<td><strong>README.md</strong></td>
+<td>本檔案（系統總覽）</td>
+<td>⭐ 先看這個</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🚀 快速開始（5 步驟）</h2>
+<h3>步驟 1: 準備材料（10 分鐘）</h3>
+<p><strong>需要準備：</strong>
+- ✅ LINE Bot Channel（免費）
+- ✅ OpenAI API Key（$5-50 儲值）或 Claude API Key
+- ✅ Google 帳號（Google Sheets + Apps Script）</p>
+<p><strong>費用估算：</strong>
+- LINE Bot: 免費（推播 500 則/月）
+- OpenAI GPT-4: $33/月（每日 100 則對話）
+- Claude 3.5: $13.5/月（每日 100 則對話，省 60%）
+- Google Sheets: 免費</p>
+<hr />
+<h3>步驟 2: 建立 Google Sheets（5 分鐘）</h3>
+<ol>
+<li>開啟 <a href="https://sheets.google.com/">Google Sheets</a></li>
+<li>建立新試算表：「AI客服系統 - ONE桌遊」</li>
+<li>點擊「擴充功能」→「Apps Script」</li>
+<li>複製並執行自動建立腳本（詳見「部署步驟說明.md」）</li>
+</ol>
+<p><strong>建立 6 個分頁：</strong>
+- 基礎設置（商家資訊、AI 設定）
+- 會員狀態（客人 AI 開/關狀態）
+- 對話紀錄（所有對話記錄）
+- 商家設定（管理員名單）
+- 商家操作記錄（指令歷史）
+- 錯誤日誌（系統錯誤）</p>
+<hr />
+<h3>步驟 3: 部署 Apps Script（10 分鐘）</h3>
+<ol>
+<li>開啟 <code>AI客服系統_完整版.txt</code></li>
+<li>複製所有代碼</li>
+<li>貼到 Apps Script 編輯器</li>
+<li>修改前 15 行的 <code>CONFIG</code> 設定：</li>
+<li>LINE Channel Access Token</li>
+<li>Google Spreadsheet ID</li>
+<li>OpenAI/Claude API Key</li>
+<li>儲存 → 部署 → 新增部署作業</li>
+<li>複製 Web App URL</li>
+</ol>
+<hr />
+<h3>步驟 4: 設定 LINE Webhook（3 分鐘）</h3>
+<ol>
+<li>前往 <a href="https://developers.line.biz/">LINE Developers Console</a></li>
+<li>選擇您的 Channel → Messaging API</li>
+<li>Webhook URL 填入剛才的 Web App URL</li>
+<li>開啟 Webhooks</li>
+<li><strong>關閉</strong> Auto-reply / Greeting messages</li>
+<li>點擊 Verify（應該顯示 Success）</li>
+</ol>
+<hr />
+<h3>步驟 5: 測試系統（5 分鐘）</h3>
+<ol>
+<li>用 LINE 掃描 Bot QR Code</li>
+<li>發送：「請問營業時間？」→ 確認 AI 回覆</li>
+<li>發送：「轉真人」→ 確認收到確認訊息</li>
+<li>發送：「還在嗎？」→ 確認 AI 不回應（被禁言）</li>
+<li>檢查 Google Sheets「對話紀錄」有記錄</li>
+</ol>
+<p><strong>✅ 測試通過！系統部署完成！</strong></p>
+<hr />
+<h2>💡 商家指令使用</h2>
+<h3>基本指令</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">/</span><span class="n">help</span><span class="w">                          </span><span class="n">查看指令說明</span>
+<span class="o">/</span><span class="n">ai狀態</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="n">ID</span><span class="p">]</span><span class="w">               </span><span class="n">查詢客人</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">狀態</span>
+<span class="o">/</span><span class="n">ai關閉</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="n">ID</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">分鐘</span><span class="p">]</span><span class="w">         </span><span class="n">關閉客人</span><span class="w"> </span><span class="n">AI</span><span class="err">（</span><span class="n">預設</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">分鐘</span><span class="err">）</span>
+<span class="o">/</span><span class="n">ai開啟</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="n">ID</span><span class="p">]</span><span class="w">               </span><span class="n">開啟客人</span><span class="w"> </span><span class="n">AI</span>
+<span class="o">/</span><span class="n">ai主動</span><span class="w"> </span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="n">ID</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">訊息</span><span class="p">]</span><span class="w">         </span><span class="n">讓</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">主動發送訊息</span>
+<span class="o">/</span><span class="n">ai清單</span><span class="w">                        </span><span class="n">列出所有被禁言的客人</span>
+</code></pre></div>
+
+<h3>使用範例</h3>
+<p><strong>場景 1: 客人問題複雜，商家想自己處理</strong></p>
+<div class="codehilite"><pre><span></span><code>商家: /ai關閉 Ufc463cd... 60
+→ 關閉該客人的 AI 1 小時
+→ 客人收到通知：「店長將為您提供人工服務」
+→ 商家可直接回覆客人
+</code></pre></div>
+
+<p><strong>場景 2: 問題解決，恢復 AI 服務</strong></p>
+<div class="codehilite"><pre><span></span><code>商家: /ai開啟 Ufc463cd...
+→ 開啟該客人的 AI
+→ 客人收到通知：「AI 小幫手已恢復服務」
+</code></pre></div>
+
+<p><strong>場景 3: 主動關心客人</strong></p>
+<div class="codehilite"><pre><span></span><code>商家: /ai主動 Ufc463cd... 您好，剛才的問題解決了嗎？
+→ 客人收到 AI 主動訊息
+→ 客人可以繼續對話
+</code></pre></div>
+
+<hr />
+<h2>📊 系統架構</h2>
+<h3>運作流程</h3>
+<div class="codehilite"><pre><span></span><code>【客人發送訊息】
+       ↓
+【LINE Webhook 觸發】
+       ↓
+【Apps Script doPost】
+       ↓
+    判斷角色
+   ↙     ↓     ↘
+商家指令  客人指令  一般訊息
+   ↓      ↓       ↓
+執行指令  轉真人   檢查 AI 狀態
+          ↓       ↓
+        禁言 AI   AI 已禁言？
+                  ↓
+                 否
+                  ↓
+              呼叫 AI API
+                  ↓
+              回覆客人
+                  ↓
+           記錄到 Sheets
+</code></pre></div>
+
+<h3>權限設計</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>權限</th>
+<th>LINE User ID 來源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>客人</td>
+<td>發問、轉真人</td>
+<td>自動偵測</td>
+</tr>
+<tr>
+<td>商家</td>
+<td>商家指令（/ai開關等）</td>
+<td>商家設定分頁</td>
+</tr>
+<tr>
+<td>總部</td>
+<td>所有權限</td>
+<td>CONFIG.ADMIN_USERS</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>💰 成本估算</h2>
+<h3>每日 100 則對話（單店）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>OpenAI GPT-4</th>
+<th>Claude 3.5</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI API</td>
+<td>$1.1/天</td>
+<td>$0.45/天</td>
+<td>每則對話約 700 tokens</td>
+</tr>
+<tr>
+<td>LINE 推播</td>
+<td>免費</td>
+<td>免費</td>
+<td>500 則/月免費額度內</td>
+</tr>
+<tr>
+<td><strong>每月成本</strong></td>
+<td><strong>$33</strong></td>
+<td><strong>$13.5</strong></td>
+<td><strong>Claude 省 60%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>90 家店（每店每日 50 則對話）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>成本</th>
+<th>計算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI API (Claude)</td>
+<td>$607.5/月</td>
+<td>90 店 × 50 則 × $0.0045 × 30 天</td>
+</tr>
+<tr>
+<td>LINE 推播</td>
+<td>$0/月</td>
+<td>主要用 Reply（免費）</td>
+</tr>
+<tr>
+<td><strong>總成本</strong></td>
+<td><strong>$607.5/月</strong></td>
+<td><strong>$7,290/年</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>vs 人工客服：</strong>
+- 人工成本：90 店 × $13,500/月 = $1,215,000/月
+- 節省：$1,207,710/月（99.5%）
+- <strong>ROI: 1,989x</strong></p>
+<hr />
+<h2>🔧 優化建議</h2>
+<h3>AI 品質優化</h3>
+<ol>
+<li><strong>調整 AI 個性</strong>：修改「基礎設置」→ AI 個性</li>
+<li><strong>加強規則</strong>：在 <code>buildSystemPrompt</code> 函數加入範例對話</li>
+<li><strong>減少幻覺</strong>：降低 <code>AI_TEMPERATURE</code>（0.7 → 0.5）</li>
+</ol>
+<h3>成本優化</h3>
+<ol>
+<li><strong>換便宜模型</strong>：GPT-4 → GPT-3.5（省 85%）</li>
+<li><strong>加入關鍵字快速回覆</strong>：常見問題直接回答（省 100%）</li>
+<li><strong>減少對話歷史</strong>：<code>MAX_CONTEXT_MESSAGES</code> 10 → 5（省 30%）</li>
+</ol>
+<h3>效能優化</h3>
+<ol>
+<li><strong>每月歸檔對話</strong>：避免 Sheets 變慢</li>
+<li><strong>批次處理</strong>：累積多個問題一次呼叫 AI</li>
+<li><strong>快取回覆</strong>：相似問題使用相同答案</li>
+</ol>
+<hr />
+<h2>📈 數據分析</h2>
+<h3>從「對話紀錄」分析</h3>
+<p><strong>客服品質指標：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- 轉真人率（越低越好）</span>
+<span class="err">轉真人次數</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="err">總對話次數</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="mi">100</span><span class="o">%</span>
+
+<span class="c1">-- AI 回應成功率</span>
+<span class="n">ai_response</span><span class="w"> </span><span class="err">類型數量</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="err">總訊息數量</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="mi">100</span><span class="o">%</span>
+
+<span class="c1">-- 平均對話輪數</span>
+<span class="err">總對話數</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="err">客人數量</span>
+</code></pre></div>
+
+<p><strong>業務指標：</strong></p>
+<div class="codehilite"><pre><span></span><code>-- 熱門問題排行
+統計「客人訊息」欄位的關鍵字
+
+-- 尖峰時段
+統計「時間」欄位的小時分布
+
+-- 客訴關鍵字
+搜尋「故障」「問題」「不滿意」等
+</code></pre></div>
+
+<hr />
+<h2>🛡️ 安全建議</h2>
+<h3>資料保護</h3>
+<ul>
+<li>✅ Google Sheets 設為「僅限特定人員」</li>
+<li>✅ Apps Script 代碼不公開</li>
+<li>✅ API Key 定期更換</li>
+<li>✅ 每月備份 Sheets 資料</li>
+</ul>
+<h3>隱私合規</h3>
+<ul>
+<li>✅ 對話記錄僅用於客服改進</li>
+<li>✅ 不外洩客人 User ID</li>
+<li>✅ AI 不記錄敏感資訊（電話、地址等）</li>
+</ul>
+<hr />
+<h2>🔄 維護計畫</h2>
+<h3>每日檢查（1 分鐘）</h3>
+<ul>
+<li>☐ 查看「錯誤日誌」是否有異常</li>
+</ul>
+<h3>每週檢查（5 分鐘）</h3>
+<ul>
+<li>☐ 檢查 OpenAI/Claude 餘額</li>
+<li>☐ 檢視「對話紀錄」品質</li>
+<li>☐ 統計轉真人率</li>
+</ul>
+<h3>每月任務（30 分鐘）</h3>
+<ul>
+<li>☐ 歸檔對話記錄</li>
+<li>☐ 分析客服數據</li>
+<li>☐ 優化 AI 提示詞</li>
+<li>☐ 更新常見問答</li>
+</ul>
+<hr />
+<h2>🆙 未來升級方向</h2>
+<h3>Phase 2 功能（1-2 月後）</h3>
+<ul>
+<li>🚀 Flex Message 圖文訊息</li>
+<li>🚀 情緒分析（偵測客訴）</li>
+<li>🚀 多語言支援（英文、泰文）</li>
+<li>🚀 自動建議回覆（商家用）</li>
+</ul>
+<h3>Phase 3 功能（3-6 月後）</h3>
+<ul>
+<li>🚀 數據儀表板（Google Data Studio）</li>
+<li>🚀 AI 自動學習（從對話中優化）</li>
+<li>🚀 語音訊息支援（Whisper API）</li>
+<li>🚀 與預約系統整合</li>
+</ul>
+<hr />
+<h2>📞 支援與聯絡</h2>
+<h3>遇到問題？</h3>
+<ol>
+<li><strong>先查文件</strong>：常見問題與故障排除.md（22 個問題解答）</li>
+<li><strong>測試清單</strong>：測試清單.md（90+ 測試項目）</li>
+<li><strong>系統記錄</strong>：查看 Google Sheets「錯誤日誌」</li>
+</ol>
+<h3>聯絡開發者</h3>
+<p><strong>提供以下資訊：</strong>
+- ❓ 問題描述
+- 📸 錯誤截圖
+- 📋 Apps Script 執行記錄
+- 📊 Google Sheets 錯誤日誌</p>
+<hr />
+<h2>📄 授權說明</h2>
+<p>本系統為 <strong>ONE桌遊專用</strong>，包含：
+- ✅ 商業使用權
+- ✅ 修改權
+- ✅ 複製權（限 ONE桌遊旗下店家）</p>
+<p><strong>禁止：</strong>
+- ❌ 轉售給其他企業
+- ❌ 移除版權資訊
+- ❌ 逆向工程後販售</p>
+<hr />
+<h2>🎉 開始使用</h2>
+<p><strong>準備好了嗎？</strong></p>
+<ol>
+<li>📖 閱讀「部署步驟說明.md」</li>
+<li>⚙️ 執行部署（30 分鐘）</li>
+<li>✅ 執行測試清單</li>
+<li>🚀 上線運作！</li>
+</ol>
+<p><strong>祝您部署順利！有任何問題隨時聯繫 💪</strong></p>
+<hr />
+<p><em>最後更新：2026-02-18 | 版本：v3.0</em></p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ONE桌遊 AI 客服系統 | 版本 v3.0</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測試清單 - AI 客服系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 36px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統</h2>
+            </div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>AI 客服系統 - 完整測試清單</h1>
+<h2>測試環境準備</h2>
+<h3>測試帳號</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>數量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總部管理員</td>
+<td>1</td>
+<td>您的 LINE 帳號</td>
+</tr>
+<tr>
+<td>測試客人 A</td>
+<td>1</td>
+<td>模擬正常客人</td>
+</tr>
+<tr>
+<td>測試客人 B</td>
+<td>1</td>
+<td>模擬問題客人（可選）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>建議：</strong> 用另一支手機或請朋友協助測試</p>
+<hr />
+<h2>階段 1: 基礎功能測試</h2>
+<h3>✅ 1.1 AI 自動回應</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>基本問答</td>
+<td>客人：「請問營業時間？」</td>
+<td>AI 回覆營業時間</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>多輪對話</td>
+<td>客人：「有包廂嗎？」<br>AI 回覆後再問：「多少錢？」</td>
+<td>AI 能記住上下文</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>未知問題</td>
+<td>客人：「月球上有店嗎？」</td>
+<td>AI 禮貌回應 + 引導正確問題</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>對話記錄</td>
+<td>檢查 Google Sheets「對話紀錄」</td>
+<td>所有對話都有記錄</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>測試腳本範例：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="err">客人</span><span class="n">A</span><span class="o">:</span><span class="w"> </span><span class="err">請問營業時間？</span>
+<span class="o">[</span><span class="err">等待</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="err">回覆</span><span class="o">]</span>
+
+<span class="err">客人</span><span class="n">A</span><span class="o">:</span><span class="w"> </span><span class="err">有包廂嗎？</span>
+<span class="o">[</span><span class="err">等待</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="err">回覆</span><span class="o">]</span>
+
+<span class="err">客人</span><span class="n">A</span><span class="o">:</span><span class="w"> </span><span class="err">一間包廂多少錢？</span>
+<span class="o">[</span><span class="err">等待</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="err">回覆</span><span class="o">]</span>
+
+<span class="err">客人</span><span class="n">A</span><span class="o">:</span><span class="w"> </span><span class="n">WiFi</span><span class="w"> </span><span class="err">密碼是什麼？</span>
+<span class="o">[</span><span class="err">等待</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="err">回覆</span><span class="o">]</span>
+</code></pre></div>
+
+<p><strong>檢查點：</strong>
+- ✅ 回覆速度 &lt; 5 秒
+- ✅ 回覆內容正確
+- ✅ 符合設定的 AI 個性
+- ✅ 字數限制在設定範圍內</p>
+<hr />
+<h3>✅ 1.2 轉真人功能</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>客人主動轉真人</td>
+<td>客人：「轉真人」</td>
+<td>收到確認訊息 + AI 禁言</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>AI 禁言期間</td>
+<td>客人再發送訊息</td>
+<td>AI 不回應</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>會員狀態更新</td>
+<td>檢查「會員狀態」分頁</td>
+<td>AI 開啟 = FALSE<br>有禁言到期時間</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>商家通知</td>
+<td>檢查商家帳號</td>
+<td>收到「客人要求轉真人」推播</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>5</td>
+<td>自動解除禁言</td>
+<td>等待 10 分鐘後發送訊息</td>
+<td>AI 恢復回應</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>測試腳本：</strong></p>
+<div class="codehilite"><pre><span></span><code>[9:00] 客人A: 轉真人
+[檢查] 收到確認訊息
+
+[9:01] 客人A: 請問價格？
+[檢查] AI 不回應
+
+[9:05] 檢查「會員狀態」分頁
+[檢查] B欄 = FALSE, C欄 = 9:10
+
+[9:11] 客人A: 還在嗎？
+[檢查] AI 恢復回應
+</code></pre></div>
+
+<hr />
+<h3>✅ 1.3 商家指令系統</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>查看指令說明</td>
+<td>商家：<code>/help</code></td>
+<td>收到完整指令列表</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>查詢 AI 狀態</td>
+<td>商家：<code>/ai狀態 U123...</code></td>
+<td>顯示該客人 AI 開/關狀態</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>關閉客人 AI</td>
+<td>商家：<code>/ai關閉 U123... 30</code></td>
+<td>確認訊息 + 客人收到通知</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>開啟客人 AI</td>
+<td>商家：<code>/ai開啟 U123...</code></td>
+<td>確認訊息 + 客人收到通知</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>5</td>
+<td>AI 主動發送</td>
+<td>商家：<code>/ai主動 U123... 請問需要協助嗎？</code></td>
+<td>客人收到 AI 主動訊息</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>6</td>
+<td>查看禁言清單</td>
+<td>商家：<code>/ai清單</code></td>
+<td>列出所有被禁言的客人</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>7</td>
+<td>錯誤指令</td>
+<td>商家：<code>/unknown</code></td>
+<td>顯示「未知指令」</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>測試腳本：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">[商家測試]</span>
+<span class="na">商家</span><span class="o">:</span><span class="w"> </span><span class="s">/help</span>
+<span class="na">[檢查] 收到指令說明</span>
+
+<span class="na">商家</span><span class="o">:</span><span class="w"> </span><span class="s">/ai清單</span>
+<span class="na">[檢查] 顯示目前狀態</span>
+
+<span class="k">[取得客人A的User ID，假設是 U123456...]</span>
+<span class="na">商家</span><span class="o">:</span><span class="w"> </span><span class="s">/ai關閉 U123456... 30</span>
+<span class="na">[檢查] 商家收到確認</span>
+<span class="na">[檢查] 客人A收到「店長將為您提供人工服務」</span>
+
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">請問還在嗎？</span>
+<span class="na">[檢查] AI 不回應</span>
+
+<span class="na">商家</span><span class="o">:</span><span class="w"> </span><span class="s">/ai開啟 U123456...</span>
+<span class="na">[檢查] 商家收到確認</span>
+<span class="na">[檢查] 客人A收到「AI 小幫手已恢復服務」</span>
+
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">在嗎？</span>
+<span class="na">[檢查] AI 回覆</span>
+
+<span class="na">商家</span><span class="o">:</span><span class="w"> </span><span class="s">/ai主動 U123456... 您好，剛才的問題解決了嗎？</span>
+<span class="na">[檢查] 客人A收到 AI 主動訊息</span>
+<span class="na">[檢查] 客人A可以回覆對話</span>
+</code></pre></div>
+
+<hr />
+<h2>階段 2: 權限與安全測試</h2>
+<h3>✅ 2.1 權限控制</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>客人無法用商家指令</td>
+<td>客人A：<code>/ai關閉 U123...</code></td>
+<td>指令無效或顯示錯誤</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>客人只能轉自己真人</td>
+<td>客人A：「轉真人」</td>
+<td>只影響自己的 AI</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>未授權商家</td>
+<td>用其他帳號：<code>/help</code></td>
+<td>指令無效</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>總部管理員</td>
+<td>總部帳號：<code>/ai清單</code></td>
+<td>可查看所有商家數據</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>✅ 2.2 資料安全</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>User ID 不洩漏</td>
+<td>檢查 AI 回覆內容</td>
+<td>不包含 User ID</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>對話隔離</td>
+<td>客人A問的問題，客人B看不到</td>
+<td>A、B 對話獨立</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>API Key 保護</td>
+<td>檢查 Apps Script 可見性</td>
+<td>只有擁有者可見</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sheets 權限</td>
+<td>測試用唯讀帳號存取</td>
+<td>只能看不能改</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>階段 3: 壓力與邊界測試</h2>
+<h3>✅ 3.1 高負載測試</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>連續訊息</td>
+<td>客人A 連續發送 10 則訊息（間隔 1 秒）</td>
+<td>全部正確回覆</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>多人同時</td>
+<td>客人A、B 同時發送訊息</td>
+<td>兩人都收到正確回覆</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>長訊息</td>
+<td>發送 500 字的問題</td>
+<td>AI 能正確理解並回覆</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>特殊字元</td>
+<td>發送 Emoji、符號</td>
+<td>不影響系統運作</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>壓力測試腳本：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">[客人A 快速連發]</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">營業時間？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">價格？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">地址？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">WiFi？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">停車？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">包廂？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">設備？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">飲料？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">會員？</span>
+<span class="na">客人A</span><span class="o">:</span><span class="w"> </span><span class="s">優惠？</span>
+
+<span class="na">[檢查] 10 則訊息都有收到回覆</span>
+<span class="na">[檢查] 回覆順序正確</span>
+<span class="na">[檢查] 沒有遺漏或重複</span>
+</code></pre></div>
+
+<hr />
+<h3>✅ 3.2 邊界條件測試</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>操作步驟</th>
+<th>預期結果</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>空白訊息</td>
+<td>發送只有空格的訊息</td>
+<td>AI 禮貌提示</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>超長訊息</td>
+<td>發送 2000 字訊息</td>
+<td>AI 能處理或提示字數限制</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>重複禁言</td>
+<td>連續執行 <code>/ai關閉</code> 兩次</td>
+<td>不會出錯</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>錯誤 User ID</td>
+<td><code>/ai狀態 INVALID_ID</code></td>
+<td>顯示錯誤或建立新記錄</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>5</td>
+<td>禁言 0 分鐘</td>
+<td><code>/ai關閉 U123... 0</code></td>
+<td>合理處理（立即恢復或提示錯誤）</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>6</td>
+<td>禁言負數時間</td>
+<td><code>/ai關閉 U123... -10</code></td>
+<td>提示錯誤</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>階段 4: AI 品質測試</h2>
+<h3>✅ 4.1 回答準確性</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>客人問題</th>
+<th>預期回答要點</th>
+<th>實際回答</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>營業資訊</td>
+<td>「你們幾點開門？」</td>
+<td>包含營業時間</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>價格查詢</td>
+<td>「多少錢？」</td>
+<td>包含價格方案</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>位置資訊</td>
+<td>「怎麼去？」</td>
+<td>提供地址或導航</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>設備問題</td>
+<td>「WiFi 密碼？」</td>
+<td>提供 WiFi 資訊</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>5</td>
+<td>預約流程</td>
+<td>「怎麼訂位？」</td>
+<td>提供預約網址</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>6</td>
+<td>退訂政策</td>
+<td>「可以取消嗎？」</td>
+<td>說明退訂規則</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>7</td>
+<td>設備故障</td>
+<td>「麻將桌卡住了」</td>
+<td>提供排除步驟或呼叫支援</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>8</td>
+<td>超出範圍</td>
+<td>「你會煮飯嗎？」</td>
+<td>禮貌拒絕 + 引導正確問題</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>✅ 4.2 對話品質</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>評估標準</th>
+<th>評分 (1-5)</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>語氣一致性</td>
+<td>是否符合設定的 AI 個性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>回覆速度</td>
+<td>&lt; 5 秒為優秀</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>回覆長度</td>
+<td>符合字數限制</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>資訊完整性</td>
+<td>回答是否包含必要資訊</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>上下文理解</td>
+<td>能否記住前幾輪對話</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>錯誤處理</td>
+<td>遇到問題的處理方式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>專業度</td>
+<td>是否專業可信</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>友善度</td>
+<td>是否親切友善</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>評分說明：</strong>
+- 5 分：非常好
+- 4 分：良好
+- 3 分：普通
+- 2 分：需改進
+- 1 分：差</p>
+<hr />
+<h2>階段 5: 整合測試</h2>
+<h3>✅ 5.1 完整場景測試</h3>
+<p><strong>場景 1: 新客人首次諮詢</strong></p>
+<div class="codehilite"><pre><span></span><code>[9:00] 客人A 第一次加 Bot 好友
+客人A: 你好
+[檢查] AI 友善回應
+
+客人A: 請問你們是做什麼的？
+[檢查] AI 介紹店家
+
+客人A: 營業時間？
+[檢查] AI 提供營業時間
+
+客人A: 價格？
+[檢查] AI 提供價格方案
+
+客人A: 怎麼訂位？
+[檢查] AI 提供預約網址
+
+客人A: 好的謝謝
+[檢查] AI 禮貌回應
+
+[檢查] 所有對話都記錄在「對話紀錄」
+[檢查]「會員狀態」有新增此客人
+</code></pre></div>
+
+<p><strong>場景 2: 客人遇到問題需要真人協助</strong></p>
+<div class="codehilite"><pre><span></span><code>[10:00] 客人B 在店內遇到問題
+客人B: 麻將桌壞了
+[檢查] AI 提供排除步驟
+
+客人B: 試過了還是不行
+[檢查] AI 引導呼叫支援
+
+客人B: 轉真人
+[檢查] 客人收到確認訊息
+[檢查] 商家收到推播通知
+
+[10:02] 商家處理中，禁止 AI 干擾
+[檢查] 客人再發訊息，AI 不回應
+
+[10:15] 商家解決問題
+商家: /ai開啟 U123456...
+[檢查] 客人收到「AI 已恢復服務」
+
+客人B: 謝謝
+[檢查] AI 禮貌回應
+</code></pre></div>
+
+<p><strong>場景 3: 商家主動關心客人</strong></p>
+<div class="codehilite"><pre><span></span><code>[14:00] 商家看到某客人問了很多問題但沒訂位
+商家: /ai主動 U789... 您好，剛才查詢的包廂目前還有空位，需要幫您預訂嗎？
+
+[檢查] 客人收到 AI 主動訊息
+
+客人C: 好啊，幫我訂今晚 7 點
+[檢查] AI 引導預約流程
+
+客人C: 訂好了謝謝
+[檢查] AI 確認 + 提醒事項
+
+[檢查] 整個對話流程順暢
+</code></pre></div>
+
+<hr />
+<h2>階段 6: 錯誤處理測試</h2>
+<h3>✅ 6.1 系統錯誤模擬</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>模擬方式</th>
+<th>預期處理</th>
+<th>實際結果</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>API Key 錯誤</td>
+<td>暫時填入錯誤的 API Key</td>
+<td>記錄錯誤日誌 + 回覆客人「系統暫時無法回應」</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>API 餘額不足</td>
+<td>OpenAI 餘額歸零</td>
+<td>記錄錯誤 + 通知商家</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sheets 權限問題</td>
+<td>暫時移除 Apps Script 權限</td>
+<td>記錄錯誤</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>網路逾時</td>
+<td>（自然發生或不測試）</td>
+<td>重試機制或錯誤訊息</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>5</td>
+<td>LINE Token 失效</td>
+<td>撤銷 Channel Access Token</td>
+<td>無法發送訊息 + 記錄錯誤</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>測試後記得復原設定！</strong></p>
+<hr />
+<h3>✅ 6.2 錯誤日誌檢查</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>檢查項目</th>
+<th>檢查位置</th>
+<th>預期狀態</th>
+<th>實際狀態</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Apps Script 執行記錄</td>
+<td>Apps Script → 執行作業</td>
+<td>無失敗記錄</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Google Sheets 錯誤日誌</td>
+<td>「錯誤日誌」分頁</td>
+<td>測試期間的錯誤都有記錄</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LINE Webhook 記錄</td>
+<td>LINE Developers Console</td>
+<td>所有 Webhook 都成功</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>對話完整性</td>
+<td>「對話紀錄」分頁</td>
+<td>沒有遺漏的對話</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>階段 7: 效能測試</h2>
+<h3>✅ 7.1 回應時間</h3>
+<p>使用計時器記錄：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>測試項目</th>
+<th>目標時間</th>
+<th>實際時間</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>簡單問答（「營業時間？」）</td>
+<td>&lt; 3 秒</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>複雜問答（多輪對話）</td>
+<td>&lt; 5 秒</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>商家指令執行</td>
+<td>&lt; 2 秒</td>
+<td></td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AI 主動發送</td>
+<td>&lt; 5 秒</td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>✅ 7.2 資源使用</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>檢查項目</th>
+<th>檢查方式</th>
+<th>記錄值</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Apps Script 配額</td>
+<td>Apps Script → 配額</td>
+<td>每日執行次數：___/20,000</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>OpenAI API 使用量</td>
+<td>OpenAI Dashboard → Usage</td>
+<td>今日花費：$___</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LINE 推播用量</td>
+<td>LINE Developers → Statistics</td>
+<td>今日推播：___/500</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sheets 儲存空間</td>
+<td>Google Drive</td>
+<td>檔案大小：___ MB</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>測試結果總結</h2>
+<h3>通過標準</h3>
+<ul>
+<li>✅ <strong>基礎功能</strong>: 所有測試項目通過率 &gt; 95%</li>
+<li>✅ <strong>AI 品質</strong>: 平均評分 &gt; 4.0</li>
+<li>✅ <strong>回應時間</strong>: 95% 的回覆 &lt; 5 秒</li>
+<li>✅ <strong>錯誤處理</strong>: 所有錯誤都有記錄且不影響系統運作</li>
+<li>✅ <strong>安全性</strong>: 權限控制正確，無資料洩漏</li>
+</ul>
+<h3>測試報告範本</h3>
+<div class="codehilite"><pre><span></span><code>=== AI 客服系統測試報告 ===
+
+測試日期：2026-02-__
+測試人員：___
+測試環境：正式 / 測試
+
+--- 測試結果 ---
+基礎功能：__/__ 通過 (__%)
+權限安全：__/__ 通過 (__%)
+壓力測試：__/__ 通過 (__%)
+AI 品質：平均 ___ 分
+錯誤處理：__/__ 通過 (__%)
+效能測試：__/__ 達標 (__%)
+
+--- 問題清單 ---
+1. [嚴重/一般/輕微] 問題描述
+2. [嚴重/一般/輕微] 問題描述
+...
+
+--- 建議改進 ---
+1. 建議內容
+2. 建議內容
+...
+
+--- 結論 ---
+☐ 通過，可上線
+☐ 需修正後再測試
+☐ 不通過
+</code></pre></div>
+
+<hr />
+<h2>上線前最終檢查</h2>
+<h3>✅ 配置檢查</h3>
+<ul>
+<li>☐ 所有 API Key 都填入正式環境的值</li>
+<li>☐ <code>SPREADSHEET_ID</code> 指向正式 Sheets</li>
+<li>☐ <code>ADMIN_USERS</code> 包含所有商家管理員</li>
+<li>☐ LINE Bot 的 Webhook URL 正確</li>
+<li>☐ Auto-reply / Greeting messages 已關閉</li>
+</ul>
+<h3>✅ 資料檢查</h3>
+<ul>
+<li>☐ 「基礎設置」填入正式資料（名稱、電話、網址）</li>
+<li>☐ 「商家設定」包含所有商家</li>
+<li>☐ AI 個性和規則符合預期</li>
+<li>☐ 測試數據已清空或歸檔</li>
+</ul>
+<h3>✅ 備份</h3>
+<ul>
+<li>☐ Google Sheets 已備份</li>
+<li>☐ Apps Script 代碼已備份</li>
+<li>☐ LINE Bot 設定已截圖備份</li>
+</ul>
+<h3>✅ 監控</h3>
+<ul>
+<li>☐ 設定每日檢查「錯誤日誌」</li>
+<li>☐ 設定每週檢查 API 餘額</li>
+<li>☐ 設定每月數據報告</li>
+</ul>
+<hr />
+<p><strong>測試完成！✅ 系統可以上線了 🎉</strong></p>
+<p><strong>建議：上線後第一週每天檢查，確保穩定運作。</strong></p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ONE桌遊 AI 客服系統 | 版本 v3.0</p>
+    </div>
+</body>
+</html>

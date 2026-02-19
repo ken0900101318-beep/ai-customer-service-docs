@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>步驟 2：主程式代碼 - AI 客服系統</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.3); }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .instructions h3 {
+            color: #2196f3;
+            margin-bottom: 15px;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        .code-container {
+            position: relative;
+            margin: 30px 0;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .copy-btn:hover { background: #218838; }
+        .copy-btn.copied { background: #667eea; }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 60px 20px 20px 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 600px;
+        }
+        code {
+            color: #abb2bf;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div><h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統 - 步驟 2：主程式代碼</h2></div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>步驟 2：主程式代碼</h1>
+            
+            <div class="instructions">
+                <h3>📋 操作說明：</h3>
+                <ol>
+                    <li>確認步驟 1 已完成（6 個分頁已建立）</li>
+<li>在 Apps Script 中，刪除預設的 Code.gs</li>
+<li>建立新檔案，命名：AI客服系統</li>
+<li>把下面代碼<strong>全選複製</strong>，貼到 Apps Script</li>
+<li>⚠️ <strong>修改第 18-40 行的 CONFIG 設定</strong>（重要！）</li>
+<li>點擊「儲存」</li>
+<li>進行步驟 3（部署為 Web App）</li>
+                </ol>
+            </div>
+            
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode()">📋 複製代碼</button>
+                <pre id="codeBlock"><code>// ==================== 步驟 2：部署主程式 ====================
+//
+// 操作說明：
+// 1. 確認步驟 1 已完成（6 個分頁已建立）
+// 2. 在 Apps Script 中，刪除預設的 Code.gs
+// 3. 建立新檔案，命名：AI客服系統
+// 4. 把下面整段代碼複製貼上
+// 5. **修改第 18-30 行的 CONFIG 設定**（重要！）
+// 6. 點擊「儲存」
+// 7. 進行步驟 3（部署為 Web App）
+//
+// ⚠️ 需要修改的地方（搜尋 YOUR_ 開頭的值）：
+// - LINE_CHANNEL_ACCESS_TOKEN：從 LINE Developers 取得
+// - SPREADSHEET_ID：從網址取得（/d/ 和 /edit 之間的那串）
+// - OPENAI_API_KEY：從 OpenAI Platform 取得
+// - ADMIN_USERS：填入您的 LINE User ID（先留空，稍後填）
+//
+// ========================================================================
+
+/*
+ * ONE桌遊 AI 客服系統 - 完整版
+ * 版本：v3.0
+ * 日期：2026-02-18
+ */
+
+// ==================== 全域設定（⚠️ 請修改這裡）====================
+const CONFIG = {
+  // LINE Bot 設定
+  CHANNEL_ACCESS_TOKEN: &#x27;YOUR_LINE_CHANNEL_ACCESS_TOKEN&#x27;, // ← 修改這裡
+  
+  // Google Sheets 設定
+  SPREADSHEET_ID: &#x27;YOUR_SPREADSHEET_ID&#x27;, // ← 修改這裡（從網址複製）
+  
+  // AI API 設定（擇一使用）
+  AI_PROVIDER: &#x27;openai&#x27;, // 使用 OpenAI 就填 &#x27;openai&#x27;，使用 Claude 就填 &#x27;claude&#x27;
+  OPENAI_API_KEY: &#x27;YOUR_OPENAI_API_KEY&#x27;, // ← 修改這裡
+  CLAUDE_API_KEY: &#x27;&#x27;, // 如果用 Claude 才填
+  
+  // AI 預設參數
+  AI_MODEL: &#x27;gpt-4-turbo-preview&#x27;, // OpenAI 模型名稱
+  AI_MAX_TOKENS: 500,
+  AI_TEMPERATURE: 0.7,
+  
+  // 系統設定
+  DEFAULT_AI_MUTE_MINUTES: 10, // 客人轉真人預設禁言時間
+  MAX_CONTEXT_MESSAGES: 10, // AI 記憶最近 N 則對話
+  
+  // 權限設定（LINE User ID）
+  ADMIN_USERS: [], // ← 稍後填入您的 LINE User ID
+  MERCHANT_USERS: [] // 商家管理員（從 Sheets 讀取）
+};
+
+// ==================== LINE Webhook 主函數 ====================
+function doPost(e) {
+  try {
+    const event = JSON.parse(e.postData.contents).events[0];
+    
+    // 只處理文字訊息
+    if (event.type !== &#x27;message&#x27; || event.message.type !== &#x27;text&#x27;) {
+      return ContentService.createTextOutput(JSON.stringify({status: &#x27;ok&#x27;}));
+    }
+    
+    const userId = event.source.userId;
+    const userMessage = event.message.text.trim();
+    const replyToken = event.replyToken;
+    
+    // 判斷用戶角色
+    const userRole = getUserRole(userId);
+    
+    // 商家指令處理
+    if (userRole === &#x27;merchant&#x27; || userRole === &#x27;admin&#x27;) {
+      if (userMessage.startsWith(&#x27;/&#x27;)) {
+        handleMerchantCommand(userId, userMessage, replyToken);
+        return ContentService.createTextOutput(JSON.stringify({status: &#x27;ok&#x27;}));
+      }
+    }
+    
+    // 客人指令處理
+    if (userMessage === &#x27;轉真人&#x27; || userMessage.includes(&#x27;真人&#x27;)) {
+      handleTransferToHuman(userId, replyToken);
+      return ContentService.createTextOutput(JSON.stringify({status: &#x27;ok&#x27;}));
+    }
+    
+    // 檢查 AI 是否被禁言
+    const aiStatus = getAIStatus(userId);
+    if (!aiStatus.enabled) {
+      // AI 被禁言，不回應
+      logConversation(userId, userMessage, &#x27;[AI 已禁言]&#x27;, &#x27;muted&#x27;);
+      return ContentService.createTextOutput(JSON.stringify({status: &#x27;ok&#x27;}));
+    }
+    
+    // AI 自動回應
+    handleAIResponse(userId, userMessage, replyToken);
+    
+    return ContentService.createTextOutput(JSON.stringify({status: &#x27;ok&#x27;}));
+    
+  } catch (error) {
+    logError(&#x27;doPost&#x27;, error);
+    return ContentService.createTextOutput(JSON.stringify({status: &#x27;error&#x27;, message: error.toString()}));
+  }
+}
+
+// ==================== 權限管理 ====================
+function getUserRole(userId) {
+  // 檢查是否為總部管理員
+  if (CONFIG.ADMIN_USERS.includes(userId)) {
+    return &#x27;admin&#x27;;
+  }
+  
+  // 檢查是否為商家管理員（從 Sheets 讀取）
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const merchantSheet = ss.getSheetByName(&#x27;商家設定&#x27;);
+  const merchantData = merchantSheet.getDataRange().getValues();
+  
+  for (let i = 1; i &lt; merchantData.length; i++) {
+    const merchantUserId = merchantData[i][5]; // 第 6 欄是 LINE User ID
+    if (merchantUserId === userId) {
+      return &#x27;merchant&#x27;;
+    }
+  }
+  
+  // 預設為客人
+  return &#x27;customer&#x27;;
+}
+
+// ==================== 商家指令系統 ====================
+function handleMerchantCommand(userId, command, replyToken) {
+  const parts = command.split(&#x27; &#x27;);
+  const cmd = parts[0].toLowerCase();
+  const targetUserId = parts[1]; // 客人的 User ID
+  const param = parts[2]; // 額外參數（時間/訊息）
+  
+  let response = &#x27;&#x27;;
+  
+  switch(cmd) {
+    case &#x27;/ai狀態&#x27;:
+    case &#x27;/aistatus&#x27;:
+      response = getAIStatusMessage(targetUserId);
+      break;
+      
+    case &#x27;/ai關閉&#x27;:
+    case &#x27;/aimute&#x27;:
+      const muteMinutes = param ? parseInt(param) : CONFIG.DEFAULT_AI_MUTE_MINUTES;
+      response = muteAI(targetUserId, muteMinutes);
+      notifyCustomer(targetUserId, &#x27;店長將為您提供人工服務 🙋\nAI 小幫手已暫時關閉。&#x27;);
+      break;
+      
+    case &#x27;/ai開啟&#x27;:
+    case &#x27;/aienable&#x27;:
+      response = enableAI(targetUserId);
+      notifyCustomer(targetUserId, &#x27;AI 小幫手已恢復服務 🤖\n有任何問題都可以問我喔！&#x27;);
+      break;
+      
+    case &#x27;/ai主動&#x27;:
+    case &#x27;/aisend&#x27;:
+      const message = parts.slice(2).join(&#x27; &#x27;); // 取得完整訊息
+      if (message) {
+        response = sendAIMessage(targetUserId, message);
+      } else {
+        response = &#x27;❌ 請提供要發送的訊息內容\n範例：/ai主動 U123... 您好，請問需要協助嗎？&#x27;;
+      }
+      break;
+      
+    case &#x27;/ai清單&#x27;:
+    case &#x27;/ailist&#x27;:
+      response = getMutedCustomersList();
+      break;
+      
+    case &#x27;/help&#x27;:
+    case &#x27;/指令&#x27;:
+      response = getMerchantCommandHelp();
+      break;
+      
+    default:
+      response = &#x27;❌ 未知指令，請輸入 /help 查看可用指令&#x27;;
+  }
+  
+  // 回覆商家
+  replyMessage(replyToken, response);
+  
+  // 記錄商家操作
+  logMerchantAction(userId, command, response);
+}
+
+// ==================== AI 狀態管理 ====================
+function getAIStatus(userId) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let statusSheet = ss.getSheetByName(&#x27;會員狀態&#x27;);
+  
+  if (!statusSheet) {
+    // 如果分頁不存在，創建它
+    statusSheet = createMemberStatusSheet();
+  }
+  
+  const data = statusSheet.getDataRange().getValues();
+  
+  for (let i = 1; i &lt; data.length; i++) {
+    if (data[i][0] === userId) {
+      const aiEnabled = data[i][1]; // 第 2 欄：AI 狀態（TRUE/FALSE）
+      const mutedUntil = data[i][2]; // 第 3 欄：禁言到期時間
+      
+      // 檢查禁言時間是否已過期
+      if (mutedUntil &amp;&amp; new Date() &gt; new Date(mutedUntil)) {
+        // 自動解除禁言
+        statusSheet.getRange(i + 1, 2, 1, 2).setValues([[true, &#x27;&#x27;]]);
+        return { enabled: true, mutedUntil: null };
+      }
+      
+      return { enabled: aiEnabled, mutedUntil: mutedUntil };
+    }
+  }
+  
+  // 新客人，預設開啟 AI
+  statusSheet.appendRow([userId, true, &#x27;&#x27;, new Date()]);
+  return { enabled: true, mutedUntil: null };
+}
+
+function muteAI(userId, minutes) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const statusSheet = ss.getSheetByName(&#x27;會員狀態&#x27;);
+  const data = statusSheet.getDataRange().getValues();
+  
+  const mutedUntil = new Date(Date.now() + minutes * 60 * 1000);
+  
+  for (let i = 1; i &lt; data.length; i++) {
+    if (data[i][0] === userId) {
+      statusSheet.getRange(i + 1, 2, 1, 2).setValues([[false, mutedUntil]]);
+      return `✅ AI 已關閉 ${minutes} 分鐘\n到期時間：${formatDateTime(mutedUntil)}`;
+    }
+  }
+  
+  // 新增記錄
+  statusSheet.appendRow([userId, false, mutedUntil, new Date()]);
+  return `✅ AI 已關閉 ${minutes} 分鐘\n到期時間：${formatDateTime(mutedUntil)}`;
+}
+
+function enableAI(userId) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const statusSheet = ss.getSheetByName(&#x27;會員狀態&#x27;);
+  const data = statusSheet.getDataRange().getValues();
+  
+  for (let i = 1; i &lt; data.length; i++) {
+    if (data[i][0] === userId) {
+      statusSheet.getRange(i + 1, 2, 1, 2).setValues([[true, &#x27;&#x27;]]);
+      return &#x27;✅ AI 已開啟，將自動回應客人訊息&#x27;;
+    }
+  }
+  
+  // 新增記錄
+  statusSheet.appendRow([userId, true, &#x27;&#x27;, new Date()]);
+  return &#x27;✅ AI 已開啟，將自動回應客人訊息&#x27;;
+}
+
+function getAIStatusMessage(targetUserId) {
+  const status = getAIStatus(targetUserId);
+  
+  if (status.enabled) {
+    return `🤖 AI 狀態：開啟\n將自動回應客人訊息`;
+  } else {
+    return `🔇 AI 狀態：關閉\n到期時間：${formatDateTime(status.mutedUntil)}`;
+  }
+}
+
+function getMutedCustomersList() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const statusSheet = ss.getSheetByName(&#x27;會員狀態&#x27;);
+  const data = statusSheet.getDataRange().getValues();
+  
+  let mutedList = &#x27;🔇 目前被禁言的客人：\n\n&#x27;;
+  let count = 0;
+  
+  for (let i = 1; i &lt; data.length; i++) {
+    if (!data[i][1] &amp;&amp; data[i][2]) { // AI 關閉且有到期時間
+      const userId = data[i][0];
+      const mutedUntil = data[i][2];
+      
+      // 檢查是否已過期
+      if (new Date() &lt; new Date(mutedUntil)) {
+        count++;
+        mutedList += `${count}. ${userId.substring(0, 10)}...\n`;
+        mutedList += `   到期：${formatDateTime(mutedUntil)}\n\n`;
+      }
+    }
+  }
+  
+  if (count === 0) {
+    return &#x27;✅ 目前沒有被禁言的客人&#x27;;
+  }
+  
+  return mutedList;
+}
+
+// ==================== AI 回應處理 ====================
+function handleAIResponse(userId, userMessage, replyToken) {
+  try {
+    // 讀取商家設定（AI 個性、規則等）
+    const merchantConfig = getMerchantConfig(userId);
+    
+    // 讀取對話歷史（最近 N 則）
+    const conversationHistory = getConversationHistory(userId, CONFIG.MAX_CONTEXT_MESSAGES);
+    
+    // 建立 AI 提示詞
+    const systemPrompt = buildSystemPrompt(merchantConfig);
+    
+    // 呼叫 AI API
+    let aiResponse;
+    if (CONFIG.AI_PROVIDER === &#x27;openai&#x27;) {
+      aiResponse = callOpenAI(systemPrompt, conversationHistory, userMessage);
+    } else {
+      aiResponse = callClaude(systemPrompt, conversationHistory, userMessage);
+    }
+    
+    // 回覆客人
+    replyMessage(replyToken, aiResponse);
+    
+    // 記錄對話
+    logConversation(userId, userMessage, aiResponse, &#x27;ai_response&#x27;);
+    
+  } catch (error) {
+    logError(&#x27;handleAIResponse&#x27;, error);
+    replyMessage(replyToken, &#x27;抱歉，系統暫時無法回應，請稍後再試或輸入「轉真人」尋求人工協助。&#x27;);
+  }
+}
+
+function buildSystemPrompt(merchantConfig) {
+  let prompt = `你是 ${merchantConfig.aiName || &#x27;ONE桌遊 AI 客服&#x27;}，`;
+  prompt += `個性：${merchantConfig.aiPersonality || &#x27;專業、友善、耐心&#x27;}。\n\n`;
+  
+  prompt += `## 核心規則\n`;
+  prompt += `1. 這是無人自助店，絕對不可提及「現場人員」「店員」「櫃台」\n`;
+  prompt += `2. 所有問題都以「遠端協助」「LINE 客服」「視訊支援」解決\n`;
+  prompt += `3. 遇到無法處理的問題，引導客人「呼叫支援」\n`;
+  prompt += `4. 回覆字數限制：${merchantConfig.maxWords || 100} 字以內\n\n`;
+  
+  prompt += `## 店家資訊\n`;
+  prompt += `- 商家名稱：${merchantConfig.merchantName}\n`;
+  prompt += `- 客服電話：${merchantConfig.phone}\n`;
+  prompt += `- 客服時間：${merchantConfig.serviceHours}\n`;
+  prompt += `- 預約網址：${merchantConfig.bookingUrl}\n\n`;
+  
+  // 加入自訂規則
+  if (merchantConfig.customRules) {
+    prompt += `## 特殊規則\n${merchantConfig.customRules}\n\n`;
+  }
+  
+  prompt += `請根據以上設定，專業且友善地回答客人問題。`;
+  
+  return prompt;
+}
+
+// ==================== OpenAI API ====================
+function callOpenAI(systemPrompt, conversationHistory, userMessage) {
+  const messages = [
+    { role: &#x27;system&#x27;, content: systemPrompt }
+  ];
+  
+  // 加入對話歷史
+  conversationHistory.forEach(msg =&gt; {
+    messages.push({ role: &#x27;user&#x27;, content: msg.userMessage });
+    messages.push({ role: &#x27;assistant&#x27;, content: msg.aiResponse });
+  });
+  
+  // 加入當前訊息
+  messages.push({ role: &#x27;user&#x27;, content: userMessage });
+  
+  const payload = {
+    model: CONFIG.AI_MODEL,
+    messages: messages,
+    max_tokens: CONFIG.AI_MAX_TOKENS,
+    temperature: CONFIG.AI_TEMPERATURE
+  };
+  
+  const options = {
+    method: &#x27;post&#x27;,
+    headers: {
+      &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + CONFIG.OPENAI_API_KEY,
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+  
+  const response = UrlFetchApp.fetch(&#x27;https://api.openai.com/v1/chat/completions&#x27;, options);
+  const result = JSON.parse(response.getContentText());
+  
+  if (result.error) {
+    throw new Error(&#x27;OpenAI API Error: &#x27; + result.error.message);
+  }
+  
+  return result.choices[0].message.content.trim();
+}
+
+// ==================== Claude API ====================
+function callClaude(systemPrompt, conversationHistory, userMessage) {
+  const messages = [];
+  
+  // 加入對話歷史
+  conversationHistory.forEach(msg =&gt; {
+    messages.push({ role: &#x27;user&#x27;, content: msg.userMessage });
+    messages.push({ role: &#x27;assistant&#x27;, content: msg.aiResponse });
+  });
+  
+  // 加入當前訊息
+  messages.push({ role: &#x27;user&#x27;, content: userMessage });
+  
+  const payload = {
+    model: CONFIG.AI_MODEL,
+    max_tokens: CONFIG.AI_MAX_TOKENS,
+    temperature: CONFIG.AI_TEMPERATURE,
+    system: systemPrompt,
+    messages: messages
+  };
+  
+  const options = {
+    method: &#x27;post&#x27;,
+    headers: {
+      &#x27;x-api-key&#x27;: CONFIG.CLAUDE_API_KEY,
+      &#x27;anthropic-version&#x27;: &#x27;2023-06-01&#x27;,
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+  
+  const response = UrlFetchApp.fetch(&#x27;https://api.anthropic.com/v1/messages&#x27;, options);
+  const result = JSON.parse(response.getContentText());
+  
+  if (result.error) {
+    throw new Error(&#x27;Claude API Error: &#x27; + result.error.message);
+  }
+  
+  return result.content[0].text.trim();
+}
+
+// ==================== 讀取商家設定 ====================
+function getMerchantConfig(userId) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const configSheet = ss.getSheetByName(&#x27;基礎設置&#x27;);
+  
+  // 簡化版：假設只有一個商家，實際應根據 userId 判斷屬於哪個商家
+  const data = configSheet.getDataRange().getValues();
+  
+  const config = {
+    merchantName: data[1][1] || &#x27;ONE桌遊&#x27;,
+    phone: data[2][1] || &#x27;0900-000-000&#x27;,
+    serviceHours: data[3][1] || &#x27;24小時&#x27;,
+    bookingUrl: data[4][1] || &#x27;https://example.com&#x27;,
+    aiName: data[5][1] || &#x27;AI 小幫手&#x27;,
+    aiPersonality: data[6][1] || &#x27;專業、友善、耐心&#x27;,
+    maxWords: parseInt(data[7][1]) || 100,
+    customRules: data[8][1] || &#x27;&#x27;
+  };
+  
+  return config;
+}
+
+// ==================== 對話歷史 ====================
+function getConversationHistory(userId, limit) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let logSheet = ss.getSheetByName(&#x27;對話紀錄&#x27;);
+  
+  if (!logSheet) {
+    logSheet = createConversationLogSheet();
+    return [];
+  }
+  
+  const data = logSheet.getDataRange().getValues();
+  const userConversations = [];
+  
+  // 倒序查找該用戶的對話（最新在前）
+  for (let i = data.length - 1; i &gt;= 1; i--) {
+    if (data[i][1] === userId &amp;&amp; data[i][4] === &#x27;ai_response&#x27;) {
+      userConversations.push({
+        userMessage: data[i][2],
+        aiResponse: data[i][3]
+      });
+      
+      if (userConversations.length &gt;= limit) {
+        break;
+      }
+    }
+  }
+  
+  // 反轉順序（最舊在前）
+  return userConversations.reverse();
+}
+
+function logConversation(userId, userMessage, aiResponse, type) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let logSheet = ss.getSheetByName(&#x27;對話紀錄&#x27;);
+  
+  if (!logSheet) {
+    logSheet = createConversationLogSheet();
+  }
+  
+  logSheet.appendRow([
+    new Date(),
+    userId,
+    userMessage,
+    aiResponse,
+    type
+  ]);
+}
+
+// ==================== 客人轉真人 ====================
+function handleTransferToHuman(userId, replyToken) {
+  // 禁言 AI
+  muteAI(userId, CONFIG.DEFAULT_AI_MUTE_MINUTES);
+  
+  // 通知客人
+  const message = `✅ 已為您轉接真人客服\n\n` +
+                  `AI 小幫手將暫停 ${CONFIG.DEFAULT_AI_MUTE_MINUTES} 分鐘\n` +
+                  `客服人員會盡快回覆您 🙋`;
+  
+  replyMessage(replyToken, message);
+  
+  // 通知商家（推播）
+  notifyMerchant(`🔔 客人要求轉真人\n\nUser ID: ${userId}\n請盡快處理`);
+  
+  // 記錄
+  logConversation(userId, &#x27;轉真人&#x27;, message, &#x27;transfer_to_human&#x27;);
+}
+
+// ==================== AI 主動發送訊息 ====================
+function sendAIMessage(userId, prompt) {
+  try {
+    const merchantConfig = getMerchantConfig(userId);
+    const systemPrompt = buildSystemPrompt(merchantConfig);
+    const conversationHistory = getConversationHistory(userId, 5);
+    
+    let aiResponse;
+    if (CONFIG.AI_PROVIDER === &#x27;openai&#x27;) {
+      aiResponse = callOpenAI(systemPrompt, conversationHistory, prompt);
+    } else {
+      aiResponse = callClaude(systemPrompt, conversationHistory, prompt);
+    }
+    
+    // 推播給客人
+    pushMessage(userId, aiResponse);
+    
+    // 記錄
+    logConversation(userId, `[商家主動] ${prompt}`, aiResponse, &#x27;merchant_initiated&#x27;);
+    
+    return `✅ 已發送 AI 訊息給客人\n\n內容：${aiResponse}`;
+    
+  } catch (error) {
+    logError(&#x27;sendAIMessage&#x27;, error);
+    return `❌ 發送失敗：${error.message}`;
+  }
+}
+
+// ==================== LINE API 函數 ====================
+function replyMessage(replyToken, message) {
+  const url = &#x27;https://api.line.me/v2/bot/message/reply&#x27;;
+  const payload = {
+    replyToken: replyToken,
+    messages: [{ type: &#x27;text&#x27;, text: message }]
+  };
+  
+  const options = {
+    method: &#x27;post&#x27;,
+    headers: {
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+      &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + CONFIG.CHANNEL_ACCESS_TOKEN
+    },
+    payload: JSON.stringify(payload)
+  };
+  
+  UrlFetchApp.fetch(url, options);
+}
+
+function pushMessage(userId, message) {
+  const url = &#x27;https://api.line.me/v2/bot/message/push&#x27;;
+  const payload = {
+    to: userId,
+    messages: [{ type: &#x27;text&#x27;, text: message }]
+  };
+  
+  const options = {
+    method: &#x27;post&#x27;,
+    headers: {
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+      &#x27;Authorization&#x27;: &#x27;Bearer &#x27; + CONFIG.CHANNEL_ACCESS_TOKEN
+    },
+    payload: JSON.stringify(payload)
+  };
+  
+  UrlFetchApp.fetch(url, options);
+}
+
+function notifyCustomer(userId, message) {
+  pushMessage(userId, message);
+}
+
+function notifyMerchant(message) {
+  // 推播給所有商家管理員
+  CONFIG.ADMIN_USERS.forEach(adminId =&gt; {
+    pushMessage(adminId, message);
+  });
+}
+
+// ==================== 商家指令說明 ====================
+function getMerchantCommandHelp() {
+  return `📋 商家指令列表\n\n` +
+         `【AI 控制】\n` +
+         `/ai狀態 [User ID]\n查詢客人的 AI 狀態\n\n` +
+         `/ai關閉 [User ID] [分鐘]\n關閉客人的 AI（預設 ${CONFIG.DEFAULT_AI_MUTE_MINUTES} 分鐘）\n\n` +
+         `/ai開啟 [User ID]\n開啟客人的 AI\n\n` +
+         `/ai主動 [User ID] [訊息]\n讓 AI 主動發送訊息給客人\n\n` +
+         `/ai清單\n列出所有被禁言的客人\n\n` +
+         `【其他】\n` +
+         `/help\n顯示此說明\n\n` +
+         `💡 提示：User ID 可從對話記錄表查詢`;
+}
+
+// ==================== 工具函數 ====================
+function formatDateTime(date) {
+  if (!date) return &#x27;&#x27;;
+  const d = new Date(date);
+  return Utilities.formatDate(d, &#x27;Asia/Taipei&#x27;, &#x27;yyyy-MM-dd HH:mm&#x27;);
+}
+
+function logError(functionName, error) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let errorSheet = ss.getSheetByName(&#x27;錯誤日誌&#x27;);
+  
+  if (!errorSheet) {
+    errorSheet = ss.insertSheet(&#x27;錯誤日誌&#x27;);
+    errorSheet.appendRow([&#x27;時間&#x27;, &#x27;函數&#x27;, &#x27;錯誤訊息&#x27;, &#x27;詳細資訊&#x27;]);
+  }
+  
+  errorSheet.appendRow([
+    new Date(),
+    functionName,
+    error.message,
+    error.stack
+  ]);
+}
+
+function logMerchantAction(userId, command, result) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let actionSheet = ss.getSheetByName(&#x27;商家操作記錄&#x27;);
+  
+  if (!actionSheet) {
+    actionSheet = ss.insertSheet(&#x27;商家操作記錄&#x27;);
+    actionSheet.appendRow([&#x27;時間&#x27;, &#x27;User ID&#x27;, &#x27;指令&#x27;, &#x27;結果&#x27;]);
+  }
+  
+  actionSheet.appendRow([
+    new Date(),
+    userId,
+    command,
+    result
+  ]);
+}
+
+// ==================== 建立 Sheets 分頁 ====================
+function createMemberStatusSheet() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.insertSheet(&#x27;會員狀態&#x27;);
+  
+  sheet.appendRow([&#x27;User ID&#x27;, &#x27;AI 開啟&#x27;, &#x27;禁言到期時間&#x27;, &#x27;建立時間&#x27;]);
+  sheet.getRange(&#x27;A1:D1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#4285f4&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+  sheet.setFrozenRows(1);
+  
+  return sheet;
+}
+
+function createConversationLogSheet() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.insertSheet(&#x27;對話紀錄&#x27;);
+  
+  sheet.appendRow([&#x27;時間&#x27;, &#x27;User ID&#x27;, &#x27;客人訊息&#x27;, &#x27;AI 回覆&#x27;, &#x27;類型&#x27;]);
+  sheet.getRange(&#x27;A1:E1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#34a853&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+  sheet.setFrozenRows(1);
+  
+  return sheet;
+}
+
+// ==================== 測試函數 ====================
+function testAIResponse() {
+  const testUserId = &#x27;U1234567890abcdef&#x27;;
+  const testMessage = &#x27;請問你們營業時間？&#x27;;
+  
+  const merchantConfig = getMerchantConfig(testUserId);
+  const systemPrompt = buildSystemPrompt(merchantConfig);
+  
+  Logger.log(&#x27;System Prompt:&#x27;);
+  Logger.log(systemPrompt);
+  
+  const response = callOpenAI(systemPrompt, [], testMessage);
+  Logger.log(&#x27;\nAI Response:&#x27;);
+  Logger.log(response);
+}
+
+function testMerchantCommand() {
+  const testUserId = &#x27;U1234567890abcdef&#x27;;
+  
+  // 測試關閉 AI
+  Logger.log(muteAI(testUserId, 30));
+  
+  // 測試查詢狀態
+  Logger.log(getAIStatusMessage(testUserId));
+  
+  // 測試開啟 AI
+  Logger.log(enableAI(testUserId));
+}
+</code></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode() {
+            const codeBlock = document.getElementById('codeBlock');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製！';
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.textContent = '📋 複製代碼';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>步驟 3：部署清單 - AI 客服系統</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.3); }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .instructions h3 {
+            color: #2196f3;
+            margin-bottom: 15px;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        .code-container {
+            position: relative;
+            margin: 30px 0;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .copy-btn:hover { background: #218838; }
+        .copy-btn.copied { background: #667eea; }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 60px 20px 20px 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 600px;
+        }
+        code {
+            color: #abb2bf;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div><h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統 - 步驟 3：部署清單</h2></div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>步驟 3：部署清單</h1>
+            
+            <div class="instructions">
+                <h3>📋 操作說明：</h3>
+                <ol>
+                    <li>完成步驟 2 的代碼貼上</li>
+<li>按照下面的清單逐項檢查</li>
+<li>填入所有必要的設定值</li>
+<li>部署為 Web App</li>
+<li>設定 LINE Webhook</li>
+<li>測試系統</li>
+                </ol>
+            </div>
+            
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode()">📋 複製代碼</button>
+                <pre id="codeBlock"><code># 步驟 3：部署與設定清單
+
+## A. 修改 CONFIG 設定（重要！）
+
+開啟步驟 2 的代碼，找到第 18-40 行，修改以下內容：
+
+### 1. LINE Bot 設定
+```javascript
+CHANNEL_ACCESS_TOKEN: &#x27;YOUR_LINE_CHANNEL_ACCESS_TOKEN&#x27;
+```
+**如何取得：**
+1. 前往 https://developers.line.biz/
+2. 選擇您的 Channel → Messaging API
+3. 複製 Channel Access Token (Long-lived)
+4. 貼上到代碼中
+
+---
+
+### 2. Google Sheets ID
+```javascript
+SPREADSHEET_ID: &#x27;YOUR_SPREADSHEET_ID&#x27;
+```
+**如何取得：**
+1. 開啟您的 Google Sheets
+2. 看網址：`https://docs.google.com/spreadsheets/d/【這裡是ID】/edit`
+3. 複製 `/d/` 和 `/edit` 之間的那串英數字
+4. 貼上到代碼中
+
+範例：
+- 網址：`https://docs.google.com/spreadsheets/d/1ABC123xyz/edit`
+- ID：`1ABC123xyz`
+
+---
+
+### 3. OpenAI API Key
+```javascript
+OPENAI_API_KEY: &#x27;YOUR_OPENAI_API_KEY&#x27;
+```
+**如何取得：**
+1. 前往 https://platform.openai.com/
+2. 登入帳號
+3. 左側選單 → API Keys
+4. 點擊 Create new secret key
+5. 複製 Key（只會顯示一次！）
+6. 貼上到代碼中
+
+**重要：**
+- 確保帳戶有餘額（至少 $5 USD）
+- Key 格式：`sk-...` 開頭
+
+---
+
+### 4. 填入「基礎設置」實際資料
+
+開啟 Google Sheets → 基礎設置分頁，修改第 2-9 列：
+
+| 設定項目 | 設定值 | 範例 |
+|---------|-------|------|
+| 商家名稱 | ONE桌遊 土城店 | 改成您的店名 |
+| 客服電話 | 0900-123-456 | 改成實際電話 |
+| 客服時間 | 週一至週日 10:00-22:00 | 改成營業時間 |
+| 預約網址 | https://booking.example.com | 改成預約連結 |
+| AI 名稱 | 小遊 | 可自訂（例如：小 ONE） |
+| AI 個性 | 活潑、熱情、專業 | 可自訂 |
+| 回話字數限制 | 100 | 建議 80-150 |
+| 自訂規則 | 這是無人自助店... | 可加入特殊規則 |
+
+---
+
+## B. 部署為 Web App
+
+### 1. 儲存代碼
+- 在 Apps Script 編輯器點擊「儲存」（💾 圖示）
+- 確認沒有錯誤訊息
+
+### 2. 部署
+1. 點擊右上角「部署」→「新增部署作業」
+2. 選擇類型：「網頁應用程式」
+3. 設定：
+   - 說明：`AI客服系統 v1.0`
+   - 執行身分：**我**
+   - 具有存取權的使用者：**任何人**
+4. 點擊「部署」
+
+### 3. 授權（第一次會要求）
+1. 會跳出「需要授權」視窗
+2. 點擊「審查權限」
+3. 選擇您的 Google 帳號
+4. 會出現「這個應用程式未經驗證」警告
+5. 點擊「進階」→「前往 XXX（不安全）」
+6. 點擊「允許」
+
+### 4. 複製 Web App URL
+- 部署成功後會顯示 URL
+- 格式：`https://script.google.com/macros/s/.../exec`
+- **複製這個 URL**（下一步會用到）
+
+---
+
+## C. 設定 LINE Webhook
+
+### 1. 前往 LINE Developers
+1. 開啟 https://developers.line.biz/
+2. 選擇您的 Channel
+3. 前往「Messaging API」頁籤
+
+### 2. 設定 Webhook URL
+1. 找到「Webhook settings」區塊
+2. 點擊「Edit」
+3. 貼上剛才複製的 Web App URL
+4. 點擊「Update」
+5. 點擊「Verify」測試連線
+6. 應該顯示「Success」✅
+
+### 3. 開啟/關閉設定
+**必須開啟：**
+- ✅ Webhooks（Use webhook）
+
+**必須關閉：**
+- ❌ Auto-reply messages
+- ❌ Greeting messages
+
+---
+
+## D. 取得您的 LINE User ID
+
+### 方法 A：從對話取得（推薦）
+
+1. 用您的 LINE 掃描 Bot 的 QR Code
+2. 發送任意訊息（例如：「測試」）
+3. 開啟 Google Sheets → 對話紀錄分頁
+4. 看 B 欄（User ID），複製它
+5. 貼到兩個地方：
+   - **Apps Script → CONFIG.ADMIN_USERS**（第 39 行）
+   - **Google Sheets → 商家設定分頁 → F2 儲存格**
+
+### 方法 B：用測試函數
+
+在 Apps Script 中執行以下函數：
+
+```javascript
+function getMyUserId() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const logSheet = ss.getSheetByName(&#x27;對話紀錄&#x27;);
+  const data = logSheet.getDataRange().getValues();
+  
+  if (data.length &gt; 1) {
+    const lastUserId = data[data.length - 1][1];
+    Logger.log(&#x27;您的 LINE User ID: &#x27; + lastUserId);
+    SpreadsheetApp.getUi().alert(&#x27;您的 LINE User ID:\n&#x27; + lastUserId);
+  } else {
+    SpreadsheetApp.getUi().alert(&#x27;請先用 LINE 發一則訊息給 Bot&#x27;);
+  }
+}
+```
+
+**取得 User ID 後：**
+1. 修改 Apps Script 第 39 行：
+   ```javascript
+   ADMIN_USERS: [&#x27;您的User ID&#x27;],
+   ```
+2. **重新部署**（部署 → 管理部署作業 → 編輯 → 新版本 → 部署）
+
+---
+
+## E. 測試系統
+
+### 測試 1：AI 自動回應
+1. 用 LINE 傳訊息：「請問營業時間？」
+2. ✅ 確認 Bot 自動回覆
+3. ✅ 檢查 Google Sheets「對話紀錄」有記錄
+
+### 測試 2：轉真人功能
+1. 傳訊息：「轉真人」
+2. ✅ 確認收到「已為您轉接真人客服」
+3. 再傳一則訊息
+4. ✅ 確認 AI 不回應（被禁言）
+5. ✅ 檢查「會員狀態」分頁，AI 開啟 = FALSE
+
+### 測試 3：商家指令
+1. 傳訊息：`/help`
+2. ✅ 確認收到指令列表
+3. 傳訊息：`/ai清單`
+4. ✅ 確認顯示禁言清單（應該有您自己）
+
+### 測試 4：AI 主動發送
+1. 傳訊息：`/ai開啟 YOUR_USER_ID`（填入您的 User ID）
+2. ✅ 確認收到「AI 已開啟」
+3. 傳訊息：`/ai主動 YOUR_USER_ID 您好，請問需要協助嗎？`
+4. ✅ 確認收到 AI 主動訊息
+
+---
+
+## F. 完成檢查清單
+
+部署完成前，請確認：
+
+### CONFIG 設定
+- ☐ CHANNEL_ACCESS_TOKEN 已填入
+- ☐ SPREADSHEET_ID 已填入
+- ☐ OPENAI_API_KEY 已填入
+- ☐ ADMIN_USERS 已填入您的 User ID
+
+### Google Sheets
+- ☐ 6 個分頁都已建立
+- ☐ 基礎設置填入實際資料
+- ☐ 商家設定填入您的 User ID
+
+### LINE Bot
+- ☐ Webhook URL 已設定
+- ☐ Webhook Verify 顯示 Success
+- ☐ Auto-reply / Greeting 已關閉
+- ☐ Webhooks 已開啟
+
+### 測試
+- ☐ AI 自動回應正常
+- ☐ 轉真人功能正常
+- ☐ 商家指令正常
+- ☐ 對話記錄有儲存
+
+---
+
+## G. 常見問題
+
+### Q1: Webhook Verify 失敗
+- 檢查 Web App URL 是否正確（結尾必須是 /exec）
+- 確認已授權（執行任意測試函數觸發授權）
+- 重新部署看看
+
+### Q2: Bot 沒有回應
+- 檢查「錯誤日誌」分頁
+- 確認 OpenAI API Key 正確且有餘額
+- 確認 LINE Channel Access Token 正確
+
+### Q3: 商家指令沒反應
+- 確認您的 User ID 有加入 CONFIG.ADMIN_USERS
+- 確認已重新部署（修改代碼後要重新部署）
+
+### Q4: AI 回覆內容不對
+- 修改「基礎設置」的 AI 個性、自訂規則
+- 調整 CONFIG.AI_TEMPERATURE（0.5 = 保守，0.8 = 創意）
+
+---
+
+## H. 下一步
+
+✅ 部署完成後：
+1. 觀察 1-2 天，看 AI 回答品質
+2. 根據實際對話優化「基礎設置」
+3. 加入常見問題快速回覆（進階功能）
+4. 準備推廣到其他店家
+
+📖 詳細文件參考：
+- 測試清單.md（90+ 測試項目）
+- 常見問題與故障排除.md（22 個問題解答）
+- README.md（系統總覽）
+
+---
+
+**祝您部署順利！🎉 有任何問題隨時問我！**
+</code></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode() {
+            const codeBlock = document.getElementById('codeBlock');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製！';
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.textContent = '📋 複製代碼';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

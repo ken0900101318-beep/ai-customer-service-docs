@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部署步驟說明 - AI 客服系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 36px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統</h2>
+            </div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>AI 客服系統 - 部署步驟說明</h1>
+<h2>前置準備</h2>
+<h3>1. 建立 LINE Bot</h3>
+<ol>
+<li>前往 <a href="https://developers.line.biz/">LINE Developers Console</a></li>
+<li>登入 LINE 帳號</li>
+<li>點擊「Create a new provider」建立提供者</li>
+<li>建立 Messaging API Channel:</li>
+<li>Channel type: Messaging API</li>
+<li>Channel name: ONE桌遊 AI 客服</li>
+<li>Channel description: 自動客服系統</li>
+<li>Category: 商業服務</li>
+<li>Subcategory: 餐飲娛樂</li>
+<li>記錄以下資訊：</li>
+<li>✅ <strong>Channel Access Token</strong> (Long-lived)</li>
+<li>✅ <strong>Channel Secret</strong></li>
+</ol>
+<h3>2. 取得 AI API Key</h3>
+<p><strong>選項 A - OpenAI (推薦)</strong>
+1. 前往 <a href="https://platform.openai.com/">OpenAI Platform</a>
+2. 註冊/登入帳號
+3. 前往 API Keys 頁面
+4. 點擊「Create new secret key」
+5. 記錄 ✅ <strong>OPENAI_API_KEY</strong>
+6. 儲值至少 $5 USD（建議 $20-50）</p>
+<p><strong>選項 B - Claude (Anthropic)</strong>
+1. 前往 <a href="https://console.anthropic.com/">Anthropic Console</a>
+2. 註冊/登入帳號
+3. 前往 API Keys 頁面
+4. 點擊「Create Key」
+5. 記錄 ✅ <strong>CLAUDE_API_KEY</strong>
+6. 儲值至少 $5 USD</p>
+<h3>3. 建立 Google Sheets</h3>
+<ol>
+<li>前往 <a href="https://sheets.google.com/">Google Sheets</a></li>
+<li>建立新試算表，命名：「AI客服系統 - ONE桌遊」</li>
+<li>記錄 ✅ <strong>Spreadsheet ID</strong>（網址中的一長串英數字）</li>
+<li>範例：<code>https://docs.google.com/spreadsheets/d/【這裡是ID】/edit</code></li>
+</ol>
+<hr />
+<h2>部署步驟</h2>
+<h3>步驟 1: 建立 Google Sheets 結構</h3>
+<h4>方法 A - 自動建立（推薦）</h4>
+<ol>
+<li>開啟 Google Sheets</li>
+<li>點擊「擴充功能」→「Apps Script」</li>
+<li>貼上以下代碼：</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">createAllSheets</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getActiveSpreadsheet</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// 刪除預設的 Sheet1</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">defaultSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">getSheetByName</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">defaultSheet</span><span class="p">)</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">deleteSheet</span><span class="p">(</span><span class="nx">defaultSheet</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 1. 基礎設置</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">basicSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;基礎設置&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;設定項目&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;設定值&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;商家名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ONE桌遊 土城店&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;客服電話&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0900-123-456&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;客服時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;週一至週日 10:00-22:00&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;預約網址&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;https://booking.example.com&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;AI 名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;小遊&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;AI 個性&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;活潑、熱情、專業&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;回話字數限制&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;100&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;自訂規則&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:B1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#4285f4&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">150</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">basicSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">400</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 2. 會員狀態</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">statusSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;會員狀態&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;AI 開啟&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;禁言到期時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;建立時間&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#4285f4&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">setFrozenRows</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">200</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">80</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">150</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">statusSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">150</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 3. 對話紀錄</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">logSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;對話紀錄&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;客人訊息&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;AI 回覆&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;類型&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:E1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#34a853&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setFrozenRows</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">150</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">200</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">300</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="mf">300</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">setColumnWidth</span><span class="p">(</span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="mf">120</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 4. 商家設定</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">merchantSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;商家設定&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;商家 ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;商家名稱&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;負責人&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;電話&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Email&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;LINE User ID&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;M001&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Ken 的商家&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Ken&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0900-000-000&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ken@example.com&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;YOUR_LINE_USER_ID&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:F1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#fbbc04&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">merchantSheet</span><span class="p">.</span><span class="nx">setFrozenRows</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 5. 商家操作記錄</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">actionSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;商家操作記錄&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">actionSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User ID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;指令&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;結果&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">actionSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#ea4335&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">actionSheet</span><span class="p">.</span><span class="nx">setFrozenRows</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 6. 錯誤日誌</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">errorSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">insertSheet</span><span class="p">(</span><span class="s1">&#39;錯誤日誌&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">errorSheet</span><span class="p">.</span><span class="nx">appendRow</span><span class="p">([</span><span class="s1">&#39;時間&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;函數&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;錯誤訊息&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;詳細資訊&#39;</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">errorSheet</span><span class="p">.</span><span class="nx">getRange</span><span class="p">(</span><span class="s1">&#39;A1:D1&#39;</span><span class="p">).</span><span class="nx">setFontWeight</span><span class="p">(</span><span class="s1">&#39;bold&#39;</span><span class="p">).</span><span class="nx">setBackground</span><span class="p">(</span><span class="s1">&#39;#ea4335&#39;</span><span class="p">).</span><span class="nx">setFontColor</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">errorSheet</span><span class="p">.</span><span class="nx">setFrozenRows</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;✅ 所有分頁建立完成！請填入「基礎設置」和「商家設定」的實際資料。&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li>點擊「執行」→ 選擇 <code>createAllSheets</code></li>
+<li>授權存取（第一次會要求）</li>
+<li>等待完成（約 5 秒）</li>
+</ol>
+<h4>方法 B - 手動建立</h4>
+<p>參考「Google_Sheets_結構說明.md」逐一建立分頁。</p>
+<hr />
+<h3>步驟 2: 填入實際資料</h3>
+<ol>
+<li><strong>基礎設置</strong> 分頁：</li>
+<li>修改商家名稱、電話、營業時間等</li>
+<li>
+<p>設定 AI 名稱和個性</p>
+</li>
+<li>
+<p><strong>商家設定</strong> 分頁：</p>
+</li>
+<li>取得您的 LINE User ID（下一步會教）</li>
+<li>填入 F 欄（LINE User ID）</li>
+</ol>
+<hr />
+<h3>步驟 3: 部署 Google Apps Script</h3>
+<ol>
+<li>開啟 Google Sheets</li>
+<li>點擊「擴充功能」→「Apps Script」</li>
+<li><strong>刪除預設的 Code.gs</strong></li>
+<li>建立新檔案，命名：<code>AI客服系統</code></li>
+<li>開啟 <code>AI客服系統_完整版.txt</code>，複製所有代碼</li>
+<li>貼上到 Apps Script 編輯器</li>
+<li>修改 <code>CONFIG</code> 設定（前 15 行）：</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">CONFIG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// LINE Bot 設定</span>
+<span class="w">  </span><span class="nx">CHANNEL_ACCESS_TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的 LINE Channel Access Token&#39;</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// Google Sheets 設定</span>
+<span class="w">  </span><span class="nx">SPREADSHEET_ID</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的 Spreadsheet ID&#39;</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// AI API 設定</span>
+<span class="w">  </span><span class="nx">AI_PROVIDER</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;openai&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 使用 OpenAI 就填 &#39;openai&#39;，使用 Claude 就填 &#39;claude&#39;</span>
+<span class="w">  </span><span class="nx">OPENAI_API_KEY</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的 OpenAI API Key&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 如果用 OpenAI</span>
+<span class="w">  </span><span class="nx">CLAUDE_API_KEY</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// 如果用 Claude 才填</span>
+
+<span class="w">  </span><span class="c1">// AI 預設參數</span>
+<span class="w">  </span><span class="nx">AI_MODEL</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;gpt-4-turbo-preview&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// OpenAI 模型，或 &#39;claude-3-5-sonnet-20241022&#39;</span>
+<span class="w">  </span><span class="nx">AI_MAX_TOKENS</span><span class="o">:</span><span class="w"> </span><span class="mf">500</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AI_TEMPERATURE</span><span class="o">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 系統設定</span>
+<span class="w">  </span><span class="nx">DEFAULT_AI_MUTE_MINUTES</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">MAX_CONTEXT_MESSAGES</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// 權限設定</span>
+<span class="w">  </span><span class="nx">ADMIN_USERS</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;您的 LINE User ID&#39;</span><span class="p">],</span><span class="w"> </span><span class="c1">// 先留空，下一步會填</span>
+<span class="w">  </span><span class="nx">MERCHANT_USERS</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<ol>
+<li>點擊「儲存」（💾 圖示）</li>
+</ol>
+<hr />
+<h3>步驟 4: 部署為 Web App</h3>
+<ol>
+<li>在 Apps Script 編輯器中，點擊右上角「部署」→「新增部署作業」</li>
+<li>選擇類型：「網頁應用程式」</li>
+<li>設定：</li>
+<li>說明：AI客服系統 v1.0</li>
+<li>執行身分：<strong>我</strong></li>
+<li>具有存取權的使用者：<strong>任何人</strong></li>
+<li>點擊「部署」</li>
+<li>授權存取（第一次會警告「這個應用程式未經驗證」，點擊「進階」→「前往...（不安全）」）</li>
+<li>複製 ✅ <strong>Web App URL</strong>（格式：<code>https://script.google.com/macros/s/...</code>）</li>
+</ol>
+<hr />
+<h3>步驟 5: 設定 LINE Bot Webhook</h3>
+<ol>
+<li>回到 <a href="https://developers.line.biz/">LINE Developers Console</a></li>
+<li>選擇您的 Channel</li>
+<li>前往「Messaging API」頁籤</li>
+<li>找到「Webhook settings」</li>
+<li>點擊「Edit」</li>
+<li>貼上剛才的 Web App URL</li>
+<li>點擊「Update」</li>
+<li>開啟「Use webhook」（打勾）</li>
+<li>點擊「Verify」測試連線（應該顯示 Success）</li>
+</ol>
+<p><strong>重要設定：</strong>
+- ✅ 關閉「Auto-reply messages」（自動回覆）
+- ✅ 關閉「Greeting messages」（歡迎訊息）
+- ✅ 開啟「Webhooks」</p>
+<hr />
+<h3>步驟 6: 取得 LINE User ID</h3>
+<h4>方法 A - 從 LINE 對話取得（推薦）</h4>
+<ol>
+<li>用您的 LINE 掃描 Bot 的 QR Code 加為好友</li>
+<li>發送任意訊息（例如：「測試」）</li>
+<li>開啟 Google Sheets「對話紀錄」分頁</li>
+<li>查看 B 欄（User ID），複製它</li>
+<li>貼到「商家設定」分頁的 F 欄</li>
+<li>同時貼到 Apps Script 的 <code>CONFIG.ADMIN_USERS</code> 陣列中</li>
+</ol>
+<h4>方法 B - 用測試程式取得</h4>
+<p>在 Apps Script 中執行：</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">getMyUserId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 先用 LINE 發一則訊息給 Bot</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">ss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">openById</span><span class="p">(</span><span class="nx">CONFIG</span><span class="p">.</span><span class="nx">SPREADSHEET_ID</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">logSheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ss</span><span class="p">.</span><span class="nx">getSheetByName</span><span class="p">(</span><span class="s1">&#39;對話紀錄&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">logSheet</span><span class="p">.</span><span class="nx">getDataRange</span><span class="p">().</span><span class="nx">getValues</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">lastUserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">[</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">][</span><span class="mf">1</span><span class="p">];</span>
+<span class="w">    </span><span class="nx">Logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;您的 LINE User ID: &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">lastUserId</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;您的 LINE User ID:\n&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">lastUserId</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">SpreadsheetApp</span><span class="p">.</span><span class="nx">getUi</span><span class="p">().</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;請先用 LINE 發一則訊息給 Bot&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3>步驟 7: 測試系統</h3>
+<h4>測試 1 - AI 自動回應</h4>
+<ol>
+<li>用 LINE 傳訊息給 Bot：「請問營業時間？」</li>
+<li>確認 Bot 自動回覆</li>
+<li>檢查 Google Sheets「對話紀錄」是否有記錄</li>
+</ol>
+<h4>測試 2 - 轉真人功能</h4>
+<ol>
+<li>傳訊息：「轉真人」</li>
+<li>確認收到「✅ 已為您轉接真人客服」</li>
+<li>再傳一則訊息，確認 AI 不回應（被禁言）</li>
+<li>檢查「會員狀態」分頁，AI 開啟應為 FALSE</li>
+</ol>
+<h4>測試 3 - 商家指令</h4>
+<ol>
+<li>傳訊息：<code>/help</code></li>
+<li>確認收到指令列表</li>
+<li>測試 <code>/ai清單</code>（應該顯示您自己被禁言）</li>
+<li>測試 <code>/ai開啟 YOUR_USER_ID</code>（用自己的 User ID）</li>
+<li>確認 AI 恢復回應</li>
+</ol>
+<h4>測試 4 - AI 主動發送</h4>
+<ol>
+<li>找一個測試用戶的 User ID（可以是您自己）</li>
+<li>傳訊息：<code>/ai主動 U123... 您好，請問需要協助嗎？</code></li>
+<li>確認該用戶收到 AI 訊息</li>
+</ol>
+<hr />
+<h2>進階設定</h2>
+<h3>自訂 AI 個性</h3>
+<p>修改「基礎設置」分頁：</p>
+<table>
+<thead>
+<tr>
+<th>個性範例</th>
+<th>適合情境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>專業、簡潔、高效</td>
+<td>B2B 客戶</td>
+</tr>
+<tr>
+<td>活潑、熱情、幽默</td>
+<td>年輕族群</td>
+</tr>
+<tr>
+<td>溫柔、耐心、細心</td>
+<td>長輩客戶</td>
+</tr>
+<tr>
+<td>親切、友善、貼心</td>
+<td>家庭客戶</td>
+</tr>
+</tbody>
+</table>
+<h3>調整 AI 參數</h3>
+<p>在 Apps Script 的 <code>CONFIG</code> 中：</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">AI_MAX_TOKENS</span><span class="o">:</span><span class="w"> </span><span class="mf">500</span><span class="p">,</span><span class="w">      </span><span class="c1">// 回覆長度（100-1000）</span>
+<span class="nx">AI_TEMPERATURE</span><span class="o">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span><span class="w">     </span><span class="c1">// 創意度（0=保守，1=創意）</span>
+<span class="nx">MAX_CONTEXT_MESSAGES</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="c1">// 記憶對話數（5-20）</span>
+</code></pre></div>
+
+<p><strong>建議值：</strong>
+- <strong>客服場景</strong>: MAX_TOKENS=300, TEMPERATURE=0.5（穩定、簡潔）
+- <strong>閒聊場景</strong>: MAX_TOKENS=500, TEMPERATURE=0.8（活潑、有趣）</p>
+<h3>多商家部署</h3>
+<ol>
+<li>複製整個 Google Sheets</li>
+<li>修改「基礎設置」和「商家設定」</li>
+<li>複製 Apps Script 專案</li>
+<li>修改 <code>SPREADSHEET_ID</code></li>
+<li>部署新的 Web App</li>
+<li>建立新的 LINE Bot Channel</li>
+</ol>
+<hr />
+<h2>成本估算</h2>
+<h3>OpenAI API 費用</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>費用</th>
+<th>計算方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-4 Turbo</td>
+<td>$0.01/1K tokens (輸入)</td>
+<td>平均每則對話 500 tokens</td>
+</tr>
+<tr>
+<td></td>
+<td>$0.03/1K tokens (輸出)</td>
+<td>平均回覆 200 tokens</td>
+</tr>
+<tr>
+<td><strong>單則對話</strong></td>
+<td><strong>$0.011</strong></td>
+<td>(500×0.01 + 200×0.03) / 1000</td>
+</tr>
+<tr>
+<td><strong>每日 100 則</strong></td>
+<td><strong>$1.1/天</strong></td>
+<td>100 × $0.011</td>
+</tr>
+<tr>
+<td><strong>每月成本</strong></td>
+<td><strong>$33/月</strong></td>
+<td>$1.1 × 30 天</td>
+</tr>
+</tbody>
+</table>
+<h3>Claude API 費用</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>費用</th>
+<th>計算方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>$0.003/1K tokens (輸入)</td>
+<td>平均每則對話 500 tokens</td>
+</tr>
+<tr>
+<td></td>
+<td>$0.015/1K tokens (輸出)</td>
+<td>平均回覆 200 tokens</td>
+</tr>
+<tr>
+<td><strong>單則對話</strong></td>
+<td><strong>$0.0045</strong></td>
+<td>(500×0.003 + 200×0.015) / 1000</td>
+</tr>
+<tr>
+<td><strong>每日 100 則</strong></td>
+<td><strong>$0.45/天</strong></td>
+<td>100 × $0.0045</td>
+</tr>
+<tr>
+<td><strong>每月成本</strong></td>
+<td><strong>$13.5/月</strong></td>
+<td>$0.45 × 30 天</td>
+</tr>
+</tbody>
+</table>
+<p><strong>結論：Claude 比 OpenAI 便宜約 60%</strong></p>
+<h3>LINE Messaging API 費用</h3>
+<ul>
+<li>免費額度：500 則推播訊息/月</li>
+<li>超過後：$0.33/則（台灣）</li>
+<li><strong>建議：AI 回覆用 Reply（免費），商家主動發送才用 Push</strong></li>
+</ul>
+<hr />
+<h2>常見問題排除</h2>
+<h3>Q1: Bot 沒有回應</h3>
+<p><strong>檢查清單：</strong>
+1. ✅ Webhook URL 是否正確？
+2. ✅ Webhook 是否開啟？
+3. ✅ Auto-reply 是否關閉？
+4. ✅ Apps Script 是否部署成功？
+5. ✅ Channel Access Token 是否正確？</p>
+<p><strong>除錯方式：</strong>
+- 查看 Apps Script 的「執行作業」記錄
+- 查看 Google Sheets「錯誤日誌」分頁
+- 在 LINE Developers Console 查看 Webhook 記錄</p>
+<h3>Q2: AI 回覆錯誤或空白</h3>
+<p><strong>可能原因：</strong>
+1. API Key 錯誤或餘額不足
+2. <code>AI_PROVIDER</code> 設定錯誤（openai/claude）
+3. 網路逾時</p>
+<p><strong>解決方式：</strong>
+- 執行測試函數 <code>testAIResponse()</code>
+- 檢查 Apps Script Logs
+- 確認 OpenAI/Claude 帳戶餘額</p>
+<h3>Q3: 商家指令無效</h3>
+<p><strong>可能原因：</strong>
+1. User ID 沒有加入 <code>CONFIG.ADMIN_USERS</code>
+2. 指令格式錯誤（要有空格）
+3. 權限判斷錯誤</p>
+<p><strong>解決方式：</strong>
+- 確認「商家設定」分頁有您的 User ID
+- 參考 <code>/help</code> 的指令格式
+- 查看「商家操作記錄」分頁</p>
+<h3>Q4: 對話記錄沒有儲存</h3>
+<p><strong>可能原因：</strong>
+1. Sheets 權限不足
+2. 分頁名稱錯誤（須完全一致）
+3. 欄位結構錯誤</p>
+<p><strong>解決方式：</strong>
+- 重新執行 <code>createAllSheets()</code>
+- 檢查分頁名稱是否為「對話紀錄」（不是「對話記錄」）
+- 確認第一列是標題列</p>
+<hr />
+<h2>維護建議</h2>
+<h3>每週檢查</h3>
+<ul>
+<li>✅ 查看「錯誤日誌」是否有異常</li>
+<li>✅ 確認 API 餘額充足</li>
+<li>✅ 檢視「對話紀錄」品質</li>
+</ul>
+<h3>每月任務</h3>
+<ul>
+<li>✅ 歸檔舊對話記錄</li>
+<li>✅ 分析客服數據（轉真人率、滿意度）</li>
+<li>✅ 優化 AI 提示詞</li>
+</ul>
+<h3>升級計畫</h3>
+<ul>
+<li>🚀 整合 Flex Message（圖文訊息）</li>
+<li>🚀 加入情緒分析（偵測客訴）</li>
+<li>🚀 多語言支援（英文、泰文）</li>
+<li>🚀 數據儀表板（Google Data Studio）</li>
+</ul>
+<hr />
+<p><strong>部署完成！🎉 接下來請閱讀「測試清單.md」進行完整測試。</strong></p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ONE桌遊 AI 客服系統 | 版本 v3.0</p>
+    </div>
+</body>
+</html>

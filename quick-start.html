@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速部署指南 - AI 客服系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 36px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統</h2>
+            </div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>AI 客服系統 - 快速部署指南</h1>
+<h2>📋 部署順序（30 分鐘完成）</h2>
+<p>按照以下順序執行，每個步驟都有對應的檔案：</p>
+<hr />
+<h2>🔹 步驟 1：建立 Google Sheets 分頁（5 分鐘）</h2>
+<p><strong>檔案：</strong> <code>【步驟1】建立Sheets分頁_複製這段.txt</code></p>
+<p><strong>操作：</strong>
+1. 開啟 Google Sheets，建立新試算表「AI客服系統 - ONE桌遊」
+2. 點擊「擴充功能」→「Apps Script」
+3. 開啟「【步驟1】建立Sheets分頁_複製這段.txt」
+4. <strong>全選複製，貼到 Apps Script</strong>
+5. 點擊「執行」→ 選擇 <code>createAllSheets</code>
+6. 授權存取（第一次會要求）
+7. 等待完成（5 秒）
+8. 回到 Sheets，確認有 6 個新分頁</p>
+<p><strong>檢查點：</strong>
+- ✅ 看到 6 個分頁：基礎設置、會員狀態、對話紀錄、商家設定、商家操作記錄、錯誤日誌
+- ✅ 每個分頁都有標題列（有顏色背景）</p>
+<hr />
+<h2>🔹 步驟 2：部署主程式（10 分鐘）</h2>
+<p><strong>檔案：</strong> <code>【步驟2】主程式代碼_複製這段.txt</code></p>
+<p><strong>操作：</strong>
+1. 在 Apps Script 中，刪除預設的 Code.gs
+2. 建立新檔案，命名：<code>AI客服系統</code>
+3. 開啟「【步驟2】主程式代碼_複製這段.txt」
+4. <strong>全選複製，貼到 Apps Script</strong>
+5. <strong>修改第 18-40 行的 CONFIG 設定</strong>（見下方）
+6. 點擊「儲存」</p>
+<p><strong>⚠️ 必須修改的地方：</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 第 19 行：LINE Channel Access Token</span>
+<span class="nx">CHANNEL_ACCESS_TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的Token&#39;</span>
+
+<span class="c1">// 第 22 行：Google Sheets ID（從網址複製）</span>
+<span class="nx">SPREADSHEET_ID</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的SheetID&#39;</span>
+
+<span class="c1">// 第 26 行：OpenAI API Key</span>
+<span class="nx">OPENAI_API_KEY</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;您的APIKey&#39;</span>
+
+<span class="c1">// 第 39 行：先留空，稍後填</span>
+<span class="nx">ADMIN_USERS</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span>
+</code></pre></div>
+
+<p><strong>如何取得這些值？</strong> 請看「【步驟3】部署清單.md」的詳細說明。</p>
+<hr />
+<h2>🔹 步驟 3：部署為 Web App（5 分鐘）</h2>
+<p><strong>操作：</strong>
+1. 點擊右上角「部署」→「新增部署作業」
+2. 類型：「網頁應用程式」
+3. 說明：<code>AI客服系統 v1.0</code>
+4. 執行身分：<strong>我</strong>
+5. 具有存取權的使用者：<strong>任何人</strong>
+6. 點擊「部署」
+7. 授權（會出現「未經驗證」警告，點擊「進階」→「前往（不安全）」→「允許」）
+8. <strong>複製 Web App URL</strong>（格式：<code>https://script.google.com/macros/s/.../exec</code>）</p>
+<hr />
+<h2>🔹 步驟 4：設定 LINE Webhook（3 分鐘）</h2>
+<p><strong>操作：</strong>
+1. 前往 https://developers.line.biz/
+2. 選擇您的 Channel → Messaging API
+3. 找到「Webhook settings」
+4. 點擊「Edit」，貼上剛才的 Web App URL
+5. 點擊「Update」
+6. 點擊「Verify」→ 應該顯示「Success」✅</p>
+<p><strong>重要設定：</strong>
+- ✅ 開啟：Webhooks
+- ❌ 關閉：Auto-reply messages
+- ❌ 關閉：Greeting messages</p>
+<hr />
+<h2>🔹 步驟 5：填入實際資料（5 分鐘）</h2>
+<h3>A. 修改 Google Sheets「基礎設置」</h3>
+<p>開啟 Sheets → 基礎設置分頁，修改 B 欄的值：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>改成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>商家名稱</td>
+<td>ONE桌遊 土城店（您的店名）</td>
+</tr>
+<tr>
+<td>客服電話</td>
+<td>0900-123-456（實際電話）</td>
+</tr>
+<tr>
+<td>客服時間</td>
+<td>週一至週日 10:00-22:00</td>
+</tr>
+<tr>
+<td>預約網址</td>
+<td>https://... （實際網址）</td>
+</tr>
+<tr>
+<td>AI 名稱</td>
+<td>小遊（可自訂）</td>
+</tr>
+<tr>
+<td>AI 個性</td>
+<td>活潑、熱情、專業</td>
+</tr>
+<tr>
+<td>回話字數限制</td>
+<td>100</td>
+</tr>
+<tr>
+<td>自訂規則</td>
+<td>可加入特殊規則</td>
+</tr>
+</tbody>
+</table>
+<h3>B. 取得您的 LINE User ID</h3>
+<ol>
+<li>用 LINE 掃描 Bot QR Code</li>
+<li>發送：「測試」</li>
+<li>開啟 Sheets → 對話紀錄分頁</li>
+<li>複製 B2 儲存格的 User ID（格式：Uxxxxxx...）</li>
+<li>貼到兩個地方：</li>
+<li>Apps Script → CONFIG.ADMIN_USERS（第 39 行）</li>
+<li>Sheets → 商家設定分頁 → F2 儲存格</li>
+</ol>
+<h3>C. 重新部署</h3>
+<p>修改 CONFIG 後必須重新部署：
+1. Apps Script → 部署 → 管理部署作業
+2. 點擊「鉛筆」編輯
+3. 版本 → 新版本
+4. 點擊「部署」</p>
+<hr />
+<h2>🔹 步驟 6：測試系統（2 分鐘）</h2>
+<h3>測試 1：AI 回應</h3>
+<ul>
+<li>發送：「請問營業時間？」</li>
+<li>✅ Bot 應該自動回覆</li>
+</ul>
+<h3>測試 2：轉真人</h3>
+<ul>
+<li>發送：「轉真人」</li>
+<li>✅ 收到確認訊息</li>
+<li>再發一則訊息</li>
+<li>✅ AI 不回應（被禁言）</li>
+</ul>
+<h3>測試 3：商家指令</h3>
+<ul>
+<li>發送：<code>/help</code></li>
+<li>✅ 收到指令列表</li>
+</ul>
+<h3>測試 4：開啟 AI</h3>
+<ul>
+<li>發送：<code>/ai開啟 YOUR_USER_ID</code>（填入您的 User ID）</li>
+<li>✅ 收到「AI 已開啟」</li>
+<li>再發一則訊息</li>
+<li>✅ AI 恢復回應</li>
+</ul>
+<hr />
+<h2>✅ 完成檢查清單</h2>
+<p>部署完成前請確認：</p>
+<p><strong>CONFIG 設定</strong>
+- ☐ CHANNEL_ACCESS_TOKEN 已填入
+- ☐ SPREADSHEET_ID 已填入
+- ☐ OPENAI_API_KEY 已填入
+- ☐ ADMIN_USERS 已填入</p>
+<p><strong>Google Sheets</strong>
+- ☐ 6 個分頁都存在
+- ☐ 基礎設置已填實際資料
+- ☐ 商家設定已填 User ID</p>
+<p><strong>LINE Bot</strong>
+- ☐ Webhook 已設定並 Verify Success
+- ☐ Auto-reply / Greeting 已關閉</p>
+<p><strong>測試</strong>
+- ☐ AI 自動回應正常
+- ☐ 轉真人功能正常
+- ☐ 商家指令正常</p>
+<hr />
+<h2>📁 檔案清單</h2>
+<table>
+<thead>
+<tr>
+<th>檔案名稱</th>
+<th>用途</th>
+<th>什麼時候看</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>【開始這裡】快速部署指南.md</td>
+<td>本檔案，部署流程總覽</td>
+<td>👈 現在</td>
+</tr>
+<tr>
+<td>【步驟1】建立Sheets分頁_複製這段.txt</td>
+<td>自動建立 6 個分頁的代碼</td>
+<td>步驟 1</td>
+</tr>
+<tr>
+<td>【步驟2】主程式代碼_複製這段.txt</td>
+<td>完整 AI 客服系統代碼</td>
+<td>步驟 2</td>
+</tr>
+<tr>
+<td>【步驟3】部署清單.md</td>
+<td>詳細設定說明</td>
+<td>需要細節時</td>
+</tr>
+<tr>
+<td>測試清單.md</td>
+<td>90+ 測試項目</td>
+<td>上線前</td>
+</tr>
+<tr>
+<td>常見問題與故障排除.md</td>
+<td>22 個問題解答</td>
+<td>遇到問題時</td>
+</tr>
+<tr>
+<td>README.md</td>
+<td>系統總覽</td>
+<td>想了解整體</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🆘 遇到問題？</h2>
+<h3>常見錯誤</h3>
+<p><strong>❌ Webhook Verify 失敗</strong>
+→ 確認 Web App URL 結尾是 <code>/exec</code>
+→ 重新部署看看</p>
+<p><strong>❌ Bot 沒回應</strong>
+→ 檢查「錯誤日誌」分頁
+→ 確認 OpenAI 有餘額</p>
+<p><strong>❌ 商家指令沒反應</strong>
+→ 確認 User ID 有加入 CONFIG.ADMIN_USERS
+→ 確認已重新部署</p>
+<p><strong>❌ AI 回答不對</strong>
+→ 修改「基礎設置」的 AI 個性
+→ 調整 CONFIG.AI_TEMPERATURE</p>
+<h3>詳細排除</h3>
+<p>請查看「常見問題與故障排除.md」（22 個問題解答）</p>
+<hr />
+<h2>🎉 部署完成！</h2>
+<p>恭喜您完成部署！🎊</p>
+<p><strong>下一步：</strong>
+1. 觀察 1-2 天 AI 回答品質
+2. 根據對話優化設定
+3. 準備推廣到其他店家</p>
+<p><strong>有任何問題隨時問我！💪</strong></p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ONE桌遊 AI 客服系統 | 版本 v3.0</p>
+    </div>
+</body>
+</html>

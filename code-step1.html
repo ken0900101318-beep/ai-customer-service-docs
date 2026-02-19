@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>步驟 1：建立 Sheets 分頁 - AI 客服系統</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.3); }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .instructions h3 {
+            color: #2196f3;
+            margin-bottom: 15px;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        .code-container {
+            position: relative;
+            margin: 30px 0;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+        .copy-btn:hover { background: #218838; }
+        .copy-btn.copied { background: #667eea; }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 60px 20px 20px 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: "SF Mono", Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 600px;
+        }
+        code {
+            color: #abb2bf;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div><h2 style="margin: 0; font-size: 20px;">🤖 AI 客服系統 - 步驟 1：建立 Sheets 分頁</h2></div>
+            <a href="home.html" class="back-btn">← 返回首頁</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h1>步驟 1：建立 Sheets 分頁</h1>
+            
+            <div class="instructions">
+                <h3>📋 操作說明：</h3>
+                <ol>
+                    <li>開啟 Google Sheets，建立新試算表「AI客服系統 - ONE桌遊」</li>
+<li>點擊「擴充功能」→「Apps Script」</li>
+<li>把下面代碼<strong>全選複製</strong>，貼到 Apps Script</li>
+<li>點擊「執行」→ 選擇 <code>createAllSheets</code></li>
+<li>授權存取（第一次會要求）</li>
+<li>等待完成（約 5 秒）</li>
+<li>回到 Sheets，會看到 6 個新分頁 ✅</li>
+                </ol>
+            </div>
+            
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode()">📋 複製代碼</button>
+                <pre id="codeBlock"><code>// ==================== 步驟 1：建立 Google Sheets 分頁 ====================
+// 
+// 操作說明：
+// 1. 開啟 Google Sheets，建立新試算表「AI客服系統 - ONE桌遊」
+// 2. 點擊「擴充功能」→「Apps Script」
+// 3. 把下面整段代碼複製貼上
+// 4. 點擊「執行」→ 選擇 createAllSheets
+// 5. 授權存取（第一次會要求）
+// 6. 等待完成（約 5 秒）
+// 7. 回到 Sheets，會看到 6 個新分頁
+//
+// ========================================================================
+
+function createAllSheets() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // 刪除預設的 Sheet1
+  const defaultSheet = ss.getSheetByName(&#x27;Sheet1&#x27;);
+  if (defaultSheet) {
+    try {
+      ss.deleteSheet(defaultSheet);
+    } catch (e) {
+      // 如果只剩一個分頁，無法刪除，忽略錯誤
+    }
+  }
+  
+  // 1. 基礎設置
+  let basicSheet = ss.getSheetByName(&#x27;基礎設置&#x27;);
+  if (!basicSheet) {
+    basicSheet = ss.insertSheet(&#x27;基礎設置&#x27;);
+    basicSheet.appendRow([&#x27;設定項目&#x27;, &#x27;設定值&#x27;]);
+    basicSheet.appendRow([&#x27;商家名稱&#x27;, &#x27;ONE桌遊 土城店&#x27;]);
+    basicSheet.appendRow([&#x27;客服電話&#x27;, &#x27;0900-123-456&#x27;]);
+    basicSheet.appendRow([&#x27;客服時間&#x27;, &#x27;週一至週日 10:00-22:00&#x27;]);
+    basicSheet.appendRow([&#x27;預約網址&#x27;, &#x27;https://booking.example.com&#x27;]);
+    basicSheet.appendRow([&#x27;AI 名稱&#x27;, &#x27;小遊&#x27;]);
+    basicSheet.appendRow([&#x27;AI 個性&#x27;, &#x27;活潑、熱情、專業&#x27;]);
+    basicSheet.appendRow([&#x27;回話字數限制&#x27;, &#x27;100&#x27;]);
+    basicSheet.appendRow([&#x27;自訂規則&#x27;, &#x27;這是無人自助店，絕對不可提及現場人員&#x27;]);
+    basicSheet.getRange(&#x27;A1:B1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#4285f4&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    basicSheet.setColumnWidth(1, 150);
+    basicSheet.setColumnWidth(2, 400);
+  }
+  
+  // 2. 會員狀態
+  let statusSheet = ss.getSheetByName(&#x27;會員狀態&#x27;);
+  if (!statusSheet) {
+    statusSheet = ss.insertSheet(&#x27;會員狀態&#x27;);
+    statusSheet.appendRow([&#x27;User ID&#x27;, &#x27;AI 開啟&#x27;, &#x27;禁言到期時間&#x27;, &#x27;建立時間&#x27;]);
+    statusSheet.getRange(&#x27;A1:D1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#4285f4&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    statusSheet.setFrozenRows(1);
+    statusSheet.setColumnWidth(1, 200);
+    statusSheet.setColumnWidth(2, 80);
+    statusSheet.setColumnWidth(3, 150);
+    statusSheet.setColumnWidth(4, 150);
+  }
+  
+  // 3. 對話紀錄
+  let logSheet = ss.getSheetByName(&#x27;對話紀錄&#x27;);
+  if (!logSheet) {
+    logSheet = ss.insertSheet(&#x27;對話紀錄&#x27;);
+    logSheet.appendRow([&#x27;時間&#x27;, &#x27;User ID&#x27;, &#x27;客人訊息&#x27;, &#x27;AI 回覆&#x27;, &#x27;類型&#x27;]);
+    logSheet.getRange(&#x27;A1:E1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#34a853&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    logSheet.setFrozenRows(1);
+    logSheet.setColumnWidth(1, 150);
+    logSheet.setColumnWidth(2, 200);
+    logSheet.setColumnWidth(3, 300);
+    logSheet.setColumnWidth(4, 300);
+    logSheet.setColumnWidth(5, 120);
+  }
+  
+  // 4. 商家設定
+  let merchantSheet = ss.getSheetByName(&#x27;商家設定&#x27;);
+  if (!merchantSheet) {
+    merchantSheet = ss.insertSheet(&#x27;商家設定&#x27;);
+    merchantSheet.appendRow([&#x27;商家 ID&#x27;, &#x27;商家名稱&#x27;, &#x27;負責人&#x27;, &#x27;電話&#x27;, &#x27;Email&#x27;, &#x27;LINE User ID&#x27;]);
+    merchantSheet.appendRow([&#x27;M001&#x27;, &#x27;Ken 的商家&#x27;, &#x27;Ken&#x27;, &#x27;0900-000-000&#x27;, &#x27;ken@example.com&#x27;, &#x27;待填入&#x27;]);
+    merchantSheet.getRange(&#x27;A1:F1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#fbbc04&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    merchantSheet.setFrozenRows(1);
+    merchantSheet.setColumnWidth(6, 200);
+  }
+  
+  // 5. 商家操作記錄
+  let actionSheet = ss.getSheetByName(&#x27;商家操作記錄&#x27;);
+  if (!actionSheet) {
+    actionSheet = ss.insertSheet(&#x27;商家操作記錄&#x27;);
+    actionSheet.appendRow([&#x27;時間&#x27;, &#x27;User ID&#x27;, &#x27;指令&#x27;, &#x27;結果&#x27;]);
+    actionSheet.getRange(&#x27;A1:D1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#ea4335&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    actionSheet.setFrozenRows(1);
+  }
+  
+  // 6. 錯誤日誌
+  let errorSheet = ss.getSheetByName(&#x27;錯誤日誌&#x27;);
+  if (!errorSheet) {
+    errorSheet = ss.insertSheet(&#x27;錯誤日誌&#x27;);
+    errorSheet.appendRow([&#x27;時間&#x27;, &#x27;函數&#x27;, &#x27;錯誤訊息&#x27;, &#x27;詳細資訊&#x27;]);
+    errorSheet.getRange(&#x27;A1:D1&#x27;).setFontWeight(&#x27;bold&#x27;).setBackground(&#x27;#ea4335&#x27;).setFontColor(&#x27;#ffffff&#x27;);
+    errorSheet.setFrozenRows(1);
+  }
+  
+  SpreadsheetApp.getUi().alert(&#x27;✅ 所有分頁建立完成！\n\n請填入「基礎設置」的實際資料，然後進行步驟 2。&#x27;);
+}
+</code></pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode() {
+            const codeBlock = document.getElementById('codeBlock');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeBlock.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製！';
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.textContent = '📋 複製代碼';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
