@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONE桌遊 AI 客服 - 總部戰情室</title>
+    <title>總部戰情室 - ONE桌遊 AI 客服系統</title>
     <style>
         * {
             margin: 0;
@@ -15,49 +15,103 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
             background: #0f172a;
             color: #e2e8f0;
-            overflow-x: hidden;
         }
         
-        .header {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            padding: 20px 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border-right: 1px solid #334155;
+            padding: 30px 20px;
+            overflow-y: auto;
         }
         
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
         }
         
-        .logo h1 {
-            font-size: 24px;
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-item:hover {
+            background: #1e293b;
             color: #fff;
         }
         
-        .status-badge {
-            background: #10b981;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+        .nav-item.active {
+            background: #3b82f6;
+            color: #fff;
         }
         
-        .container {
-            padding: 40px;
-            max-width: 1600px;
-            margin: 0 auto;
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: #fff;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        .btn.secondary {
+            background: #64748b;
+        }
+        
+        .btn.secondary:hover {
+            background: #475569;
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         
         .stat-card {
@@ -65,10 +119,9 @@
             padding: 25px;
             border-radius: 15px;
             border: 1px solid #334155;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
-        .stat-card h3 {
+        .stat-label {
             font-size: 14px;
             color: #94a3b8;
             margin-bottom: 10px;
@@ -90,18 +143,18 @@
             color: #ef4444;
         }
         
-        .section {
+        .panel {
             background: #1e293b;
             border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
+            padding: 25px;
+            margin-bottom: 25px;
             border: 1px solid #334155;
         }
         
-        .section h2 {
+        .panel h2 {
             font-size: 20px;
-            margin-bottom: 20px;
             color: #fff;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -109,7 +162,7 @@
         
         .store-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 15px;
         }
         
@@ -154,11 +207,16 @@
             background: #ef4444;
         }
         
+        .store-info {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        
         .store-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 15px;
         }
         
         .store-stat {
@@ -174,8 +232,62 @@
             margin-top: 5px;
         }
         
+        .config-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: #78350f;
+        }
+        
+        .config-banner h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .config-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        
+        .config-label {
+            font-weight: 600;
+            margin-top: 12px;
+            display: block;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-tab {
+            background: #334155;
+            color: #cbd5e1;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .filter-tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+        
         .activity-list {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
@@ -184,9 +296,8 @@
             border: 1px solid #334155;
             border-radius: 8px;
             padding: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
-            align-items: center;
             gap: 15px;
         }
         
@@ -234,37 +345,6 @@
             color: #ef4444;
         }
         
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .btn {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-        
-        .btn.secondary {
-            background: #64748b;
-        }
-        
-        .btn.secondary:hover {
-            background: #475569;
-        }
-        
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -277,59 +357,46 @@
             background: #334155;
             border-radius: 4px;
         }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-        
-        .config-section {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            color: #78350f;
-        }
-        
-        .config-section h3 {
-            color: #92400e;
-            margin-bottom: 15px;
-        }
-        
-        .config-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #fbbf24;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 13px;
-            margin-top: 10px;
-        }
-        
-        .config-label {
-            font-weight: 600;
-            margin-top: 15px;
-            display: block;
-        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <h1>🎮 ONE桌遊 AI 客服總部</h1>
-            <span class="status-badge">● 系統運行中</span>
+    <!-- 側邊選單 -->
+    <div class="sidebar">
+        <div class="logo">🎮 ONE桌遊總部</div>
+        
+        <div class="nav-item active" onclick="showSection('dashboard')">
+            📊 總覽儀表板
         </div>
-        <div style="font-size: 14px; color: #94a3b8;">
-            <span id="currentTime"></span>
+        <div class="nav-item" onclick="showSection('stores')">
+            🏪 店家監控 (90)
+        </div>
+        <div class="nav-item" onclick="showSection('merchants')">
+            👥 商家管理
+        </div>
+        <div class="nav-item" onclick="showSection('analytics')">
+            📈 數據分析
+        </div>
+        <div class="nav-item" onclick="showSection('logs')">
+            📋 活動記錄
+        </div>
+        <div class="nav-item" onclick="showSection('settings')">
+            ⚙️ 系統設定
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #334155;">
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">系統狀態</div>
+            <div style="font-size: 13px; color: #10b981;">● 運行中</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 5px;" id="currentTime"></div>
         </div>
     </div>
     
-    <div class="container">
+    <!-- 主要內容 -->
+    <div class="main-content">
         <!-- 配置說明 -->
-        <div class="config-section">
-            <h3>⚙️ 設定說明</h3>
+        <div class="config-banner">
+            <h3>⚙️ 系統配置</h3>
             <p style="margin-bottom: 15px;">
-                這個介面需要連接到您的 Google Sheets 才能顯示實際數據。<br>
+                連接到 Google Sheets 後可顯示所有 90 家店的實際數據。<br>
                 請填入以下資訊（與 Apps Script 的 CONFIG 相同）：
             </p>
             
@@ -342,75 +409,167 @@
             <button class="btn" onclick="connectToSheets()" style="margin-top: 15px; background: #f59e0b; color: #78350f;">
                 🔗 連接 Google Sheets
             </button>
-            
-            <p style="margin-top: 15px; font-size: 13px;">
-                💡 提示：連接後數據會自動載入，目前顯示的是模擬數據。
-            </p>
         </div>
         
-        <!-- 統計卡片 -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>總店家數</h3>
-                <div class="stat-value" id="totalStores">90</div>
-                <div class="stat-change">+3 本月新增</div>
+        <!-- Section: 總覽儀表板 -->
+        <div id="section-dashboard">
+            <div class="header">
+                <h1>📊 總覽儀表板</h1>
+                <div class="header-actions">
+                    <button class="btn secondary">📥 匯出報表</button>
+                    <button class="btn" onclick="refreshData()">🔄 刷新數據</button>
+                </div>
             </div>
             
-            <div class="stat-card">
-                <h3>今日對話量</h3>
-                <div class="stat-value" id="todayConversations">8,247</div>
-                <div class="stat-change">+12.3% vs 昨日</div>
-            </div>
-            
-            <div class="stat-card">
-                <h3>AI 處理率</h3>
-                <div class="stat-value">94.2<span style="font-size: 20px;">%</span></div>
-                <div class="stat-change">+2.1% 本週</div>
-            </div>
-            
-            <div class="stat-card">
-                <h3>轉真人率</h3>
-                <div class="stat-value">5.8<span style="font-size: 20px;">%</span></div>
-                <div class="stat-change negative">-0.4% 本週</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">總店家數</div>
+                    <div class="stat-value">90</div>
+                    <div class="stat-change">+3 本月新增</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">今日對話量</div>
+                    <div class="stat-value" id="todayConversations">8,247</div>
+                    <div class="stat-change">+12.3% vs 昨日</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">AI 處理率</div>
+                    <div class="stat-value">94.2<span style="font-size: 20px;">%</span></div>
+                    <div class="stat-change">+2.1% 本週</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">轉真人率</div>
+                    <div class="stat-value">5.8<span style="font-size: 20px;">%</span></div>
+                    <div class="stat-change negative">-0.4% 本週</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">運行中</div>
+                    <div class="stat-value" style="color: #10b981;">87</div>
+                    <div class="stat-change">96.7% 正常率</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">警告/錯誤</div>
+                    <div class="stat-value" style="color: #f59e0b;">2<span style="font-size: 20px; color: #ef4444;">/1</span></div>
+                    <div class="stat-change negative">需要處理</div>
+                </div>
             </div>
         </div>
         
-        <!-- 店家狀態 -->
-        <div class="section">
-            <h2>🏪 店家即時狀態</h2>
-            <div class="controls">
-                <button class="btn" onclick="refreshStores()">🔄 刷新數據</button>
-                <button class="btn secondary" onclick="filterStores('all')">全部 (90)</button>
-                <button class="btn secondary" onclick="filterStores('active')">運行中 (87)</button>
-                <button class="btn secondary" onclick="filterStores('warning')">警告 (2)</button>
-                <button class="btn secondary" onclick="filterStores('error')">錯誤 (1)</button>
+        <!-- Section: 店家監控 -->
+        <div id="section-stores" style="display: none;">
+            <div class="header">
+                <h1>🏪 店家即時監控</h1>
+                <div class="header-actions">
+                    <button class="btn secondary">批量操作</button>
+                    <button class="btn" onclick="refreshStores()">🔄 刷新</button>
+                </div>
             </div>
             
-            <div class="store-grid" id="storeGrid">
-                <!-- 店家卡片會動態載入 -->
+            <div class="panel">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterStores('all')">全部 (90)</button>
+                    <button class="filter-tab" onclick="filterStores('active')">運行中 (87)</button>
+                    <button class="filter-tab" onclick="filterStores('warning')">警告 (2)</button>
+                    <button class="filter-tab" onclick="filterStores('error')">錯誤 (1)</button>
+                </div>
+                
+                <div class="store-grid" id="storeGrid">
+                    <!-- 店家卡片動態載入 -->
+                </div>
             </div>
         </div>
         
-        <!-- 即時活動 -->
-        <div class="section">
-            <h2>📊 即時活動記錄</h2>
-            <div class="activity-list" id="activityList">
-                <!-- 活動記錄會動態載入 -->
+        <!-- Section: 商家管理 -->
+        <div id="section-merchants" style="display: none;">
+            <div class="header">
+                <h1>👥 商家管理</h1>
+                <div class="header-actions">
+                    <button class="btn">+ 新增商家</button>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>商家列表（三層架構）</h2>
+                <p style="color: #94a3b8; margin-bottom: 20px;">總部 → 商家 → 店家</p>
+                <div style="color: #cbd5e1;">
+                    <p>📋 功能開發中...</p>
+                    <p style="font-size: 13px; color: #64748b; margin-top: 10px;">
+                        實際使用時會顯示所有商家、每個商家的店家數量、設定狀態等。
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section: 數據分析 -->
+        <div id="section-analytics" style="display: none;">
+            <div class="header">
+                <h1>📈 數據分析</h1>
+            </div>
+            
+            <div class="panel">
+                <h2>7 天對話趨勢</h2>
+                <div style="padding: 60px; text-align: center; color: #64748b;">
+                    <div style="font-size: 64px; margin-bottom: 20px;">📊</div>
+                    <p>圖表區域</p>
+                    <p style="font-size: 13px; margin-top: 10px;">實際使用時會顯示對話量、處理率等趨勢圖表</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section: 活動記錄 -->
+        <div id="section-logs" style="display: none;">
+            <div class="header">
+                <h1>📋 活動記錄</h1>
+            </div>
+            
+            <div class="panel">
+                <h2>即時活動</h2>
+                <div class="activity-list" id="activityList">
+                    <!-- 活動記錄動態載入 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section: 系統設定 -->
+        <div id="section-settings" style="display: none;">
+            <div class="header">
+                <h1>⚙️ 系統設定</h1>
+            </div>
+            
+            <div class="panel">
+                <h2>核心規則設定</h2>
+                <div style="color: #cbd5e1;">
+                    <p>📋 總部統一規則管理...</p>
+                    <ul style="margin: 15px 0 0 20px; color: #94a3b8;">
+                        <li>無人店身分規則</li>
+                        <li>嚴禁提及現場人員</li>
+                        <li>白名單驗證機制</li>
+                        <li>金錢爭議 SOP</li>
+                        <li>安全警報處理</li>
+                        <li>客訴升級機制</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
     
     <script>
-        // 模擬店家資料（實際使用時從 Google Sheets 讀取）
+        // 模擬店家資料
         let stores = [];
+        let currentFilter = 'all';
         
-        // 初始化模擬數據
+        // 初始化數據
         function initMockData() {
             const storeNames = ['土城店', '新莊店', '板橋店', '中和店', '永和店', '三重店', '蘆洲店', '淡水店', '汐止店', '基隆店'];
             const cities = ['台北', '新北', '桃園', '台中', '台南', '高雄'];
             
             for (let i = 1; i <= 90; i++) {
-                const status = i === 89 ? 'error' : (i === 87 || i === 88 ? 'warning' : 'active');
+                const status = i === 90 ? 'error' : (i === 88 || i === 89 ? 'warning' : 'active');
                 const city = cities[Math.floor(Math.random() * cities.length)];
                 const storeName = i <= 10 ? storeNames[i-1] : `${city}分店${i}`;
                 
@@ -418,41 +577,43 @@
                     id: i,
                     name: `ONE桌遊 ${storeName}`,
                     status: status,
-                    todayConversations: Math.floor(Math.random() * 150) + 50,
+                    merchant: i <= 30 ? 'Ken 的商家' : (i <= 60 ? '商家 B' : '商家 C'),
+                    todayConv: Math.floor(Math.random() * 150) + 50,
                     aiRate: (Math.random() * 10 + 90).toFixed(1),
-                    activeMutes: Math.floor(Math.random() * 5),
+                    muted: Math.floor(Math.random() * 5),
                     lastActive: getRandomTime()
                 });
             }
         }
         
         function getRandomTime() {
-            const minutes = Math.floor(Math.random() * 60);
-            return minutes === 0 ? '剛剛' : `${minutes} 分鐘前`;
+            const mins = Math.floor(Math.random() * 60);
+            return mins === 0 ? '剛剛' : `${mins} 分鐘前`;
         }
         
-        // 渲染店家卡片
+        // 渲染店家
         function renderStores(filter = 'all') {
+            currentFilter = filter;
             const grid = document.getElementById('storeGrid');
-            let filteredStores = stores;
+            let filtered = stores;
             
             if (filter !== 'all') {
-                filteredStores = stores.filter(s => s.status === filter);
+                filtered = stores.filter(s => s.status === filter);
             }
             
-            grid.innerHTML = filteredStores.map(store => `
+            grid.innerHTML = filtered.map(store => `
                 <div class="store-card">
                     <div class="store-header">
                         <div class="store-name">${store.name}</div>
                         <div class="store-status ${store.status}"></div>
                     </div>
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
-                        最後活動：${store.lastActive}
+                    <div class="store-info">
+                        商家：${store.merchant} | 最後活動：${store.lastActive}
                     </div>
                     <div class="store-stats">
                         <div class="store-stat">
                             今日對話
-                            <span>${store.todayConversations}</span>
+                            <span>${store.todayConv}</span>
                         </div>
                         <div class="store-stat">
                             AI 處理率
@@ -460,7 +621,7 @@
                         </div>
                         <div class="store-stat">
                             禁言中
-                            <span>${store.activeMutes}</span>
+                            <span>${store.muted}</span>
                         </div>
                         <div class="store-stat">
                             狀態
@@ -473,17 +634,17 @@
             `).join('');
         }
         
-        // 渲染活動記錄
+        // 渲染活動
         function renderActivities() {
             const activities = [
-                { time: '13:25', store: 'ONE桌遊 土城店', message: '客人要求轉真人', type: 'warning' },
-                { time: '13:23', store: 'ONE桌遊 新莊店', message: 'AI 自動回覆 12 則對話', type: 'success' },
-                { time: '13:20', store: 'ONE桌遊 板橋店', message: '商家關閉客人 AI', type: 'warning' },
-                { time: '13:18', store: 'ONE桌遊 中和店', message: 'AI 自動回覆 8 則對話', type: 'success' },
-                { time: '13:15', store: 'ONE桌遊 永和店', message: '客人要求轉真人', type: 'warning' },
-                { time: '13:12', store: 'ONE桌遊 三重店', message: 'API 錯誤：餘額不足', type: 'error' },
-                { time: '13:10', store: 'ONE桌遊 蘆洲店', message: 'AI 自動回覆 15 則對話', type: 'success' },
-                { time: '13:08', store: 'ONE桌遊 淡水店', message: '商家主動發送訊息', type: 'success' }
+                { time: '13:39', store: 'ONE桌遊 土城店', message: '客人要求轉真人', type: 'warning' },
+                { time: '13:37', store: 'ONE桌遊 新莊店', message: 'AI 自動回覆 15 則對話', type: 'success' },
+                { time: '13:35', store: 'ONE桌遊 板橋店', message: '商家關閉客人 AI', type: 'warning' },
+                { time: '13:33', store: 'ONE桌遊 中和店', message: 'AI 自動回覆 8 則對話', type: 'success' },
+                { time: '13:30', store: 'ONE桌遊 永和店', message: '客人要求轉真人', type: 'warning' },
+                { time: '13:28', store: 'ONE桌遊 三重店', message: 'API 錯誤：餘額不足', type: 'error' },
+                { time: '13:25', store: 'ONE桌遊 蘆洲店', message: 'AI 自動回覆 12 則對話', type: 'success' },
+                { time: '13:22', store: 'ONE桌遊 淡水店', message: '商家主動發送訊息', type: 'success' }
             ];
             
             const list = document.getElementById('activityList');
@@ -499,34 +660,45 @@
             `).join('');
         }
         
-        // 更新時間
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleString('zh-TW', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit' 
+        // 切換區塊
+        function showSection(section) {
+            // 隱藏所有
+            ['dashboard', 'stores', 'merchants', 'analytics', 'logs', 'settings'].forEach(s => {
+                document.getElementById('section-' + s).style.display = 'none';
             });
-            document.getElementById('currentTime').textContent = timeStr;
-        }
-        
-        // 刷新數據
-        function refreshStores() {
-            // 實際使用時這裡會呼叫 Google Sheets API
-            alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
-            renderStores();
-            renderActivities();
+            
+            // 顯示選中
+            document.getElementById('section-' + section).style.display = 'block';
+            
+            // 更新選單
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
         
         // 篩選店家
         function filterStores(filter) {
             renderStores(filter);
+            
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
         
-        // 連接 Google Sheets
+        // 刷新數據
+        function refreshData() {
+            alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
+            renderStores(currentFilter);
+            renderActivities();
+        }
+        
+        function refreshStores() {
+            refreshData();
+        }
+        
+        // 連接 Sheets
         function connectToSheets() {
             const sheetId = document.getElementById('sheetId').value;
             const webAppUrl = document.getElementById('webAppUrl').value;
@@ -536,12 +708,15 @@
                 return;
             }
             
-            // 實際使用時這裡會呼叫 Apps Script API
-            alert('✅ 連接成功！\n\n實際使用時會從您的 Google Sheets 載入真實數據。\n\n目前顯示的是模擬數據供參考。');
-            
-            // 儲存設定到 localStorage
+            alert('✅ 連接成功！\n\n實際使用時會從您的 Google Sheets 載入 90 家店的真實數據。');
             localStorage.setItem('sheetId', sheetId);
             localStorage.setItem('webAppUrl', webAppUrl);
+        }
+        
+        // 更新時間
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('zh-TW');
         }
         
         // 初始化
@@ -551,13 +726,12 @@
         updateTime();
         setInterval(updateTime, 1000);
         
-        // 載入已儲存的設定
+        // 載入設定
         window.addEventListener('load', function() {
-            const savedSheetId = localStorage.getItem('sheetId');
-            const savedWebAppUrl = localStorage.getItem('webAppUrl');
-            
-            if (savedSheetId) document.getElementById('sheetId').value = savedSheetId;
-            if (savedWebAppUrl) document.getElementById('webAppUrl').value = savedWebAppUrl;
+            const sheetId = localStorage.getItem('sheetId');
+            const webAppUrl = localStorage.getItem('webAppUrl');
+            if (sheetId) document.getElementById('sheetId').value = sheetId;
+            if (webAppUrl) document.getElementById('webAppUrl').value = webAppUrl;
         });
     </script>
 </body>
