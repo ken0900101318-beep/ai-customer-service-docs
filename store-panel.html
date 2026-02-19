@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE桌遊 AI 客服 - 店家管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+        
+        .tab:hover {
+            color: #3b82f6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .panel h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .config-section {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .config-section h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+        
+        .config-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        .config-label {
+            font-weight: 600;
+            margin-top: 15px;
+            display: block;
+            color: #1e40af;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .stat-card h3 {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .customer-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .customer-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .customer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .customer-id {
+            font-family: monospace;
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .ai-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .ai-status.enabled {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .ai-status.disabled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .customer-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        .btn.danger {
+            background: #ef4444;
+        }
+        
+        .btn.danger:hover {
+            background: #dc2626;
+        }
+        
+        .btn.success {
+            background: #10b981;
+        }
+        
+        .btn.success:hover {
+            background: #059669;
+        }
+        
+        .btn.secondary {
+            background: #64748b;
+        }
+        
+        .btn.secondary:hover {
+            background: #475569;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .conversation-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .conversation-time {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .message.user {
+            background: #eff6ff;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .message.ai {
+            background: #f0fdf4;
+            border-left: 3px solid #10b981;
+        }
+        
+        .message-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .message-text {
+            font-size: 14px;
+            color: #1e293b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+            font-size: 13px;
+        }
+        
+        td {
+            font-size: 14px;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏪 ONE桌遊 AI 客服管理</h1>
+        <p>店家：<span id="storeName">土城店</span></p>
+    </div>
+    
+    <div class="container">
+        <!-- 配置說明 -->
+        <div class="config-section">
+            <h3>⚙️ 設定說明</h3>
+            <p style="margin-bottom: 15px;">
+                這個介面需要連接到您的 Google Sheets 才能顯示實際數據。<br>
+                請填入以下資訊（與 Apps Script 的 CONFIG 相同）：
+            </p>
+            
+            <label class="config-label">📊 Google Sheets ID：</label>
+            <input type="text" id="sheetId" class="config-input" placeholder="從 Sheets 網址複製 ID">
+            
+            <label class="config-label">🔑 Apps Script Web App URL：</label>
+            <input type="text" id="webAppUrl" class="config-input" placeholder="https://script.google.com/macros/s/.../exec">
+            
+            <button class="btn" onclick="connectToSheets()" style="margin-top: 15px;">
+                🔗 連接 Google Sheets
+            </button>
+            
+            <p style="margin-top: 15px; font-size: 13px; color: #64748b;">
+                💡 提示：連接後數據會自動載入，目前顯示的是模擬數據。
+            </p>
+        </div>
+        
+        <!-- 分頁標籤 -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">📊 總覽</button>
+            <button class="tab" onclick="switchTab('conversations')">💬 對話記錄</button>
+            <button class="tab" onclick="switchTab('customers')">👥 客人管理</button>
+            <button class="tab" onclick="switchTab('settings')">⚙️ 基礎設定</button>
+            <button class="tab" onclick="switchTab('stats')">📈 數據分析</button>
+            <button class="tab" onclick="switchTab('quick')">⚡ 快速操作</button>
+        </div>
+        
+        <!-- Tab 1: 總覽 -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>今日對話量</h3>
+                    <div class="stat-value" id="todayTotal">127</div>
+                </div>
+                <div class="stat-card">
+                    <h3>AI 處理率</h3>
+                    <div class="stat-value">92<span style="font-size: 18px;">%</span></div>
+                </div>
+                <div class="stat-card">
+                    <h3>禁言中客人</h3>
+                    <div class="stat-value" id="mutedCount">3</div>
+                </div>
+                <div class="stat-card">
+                    <h3>轉真人次數</h3>
+                    <div class="stat-value" id="transferCount">11</div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>📊 系統狀態</h2>
+                <table>
+                    <tr>
+                        <th>項目</th>
+                        <th>狀態</th>
+                        <th>詳情</th>
+                    </tr>
+                    <tr>
+                        <td>AI 服務</td>
+                        <td><span class="ai-status enabled">● 運行中</span></td>
+                        <td>OpenAI GPT-4 Turbo</td>
+                    </tr>
+                    <tr>
+                        <td>LINE Bot</td>
+                        <td><span class="ai-status enabled">● 已連接</span></td>
+                        <td>Webhook 正常</td>
+                    </tr>
+                    <tr>
+                        <td>資料同步</td>
+                        <td><span class="ai-status enabled">● 同步中</span></td>
+                        <td>最後更新：2 分鐘前</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 2: 對話記錄 -->
+        <div id="tab-conversations" class="tab-content">
+            <div class="panel">
+                <h2>💬 最近對話記錄</h2>
+                <div style="max-height: 600px; overflow-y: auto;">
+                    <div class="conversation-item">
+                        <div class="conversation-time">2026-02-19 13:15:32</div>
+                        <div class="message user">
+                            <div class="message-label">客人</div>
+                            <div class="message-text">請問今天有空位嗎？</div>
+                        </div>
+                        <div class="message ai">
+                            <div class="message-label">AI 回覆</div>
+                            <div class="message-text">您好！今天還有空位喔～請問您想預約幾點呢？我們營業時間是 10:00-22:00 😊</div>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-item">
+                        <div class="conversation-time">2026-02-19 13:10:15</div>
+                        <div class="message user">
+                            <div class="message-label">客人</div>
+                            <div class="message-text">WiFi 密碼是什麼？</div>
+                        </div>
+                        <div class="message ai">
+                            <div class="message-label">AI 回覆</div>
+                            <div class="message-text">WiFi 名稱：ONE_Guest<br>密碼：12345678<br><br>祝您遊玩愉快！🎮</div>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-item">
+                        <div class="conversation-time">2026-02-19 13:05:42</div>
+                        <div class="message user">
+                            <div class="message-label">客人</div>
+                            <div class="message-text">轉真人</div>
+                        </div>
+                        <div class="message ai">
+                            <div class="message-label">系統</div>
+                            <div class="message-text">✅ 已為您轉接真人客服<br>AI 小幫手將暫停 10 分鐘<br>客服人員會盡快回覆您 🙋</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 3: 客人管理 -->
+        <div id="tab-customers" class="tab-content">
+            <div class="panel">
+                <h2>👥 客人 AI 狀態管理</h2>
+                <div class="customer-list" id="customerList">
+                    <!-- 客人列表會動態載入 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 4: 基礎設定 -->
+        <div id="tab-settings" class="tab-content">
+            <div class="panel">
+                <h2>⚙️ 基礎設定</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">商家名稱</label>
+                    <input type="text" class="form-input" value="ONE桌遊 土城店" id="merchantName">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">客服電話</label>
+                    <input type="text" class="form-input" value="0900-123-456" id="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">客服時間</label>
+                    <input type="text" class="form-input" value="週一至週日 10:00-22:00" id="serviceHours">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">預約網址</label>
+                    <input type="text" class="form-input" value="https://booking.example.com" id="bookingUrl">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">AI 名稱</label>
+                    <input type="text" class="form-input" value="小遊" id="aiName">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">AI 個性</label>
+                    <input type="text" class="form-input" value="活潑、熱情、專業" id="aiPersonality">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">回話字數限制</label>
+                    <input type="number" class="form-input" value="100" id="maxWords">
+                </div>
+                
+                <button class="btn" onclick="saveSettings()">💾 儲存設定</button>
+            </div>
+        </div>
+        
+        <!-- Tab 5: 數據分析 -->
+        <div id="tab-stats" class="tab-content">
+            <div class="panel">
+                <h2>📈 7 天對話趨勢</h2>
+                <div style="padding: 40px; text-align: center; color: #64748b;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">📊</div>
+                    <p>圖表區域</p>
+                    <p style="font-size: 13px; margin-top: 10px;">實際使用時會顯示對話量、轉真人率等數據圖表</p>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>🔝 熱門問題 Top 10</h2>
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>問題類型</th>
+                        <th>次數</th>
+                        <th>占比</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>營業時間</td>
+                        <td>45</td>
+                        <td>35.4%</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>價格查詢</td>
+                        <td>32</td>
+                        <td>25.2%</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>WiFi 密碼</td>
+                        <td>18</td>
+                        <td>14.2%</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>預約查詢</td>
+                        <td>15</td>
+                        <td>11.8%</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>設備使用</td>
+                        <td>12</td>
+                        <td>9.4%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab 6: 快速操作 -->
+        <div id="tab-quick" class="tab-content">
+            <div class="panel">
+                <h2>⚡ 快速操作</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <h3 style="margin-bottom: 15px; font-size: 16px;">📊 查看今日統計</h3>
+                        <button class="btn" onclick="alert('今日對話：127 則\nAI 處理：117 則 (92%)\n轉真人：11 次 (8%)')">查看詳情</button>
+                    </div>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <h3 style="margin-bottom: 15px; font-size: 16px;">🔄 刷新數據</h3>
+                        <button class="btn" onclick="refreshData()">立即刷新</button>
+                    </div>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <h3 style="margin-bottom: 15px; font-size: 16px;">📥 匯出對話記錄</h3>
+                        <button class="btn secondary" onclick="alert('功能開發中...')">匯出 CSV</button>
+                    </div>
+                    
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <h3 style="margin-bottom: 15px; font-size: 16px;">🔔 測試通知</h3>
+                        <button class="btn secondary" onclick="alert('測試 LINE 通知已發送！')">發送測試</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 模擬客人資料
+        let customers = [
+            { id: 'Uabc123...', lastMessage: '請問價格？', aiEnabled: true, mutedUntil: null, lastActive: '2 分鐘前' },
+            { id: 'Udef456...', lastMessage: '轉真人', aiEnabled: false, mutedUntil: '13:35', lastActive: '5 分鐘前' },
+            { id: 'Ughi789...', lastMessage: 'WiFi密碼？', aiEnabled: true, mutedUntil: null, lastActive: '10 分鐘前' },
+            { id: 'Ujkl012...', lastMessage: '營業時間', aiEnabled: false, mutedUntil: '13:40', lastActive: '15 分鐘前' },
+            { id: 'Umno345...', lastMessage: '有空位嗎', aiEnabled: true, mutedUntil: null, lastActive: '20 分鐘前' }
+        ];
+        
+        // 渲染客人列表
+        function renderCustomers() {
+            const list = document.getElementById('customerList');
+            list.innerHTML = customers.map(customer => `
+                <div class="customer-item">
+                    <div class="customer-header">
+                        <div>
+                            <div class="customer-id">${customer.id}</div>
+                            <div style="margin-top: 5px; font-size: 13px; color: #64748b;">
+                                最後訊息：${customer.lastMessage}
+                            </div>
+                        </div>
+                        <span class="ai-status ${customer.aiEnabled ? 'enabled' : 'disabled'}">
+                            ${customer.aiEnabled ? '● AI 開啟' : '● AI 關閉'}
+                        </span>
+                    </div>
+                    <div style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">
+                        最後活動：${customer.lastActive}
+                        ${!customer.aiEnabled && customer.mutedUntil ? ` | 到期時間：${customer.mutedUntil}` : ''}
+                    </div>
+                    <div class="customer-actions">
+                        ${customer.aiEnabled ? 
+                            `<button class="btn danger" onclick="muteCustomer('${customer.id}')">關閉 AI</button>` : 
+                            `<button class="btn success" onclick="enableCustomer('${customer.id}')">開啟 AI</button>`
+                        }
+                        <button class="btn secondary" onclick="sendMessage('${customer.id}')">主動發送</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 切換分頁
+        function switchTab(tabName) {
+            // 隱藏所有內容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 移除所有活動標籤
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 顯示選中的內容
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // 設定活動標籤
+            event.target.classList.add('active');
+        }
+        
+        // 關閉客人 AI
+        function muteCustomer(userId) {
+            const minutes = prompt('關閉 AI 幾分鐘？（預設 10）', '10');
+            if (minutes) {
+                alert(`✅ 已關閉 ${userId} 的 AI ${minutes} 分鐘`);
+                // 實際使用時會呼叫 Apps Script API
+                refreshData();
+            }
+        }
+        
+        // 開啟客人 AI
+        function enableCustomer(userId) {
+            alert(`✅ 已開啟 ${userId} 的 AI`);
+            // 實際使用時會呼叫 Apps Script API
+            refreshData();
+        }
+        
+        // 主動發送訊息
+        function sendMessage(userId) {
+            const message = prompt('請輸入要發送的訊息：');
+            if (message) {
+                alert(`✅ 已發送訊息給 ${userId}\n內容：${message}`);
+                // 實際使用時會呼叫 Apps Script API
+            }
+        }
+        
+        // 儲存設定
+        function saveSettings() {
+            const settings = {
+                merchantName: document.getElementById('merchantName').value,
+                phone: document.getElementById('phone').value,
+                serviceHours: document.getElementById('serviceHours').value,
+                bookingUrl: document.getElementById('bookingUrl').value,
+                aiName: document.getElementById('aiName').value,
+                aiPersonality: document.getElementById('aiPersonality').value,
+                maxWords: document.getElementById('maxWords').value
+            };
+            
+            alert('✅ 設定已儲存！\n\n實際使用時會更新到 Google Sheets「基礎設置」分頁。');
+            // 實際使用時會呼叫 Apps Script API 更新 Sheets
+        }
+        
+        // 刷新數據
+        function refreshData() {
+            alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
+            renderCustomers();
+        }
+        
+        // 連接 Google Sheets
+        function connectToSheets() {
+            const sheetId = document.getElementById('sheetId').value;
+            const webAppUrl = document.getElementById('webAppUrl').value;
+            
+            if (!sheetId || !webAppUrl) {
+                alert('❌ 請填入 Google Sheets ID 和 Web App URL');
+                return;
+            }
+            
+            alert('✅ 連接成功！\n\n實際使用時會從您的 Google Sheets 載入真實數據。\n\n目前顯示的是模擬數據供參考。');
+            
+            // 儲存設定到 localStorage
+            localStorage.setItem('sheetId', sheetId);
+            localStorage.setItem('webAppUrl', webAppUrl);
+        }
+        
+        // 初始化
+        renderCustomers();
+        
+        // 載入已儲存的設定
+        window.addEventListener('load', function() {
+            const savedSheetId = localStorage.getItem('sheetId');
+            const savedWebAppUrl = localStorage.getItem('webAppUrl');
+            
+            if (savedSheetId) document.getElementById('sheetId').value = savedSheetId;
+            if (savedWebAppUrl) document.getElementById('webAppUrl').value = savedWebAppUrl;
+        });
+    </script>
+</body>
+</html>
