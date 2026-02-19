@@ -3,14 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>總部戰情室 - ONE桌遊 AI 客服系統</title>
+    <title>ONE桌遊 AI 客服 - 總部戰情室</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* 登入頁面 */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .login-logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .login-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .login-error {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        /* 主介面 */
+        .main-app {
+            display: none;
             background: #0f172a;
             color: #e2e8f0;
+            min-height: 100vh;
         }
         
         .sidebar {
@@ -78,6 +163,7 @@
         .btn:hover { background: #2563eb; transform: translateY(-1px); }
         .btn.secondary { background: #64748b; }
         .btn.success { background: #10b981; }
+        .btn.danger { background: #ef4444; }
         
         .stats-grid {
             display: grid;
@@ -96,7 +182,6 @@
         .stat-label { font-size: 14px; color: #94a3b8; margin-bottom: 10px; }
         .stat-value { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 10px; }
         .stat-change { font-size: 14px; color: #10b981; }
-        .stat-change.negative { color: #ef4444; }
         
         .panel {
             background: #1e293b;
@@ -114,71 +199,6 @@
             align-items: center;
             gap: 10px;
         }
-        
-        .form-group { margin-bottom: 20px; }
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-            font-size: 14px;
-        }
-        
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            font-size: 14px;
-            background: #0f172a;
-            color: #e2e8f0;
-        }
-        
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #334155;
-        }
-        
-        th {
-            background: #0f172a;
-            font-weight: 600;
-            color: #94a3b8;
-            font-size: 13px;
-        }
-        
-        td {
-            font-size: 14px;
-            color: #cbd5e1;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .badge.success { background: #10b98133; color: #10b981; }
-        .badge.warning { background: #f59e0b33; color: #f59e0b; }
-        .badge.error { background: #ef444433; color: #ef4444; }
         
         .merchant-grid {
             display: grid;
@@ -227,229 +247,347 @@
             color: #cbd5e1;
         }
         
+        .conversation-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .conversation-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .conversation-time {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .conversation-store {
+            font-size: 13px;
+            color: #3b82f6;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .conversation-content {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        
+        .conversation-user {
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+        
+        .conversation-ai {
+            color: #10b981;
+            margin-top: 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        
+        th {
+            background: #0f172a;
+            font-weight: 600;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        
+        td {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge.success { background: #10b98133; color: #10b981; }
+        .badge.warning { background: #f59e0b33; color: #f59e0b; }
+        .badge.error { background: #ef444433; color: #ef4444; }
+        
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #0f172a;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .auto-refresh input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+        
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">🎮 ONE桌遊總部</div>
-        
-        <div class="nav-item active" onclick="showSection('dashboard')">📊 總覽儀表板</div>
-        <div class="nav-item" onclick="showSection('merchants')">👥 商家管理</div>
-        <div class="nav-item" onclick="showSection('stores')">🏪 店家監控 (90)</div>
-        <div class="nav-item" onclick="showSection('rules')">📋 通用規則</div>
-        <div class="nav-item" onclick="showSection('config')">⚙️ 系統配置</div>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #334155;">
-            <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">系統狀態</div>
-            <div style="font-size: 13px; color: #10b981;">● 運行中</div>
-            <div style="font-size: 12px; color: #64748b; margin-top: 5px;" id="currentTime"></div>
+    <!-- 登入頁面 -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-logo">🎮</div>
+            <div class="login-title">ONE桌遊總部戰情室</div>
+            <div class="login-subtitle">僅限授權人員進入</div>
+            
+            <form id="loginForm" onsubmit="login(event)">
+                <input type="password" class="login-input" id="password" placeholder="請輸入密碼" autofocus>
+                <button type="submit" class="login-btn">進入戰情室</button>
+                <div class="login-error" id="loginError">❌ 密碼錯誤，請重試</div>
+            </form>
+            
+            <div style="margin-top: 20px; font-size: 12px; color: #999;">
+                © 2026 ONE桌遊 | v3.0
+            </div>
         </div>
     </div>
     
-    <div class="main-content">
-        <!-- Section: 總覽儀表板 -->
-        <div id="section-dashboard">
-            <div class="header">
-                <h1>📊 總覽儀表板</h1>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn secondary">📥 匯出報表</button>
-                    <button class="btn" onclick="refreshData()">🔄 刷新數據</button>
-                </div>
-            </div>
+    <!-- 主介面 -->
+    <div class="main-app" id="mainApp">
+        <div class="sidebar">
+            <div class="logo">🎮 ONE桌遊總部</div>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">總商家數</div>
-                    <div class="stat-value" id="totalMerchants">12</div>
-                    <div class="stat-change">管理 90 家店</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">總店家數</div>
-                    <div class="stat-value">90</div>
-                    <div class="stat-change">+3 本月新增</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">今日對話量</div>
-                    <div class="stat-value">8,247</div>
-                    <div class="stat-change">+12.3% vs 昨日</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-label">AI 處理率</div>
-                    <div class="stat-value">94.2<span style="font-size: 20px;">%</span></div>
-                    <div class="stat-change">+2.1% 本週</div>
-                </div>
+            <div class="nav-item active" onclick="showSection('dashboard')">📊 總覽儀表板</div>
+            <div class="nav-item" onclick="showSection('merchants')">👥 商家管理</div>
+            <div class="nav-item" onclick="showSection('monitor')">💬 即時對話</div>
+            <div class="nav-item" onclick="showSection('analytics')">📈 數據分析</div>
+            <div class="nav-item" onclick="showSection('alerts')">🔔 警報記錄</div>
+            <div class="nav-item" onclick="showSection('config')">⚙️ 系統設定</div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #334155;">
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">系統狀態</div>
+                <div style="font-size: 13px; color: #10b981;">● 運行中</div>
+                <div style="font-size: 12px; color: #64748b; margin-top: 8px;" id="currentTime"></div>
+                <button class="btn danger" onclick="logout()" style="width: 100%; margin-top: 15px; padding: 8px;">🚪 登出</button>
             </div>
         </div>
         
-        <!-- Section: 商家管理 -->
-        <div id="section-merchants" style="display: none;">
-            <div class="header">
-                <h1>👥 商家管理</h1>
-                <button class="btn success" onclick="addMerchant()">+ 新增商家</button>
-            </div>
-            
-            <div class="panel">
-                <h2>商家列表（三層架構）</h2>
-                <p style="color: #94a3b8; margin-bottom: 20px;">總部 → 商家 → 店家</p>
+        <div class="main-content">
+            <!-- Section: 總覽儀表板 -->
+            <div id="section-dashboard">
+                <div class="header">
+                    <h1>📊 總覽儀表板</h1>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn secondary">📥 匯出報表</button>
+                        <button class="btn" onclick="refreshData()">🔄 刷新數據</button>
+                    </div>
+                </div>
                 
-                <div class="merchant-grid" id="merchantGrid">
-                    <!-- 商家卡片 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">總商家數</div>
+                        <div class="stat-value" id="totalMerchants">12</div>
+                        <div class="stat-change">管理 90 家店</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">今日對話量</div>
+                        <div class="stat-value">8,247</div>
+                        <div class="stat-change">+12.3% vs 昨日</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">AI 處理率</div>
+                        <div class="stat-value">94.2<span style="font-size: 20px;">%</span></div>
+                        <div class="stat-change">+2.1% 本週</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">活躍商家</div>
+                        <div class="stat-value" style="color: #10b981;">12</div>
+                        <div class="stat-change">100% 正常運行</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="panel">
-                <h2>📊 商家詳細資料（試算表）</h2>
-                <table>
-                    <tr>
-                        <th>商家 ID</th>
-                        <th>商家名稱</th>
-                        <th>負責人</th>
-                        <th>電話</th>
-                        <th>店家數量</th>
-                        <th>狀態</th>
-                        <th>操作</th>
-                    </tr>
-                    <tbody id="merchantTable">
-                        <!-- 商家資料 -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- Section: 店家監控 -->
-        <div id="section-stores" style="display: none;">
-            <div class="header">
-                <h1>🏪 店家即時監控（90 家）</h1>
-                <button class="btn" onclick="refreshStores()">🔄 刷新</button>
-            </div>
-            
-            <div class="panel">
-                <p style="color: #cbd5e1;">90 家店的詳細監控資料...</p>
-            </div>
-        </div>
-        
-        <!-- Section: 通用規則 -->
-        <div id="section-rules" style="display: none;">
-            <div class="header">
-                <h1>📋 全部商家通用規則</h1>
-                <button class="btn" onclick="saveGlobalRules()">💾 儲存規則</button>
+            <!-- Section: 商家管理 -->
+            <div id="section-merchants" style="display: none;">
+                <div class="header">
+                    <h1>👥 商家管理</h1>
+                    <button class="btn success" onclick="addMerchant()">+ 新增商家</button>
+                </div>
+                
+                <div class="panel">
+                    <h2>商家列表</h2>
+                    <div class="merchant-grid" id="merchantGrid"></div>
+                </div>
+                
+                <div class="panel">
+                    <h2>📊 商家詳細資料</h2>
+                    <table>
+                        <tr>
+                            <th>商家 ID</th>
+                            <th>商家名稱</th>
+                            <th>負責人</th>
+                            <th>電話</th>
+                            <th>店家數量</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                        <tbody id="merchantTable"></tbody>
+                    </table>
+                </div>
             </div>
             
-            <div class="panel">
-                <h2>核心規則（所有商家必須遵守）</h2>
-                
-                <div class="form-group">
-                    <label class="form-label">1. 無人店身分規則</label>
-                    <textarea class="form-textarea" id="rule1">這是無人自助店，絕對不可提及「現場人員」「店員」「櫃台」。
-所有問題都以「遠端協助」「LINE 客服」「視訊支援」解決。</textarea>
+            <!-- Section: 即時對話監控 -->
+            <div id="section-monitor" style="display: none;">
+                <div class="header">
+                    <h1>💬 即時對話監控</h1>
+                    <button class="btn" onclick="refreshConversations()">🔄 手動刷新</button>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">2. 白名單驗證機制</label>
-                    <textarea class="form-textarea" id="rule2">遇到以下情況必須驗證白名單：
-- 要求退款超過 $1000
-- 要求修改他人訂單
-- 詢問其他客人資訊
-- 要求開啟特殊權限</textarea>
+                <div class="auto-refresh">
+                    <input type="checkbox" id="autoRefresh" checked onchange="toggleAutoRefresh()">
+                    <label for="autoRefresh" style="color: #cbd5e1; font-size: 14px;">自動刷新（每 10 秒）</label>
+                    <span id="refreshStatus" style="color: #10b981; font-size: 12px; margin-left: auto;">● 運行中</span>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">3. 金錢爭議 SOP</label>
-                    <textarea class="form-textarea" id="rule3">發生金錢爭議時：
-1. 先安撫客人情緒
-2. 記錄爭議細節（金額、時間、原因）
-3. 立即通知商家（推播）
-4. 引導客人「呼叫支援」
-5. 不可擅自承諾退款或補償</textarea>
+                <div class="panel">
+                    <h2>最近 50 則對話</h2>
+                    <div class="conversation-list" id="conversationList">
+                        <!-- 對話記錄動態載入 -->
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label">4. 安全警報處理</label>
-                    <textarea class="form-textarea" id="rule4">遇到以下情況立即警報：
-- 有人受傷
-- 設備嚴重故障（火災、漏水等）
-- 安全威脅（打架、破壞設備）
-- 緊急醫療需求
-
-處理：
-1. 立即推播給商家
-2. 提供緊急聯絡電話
-3. 如有需要，引導客人撥打 119/110</textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">5. 客訴升級機制</label>
-                    <textarea class="form-textarea" id="rule5">客訴升級標準：
-- 客人連續 3 次表達不滿
-- 要求「找老闆」「主管處理」
-- 涉及法律問題
-- 威脅負評或投訴
-
-處理：
-1. 自動禁言 AI
-2. 推播給商家（標註：緊急客訴）
-3. 記錄完整對話歷史
-4. 提供客訴處理 SOP 給商家</textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">6. 禁言自動解除時間（分鐘）</label>
-                    <input type="number" class="form-input" id="defaultMuteMinutes" value="10">
-                </div>
-                
-                <button class="btn" onclick="saveGlobalRules()">💾 儲存通用規則</button>
-            </div>
-        </div>
-        
-        <!-- Section: 系統配置 -->
-        <div id="section-config" style="display: none;">
-            <div class="header">
-                <h1>⚙️ 系統配置</h1>
-                <button class="btn success" onclick="testConnection()">🔌 測試連線</button>
             </div>
             
-            <div class="panel">
-                <h2>Google Sheets 連接設定</h2>
-                <p style="color: #94a3b8; margin-bottom: 20px;">設定一次即自動儲存，下次不用再填</p>
-                
-                <div class="form-group">
-                    <label class="form-label">📊 Google Sheets ID</label>
-                    <input type="text" class="form-input" id="sheetId" placeholder="從 Sheets 網址複製 ID">
+            <!-- Section: 數據分析 -->
+            <div id="section-analytics" style="display: none;">
+                <div class="header">
+                    <h1>📈 數據分析</h1>
+                    <button class="btn secondary">📥 匯出分析報表</button>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">🔑 Apps Script Web App URL</label>
-                    <input type="text" class="form-input" id="webAppUrl" placeholder="https://script.google.com/macros/s/.../exec">
+                <div class="panel">
+                    <h2>商家對話量排行</h2>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>商家名稱</th>
+                            <th>今日對話</th>
+                            <th>AI 處理率</th>
+                            <th>轉真人率</th>
+                        </tr>
+                        <tbody id="analyticsTable"></tbody>
+                    </table>
                 </div>
-                
-                <button class="btn" onclick="saveConfig()">💾 儲存配置</button>
-                <button class="btn secondary" onclick="clearConfig()">🗑️ 清除配置</button>
             </div>
             
-            <div class="panel">
-                <h2>目前配置狀態</h2>
-                <div id="configStatus" style="color: #94a3b8;">
-                    尚未配置
+            <!-- Section: 警報記錄 -->
+            <div id="section-alerts" style="display: none;">
+                <div class="header">
+                    <h1>🔔 警報記錄</h1>
+                </div>
+                
+                <div class="panel">
+                    <h2>系統警報（最近 7 天）</h2>
+                    <p style="color: #cbd5e1;">警報記錄功能...</p>
+                </div>
+            </div>
+            
+            <!-- Section: 系統設定 -->
+            <div id="section-config" style="display: none;">
+                <div class="header">
+                    <h1>⚙️ 系統設定</h1>
+                    <button class="btn success" onclick="testConnection()">🔌 測試連線</button>
+                </div>
+                
+                <div class="panel">
+                    <h2>Google Sheets 連接設定</h2>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">設定一次即自動儲存</p>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #cbd5e1; font-weight: 600;">📊 Google Sheets ID</label>
+                        <input type="text" id="sheetId" placeholder="從 Sheets 網址複製 ID" style="width: 100%; padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #e2e8f0;">
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #cbd5e1; font-weight: 600;">🔑 Apps Script Web App URL</label>
+                        <input type="text" id="webAppUrl" placeholder="https://script.google.com/macros/s/.../exec" style="width: 100%; padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #e2e8f0;">
+                    </div>
+                    
+                    <button class="btn" onclick="saveConfig()">💾 儲存配置</button>
+                    <button class="btn secondary" onclick="clearConfig()">🗑️ 清除配置</button>
+                </div>
+                
+                <div class="panel">
+                    <h2>目前配置狀態</h2>
+                    <div id="configStatus" style="color: #94a3b8;">尚未配置</div>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        // 模擬商家資料
+        const PASSWORD = 'zxc88888';
+        let autoRefreshInterval = null;
+        
+        // 商家資料
         const merchants = [
-            { id: 'M001', name: 'Ken 的商家', owner: 'Ken', phone: '0900-000-000', stores: ['土城店', '新莊店', '板橋店', '中和店', '永和店', '三重店', '蘆洲店', '淡水店'], status: 'active' },
-            { id: 'M002', name: '商家 B', owner: '張老闆', phone: '0911-111-111', stores: ['桃園店', '中壢店', '平鎮店'], status: 'active' },
-            { id: 'M003', name: '商家 C', owner: '李經理', phone: '0922-222-222', stores: ['台中店', '豐原店', '大里店', '太平店'], status: 'active' }
+            { id: 'M001', name: 'Ken 的商家', owner: 'Ken', phone: '0900-000-000', stores: ['土城店', '新莊店', '板橋店', '中和店', '永和店', '三重店', '蘆洲店', '淡水店'], status: 'active', todayConv: 2450, aiRate: 95.2, transferRate: 4.8 },
+            { id: 'M002', name: '商家 B', owner: '張老闆', phone: '0911-111-111', stores: ['桃園店', '中壢店', '平鎮店'], status: 'active', todayConv: 980, aiRate: 93.1, transferRate: 6.9 },
+            { id: 'M003', name: '商家 C', owner: '李經理', phone: '0922-222-222', stores: ['台中店', '豐原店', '大里店', '太平店'], status: 'active', todayConv: 1520, aiRate: 94.8, transferRate: 5.2 }
         ];
         
-        // 渲染商家卡片
+        // 登入
+        function login(event) {
+            event.preventDefault();
+            const password = document.getElementById('password').value;
+            const error = document.getElementById('loginError');
+            
+            if (password === PASSWORD) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                initApp();
+            } else {
+                error.style.display = 'block';
+                document.getElementById('password').value = '';
+                setTimeout(() => { error.style.display = 'none'; }, 3000);
+            }
+        }
+        
+        // 登出
+        function logout() {
+            if (confirm('確定要登出嗎？')) {
+                document.getElementById('mainApp').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('password').value = '';
+                if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            }
+        }
+        
+        // 初始化
+        function initApp() {
+            renderMerchants();
+            renderAnalytics();
+            loadConfig();
+            updateTime();
+            setInterval(updateTime, 1000);
+            startAutoRefresh();
+        }
+        
+        // 渲染商家
         function renderMerchants() {
             const grid = document.getElementById('merchantGrid');
             grid.innerHTML = merchants.map(m => `
@@ -484,27 +622,83 @@
                     </td>
                 </tr>
             `).join('');
-            
-            document.getElementById('totalMerchants').textContent = merchants.length;
         }
         
-        // 切換區塊
-        function showSection(section) {
-            ['dashboard', 'merchants', 'stores', 'rules', 'config'].forEach(s => {
-                document.getElementById('section-' + s).style.display = 'none';
-            });
-            document.getElementById('section-' + section).style.display = 'block';
-            
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            if (section === 'merchants') renderMerchants();
-            if (section === 'config') loadConfig();
+        // 渲染分析
+        function renderAnalytics() {
+            const table = document.getElementById('analyticsTable');
+            const sorted = [...merchants].sort((a, b) => b.todayConv - a.todayConv);
+            table.innerHTML = sorted.map((m, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${m.name}</td>
+                    <td>${m.todayConv}</td>
+                    <td>${m.aiRate}%</td>
+                    <td>${m.transferRate}%</td>
+                </tr>
+            `).join('');
         }
         
-        // 儲存配置
+        // 渲染對話（模擬）
+        function renderConversations() {
+            const list = document.getElementById('conversationList');
+            const now = new Date();
+            const conversations = [];
+            
+            for (let i = 0; i < 10; i++) {
+                const time = new Date(now - i * 120000);
+                const stores = ['土城店', '新莊店', '板橋店', '中和店'];
+                const store = stores[Math.floor(Math.random() * stores.length)];
+                const questions = ['請問營業時間？', 'WiFi 密碼是什麼？', '有空位嗎？', '包廂多少錢？', '轉真人'];
+                const question = questions[Math.floor(Math.random() * questions.length)];
+                
+                conversations.push({
+                    time: time.toLocaleTimeString('zh-TW'),
+                    store: `ONE桌遊 ${store}`,
+                    user: question,
+                    ai: question === '轉真人' ? '✅ 已為您轉接真人客服...' : 'AI 自動回覆中...'
+                });
+            }
+            
+            list.innerHTML = conversations.map(c => `
+                <div class="conversation-item">
+                    <div class="conversation-time">${c.time}</div>
+                    <div class="conversation-store">${c.store}</div>
+                    <div class="conversation-content">
+                        <div class="conversation-user">客人：${c.user}</div>
+                        <div class="conversation-ai">AI：${c.ai}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 自動刷新
+        function startAutoRefresh() {
+            renderConversations();
+            autoRefreshInterval = setInterval(() => {
+                if (document.getElementById('autoRefresh').checked) {
+                    renderConversations();
+                }
+            }, 10000);
+        }
+        
+        function toggleAutoRefresh() {
+            const status = document.getElementById('refreshStatus');
+            if (document.getElementById('autoRefresh').checked) {
+                status.textContent = '● 運行中';
+                status.style.color = '#10b981';
+            } else {
+                status.textContent = '○ 已暫停';
+                status.style.color = '#64748b';
+            }
+        }
+        
+        function refreshConversations() {
+            renderConversations();
+            alert('✅ 已刷新對話記錄');
+        }
+        
+        // 配置管理
         function saveConfig() {
             const sheetId = document.getElementById('sheetId').value;
             const webAppUrl = document.getElementById('webAppUrl').value;
@@ -516,11 +710,10 @@
             
             localStorage.setItem('hq_sheetId', sheetId);
             localStorage.setItem('hq_webAppUrl', webAppUrl);
-            alert('✅ 配置已儲存！下次打開將自動載入');
+            alert('✅ 配置已儲存！');
             loadConfig();
         }
         
-        // 載入配置
         function loadConfig() {
             const sheetId = localStorage.getItem('hq_sheetId');
             const webAppUrl = localStorage.getItem('hq_webAppUrl');
@@ -542,7 +735,6 @@
             }
         }
         
-        // 清除配置
         function clearConfig() {
             if (confirm('確定要清除配置嗎？')) {
                 localStorage.removeItem('hq_sheetId');
@@ -554,12 +746,32 @@
             }
         }
         
-        // 儲存通用規則
-        function saveGlobalRules() {
-            alert('✅ 通用規則已儲存！\n\n實際使用時會寫入 Google Sheets「核心規則」分頁。');
+        function testConnection() {
+            const sheetId = localStorage.getItem('hq_sheetId');
+            if (!sheetId) {
+                alert('❌ 請先配置系統設定');
+                return;
+            }
+            alert('🔌 測試連線...\n\n實際使用時會測試與 Google Sheets 的連線。');
         }
         
         // 其他操作
+        function showSection(section) {
+            ['dashboard', 'merchants', 'monitor', 'analytics', 'alerts', 'config'].forEach(s => {
+                const el = document.getElementById('section-' + s);
+                if (el) el.style.display = 'none';
+            });
+            const target = document.getElementById('section-' + section);
+            if (target) target.style.display = 'block';
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (section === 'monitor') renderConversations();
+        }
+        
         function addMerchant() {
             alert('開啟新增商家表單...\n\n實際使用時會彈出表單填寫商家資訊。');
         }
@@ -569,40 +781,21 @@
         }
         
         function viewStores(id) {
-            alert(`查看商家 ${id} 的所有店家...\n\n實際使用時會顯示該商家的所有店家列表。`);
-        }
-        
-        function testConnection() {
-            const sheetId = localStorage.getItem('hq_sheetId');
-            const webAppUrl = localStorage.getItem('hq_webAppUrl');
-            
-            if (!sheetId || !webAppUrl) {
-                alert('❌ 請先配置系統設定');
-                return;
+            const merchant = merchants.find(m => m.id === id);
+            if (merchant) {
+                alert(`${merchant.name} 的所有店家：\n\n${merchant.stores.join('\n')}`);
             }
-            
-            alert('🔌 測試連線...\n\n實際使用時會測試與 Google Sheets 的連線。');
         }
         
         function refreshData() {
             alert('🔄 刷新數據...\n\n實際使用時會從 Google Sheets 載入最新數據。');
         }
         
-        function refreshStores() {
-            refreshData();
-        }
-        
-        // 更新時間
         function updateTime() {
             const now = new Date();
-            document.getElementById('currentTime').textContent = now.toLocaleTimeString('zh-TW');
+            const el = document.getElementById('currentTime');
+            if (el) el.textContent = now.toLocaleTimeString('zh-TW');
         }
-        
-        // 初始化
-        renderMerchants();
-        loadConfig();
-        updateTime();
-        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
